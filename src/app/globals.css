@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 10, 11, 46;
+    --background-end-rgb: 0, 0, 0;
+  }
+
+  body {
+    @apply bg-dark text-white min-h-screen;
+    color: rgb(var(--foreground-rgb));
+    background: linear-gradient(
+      to bottom,
+      rgb(var(--background-start-rgb)),
+      rgb(var(--background-end-rgb))
+    );
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-xl p-6 shadow-lg bg-dark-light/80 backdrop-blur-md border border-primary/20 
+    hover:border-primary/40 transition-all duration-300 hover:shadow-lg hover:shadow-primary/20;
+  }
+
+  .input {
+    @apply w-full rounded-lg border border-gray-700 bg-transparent px-4 py-3 text-white placeholder-gray-400 focus:border-[#00FFFF] focus:outline-none focus:ring-1 focus:ring-[#00FFFF];
+  }
+
+  .btn {
+    @apply transition-all duration-200 active:scale-95;
+  }
+
+  .btn-primary {
+    @apply btn rounded-lg bg-gradient-to-r from-[#00FFFF] to-[#FFD700] px-8 py-3 font-medium text-[#0A0B2E] hover:shadow-[0_0_15px_rgba(0,255,255,0.5)];
+  }
+
+  .btn-secondary {
+    @apply btn rounded-lg border border-[#00FFFF] bg-transparent px-8 py-3 font-medium text-[#00FFFF] hover:bg-[#00FFFF]/10;
+  }
+
+  .btn-outline {
+    @apply rounded-lg border-2 border-primary px-6 py-3 font-medium text-primary 
+    transition-all duration-300 hover:bg-primary hover:text-dark 
+    focus:outline-none focus:ring-2 focus:ring-primary/50;
+  }
+
+  .font-heading {
+    @apply font-sans tracking-tight;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
+  }
+
+  .gradient-border {
+    @apply border-2 border-transparent bg-gradient-to-r from-primary to-secondary bg-clip-border;
+  }
+
+  .glass-card {
+    @apply bg-dark-light/30 backdrop-blur-lg border border-primary/10 rounded-xl;
+  }
+
+  .neon-glow {
+    @apply shadow-[0_0_15px_rgba(0,255,255,0.5)];
+  }
+
+  .gold-glow {
+    @apply shadow-[0_0_15px_rgba(255,215,0,0.5)];
+  }
+
+  .card-hover {
+    @apply transition-all duration-200 hover:scale-[1.02] active:scale-[0.98];
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+} 
