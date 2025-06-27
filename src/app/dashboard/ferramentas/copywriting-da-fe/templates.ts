@@ -20,22 +20,22 @@ export const copyTemplates: CopyTemplate[] = [
   {
     tipo_frase: 'Abertura',
     aplicacao: 'Feed',
-    frase: '🌅 "Cada manhã as suas misericórdias se renovam" - Lm 3:23. Hoje quero compartilhar como essa verdade mudou minha perspectiva...'
+    frase: '🌅 "Cada manha as suas misericordias se renovam" - Lm 3:23. Hoje quero compartilhar como essa verdade mudou minha perspectiva...'
   },
   {
     tipo_frase: 'Abertura',
     aplicacao: 'Feed',
-    frase: '⚡ Você já se perguntou por que algumas pessoas parecem ter uma paz inabalável? Descobri um segredo que preciso compartilhar...'
+    frase: '⚡ Voce ja se perguntou por que algumas pessoas parecem ter uma paz inabalavel? Descobri um segredo que preciso compartilhar...'
   },
   {
     tipo_frase: 'Abertura',
     aplicacao: 'Feed',
-    frase: '🎯 "Os que esperam no Senhor renovarão as suas forças" - Is 40:31. Essa promessa tem um poder que vai além das palavras...'
+    frase: '🎯 "Os que esperam no Senhor renovarao as suas forcas" - Is 40:31. Essa promessa tem um poder que vai alem das palavras...'
   },
   {
     tipo_frase: 'Abertura',
     aplicacao: 'Feed',
-    frase: '💫 Existe uma força capaz de transformar qualquer história. E hoje vou te contar como ela mudou a minha vida...'
+    frase: '💫 Existe uma forca capaz de transformar qualquer historia. E hoje vou te contar como ela mudou a minha vida...'
   },
   {
     tipo_frase: 'Abertura',
@@ -374,332 +374,61 @@ export const copyTemplates: CopyTemplate[] = [
 
 // Templates para Stories
 export const storyTemplates: StoryTemplate[] = [
-  // Urgência Oculta
+  // Urgencia Oculta
   {
     tipo_frase: 'Abertura',
-    engenharia_social: 'Urgência Oculta',
-    story_1: '⚡ ATENÇÃO! Você sabia que 7 em cada 10 pessoas estão vivendo sem conhecer o verdadeiro propósito da vida?',
-    story_2: 'Mas existe uma verdade que pode mudar tudo... Uma verdade que transformou minha vida e pode transformar a sua também!',
-    story_3: 'Não deixe para depois. O momento de encontrar seu propósito é AGORA!',
-    versiculo: '"Porque sou eu que conheço os planos que tenho para vocês, diz o Senhor" - Jeremias 29:11',
-    cta_final: '👆 Me chama no direct para descobrir como encontrar seu propósito em Deus!'
+    engenharia_social: 'Urgencia Oculta',
+    story_1: 'Voce sabia que existe um segredo que muitos cristaos desconhecem sobre oracao?',
+    story_2: 'Nos ultimos meses, tenho visto muitas vidas sendo transformadas ao descobrirem isso...',
+    story_3: 'E o mais incrivel: esta disponivel para todos que buscam!',
+    versiculo: 'Mateus 7:7 - "Pedi, e dar-se-vos-a; buscai e encontrareis; batei, e abrir-se-vos-a"',
+    cta_final: 'Quer descobrir? Me manda um 🙏 no direct!'
   },
   {
-    tipo_frase: 'Abertura',
-    engenharia_social: 'Urgência Oculta',
-    story_1: '🚨 IMPERDÍVEL: Uma revelação que vai mudar completamente sua forma de ver a vida!',
-    story_2: 'O que vou te contar nos próximos stories pode ser exatamente o que você está procurando...',
-    story_3: 'Não perca essa oportunidade única que Deus preparou para você!',
-    versiculo: '"Eis que estou à porta e bato" - Apocalipse 3:20',
-    cta_final: '🔥 Desliza up agora para não perder essa revelação divina!'
+    tipo_frase: 'Desenvolvimento',
+    engenharia_social: 'Urgencia Oculta',
+    story_1: 'Acabei de descobrir algo que mudou completamente minha vida espiritual...',
+    story_2: 'E percebi que muitas pessoas estao perdendo isso todos os dias sem saber',
+    story_3: 'O tempo esta passando... Voce nao pode perder essa oportunidade!',
+    versiculo: '2 Corintios 6:2 - "Eis aqui agora o tempo aceitavel, eis aqui agora o dia da salvacao"',
+    cta_final: 'Chama no direct agora mesmo! ⚡'
   },
   {
-    tipo_frase: 'Abertura',
-    engenharia_social: 'Urgência Oculta',
-    story_1: '⏰ AVISO URGENTE: Uma nova temporada espiritual está começando AGORA!',
-    story_2: 'Deus está derramando bênçãos especiais neste momento... E você não pode ficar de fora!',
-    story_3: 'O tempo é HOJE! Amanhã pode ser tarde demais...',
-    versiculo: '"Este é o dia que o Senhor fez" - Salmos 118:24',
-    cta_final: '⚡ Me chama no direct para não perder sua bênção!'
-  },
-  {
-    tipo_frase: 'Abertura',
-    engenharia_social: 'Urgência Oculta',
-    story_1: '🌟 ÚLTIMA CHANCE: O mover de Deus está acontecendo agora!',
-    story_2: 'Muitos já estão experimentando o sobrenatural em suas vidas...',
-    story_3: 'Não fique de fora dessa unção especial!',
-    versiculo: '"Eis que faço uma coisa nova" - Isaías 43:19',
-    cta_final: '✨ Desliza up para entrar nesse mover!'
-  },
-  {
-    tipo_frase: 'Abertura',
-    engenharia_social: 'Urgência Oculta',
-    story_1: '⚠️ ALERTA DIVINO: Uma palavra profética para este momento!',
-    story_2: 'Deus está levantando pessoas para uma missão especial...',
-    story_3: 'Será que você é uma delas?',
-    versiculo: '"Quem enviarei? Quem irá por nós?" - Isaías 6:8',
-    cta_final: '🔥 Me chama no direct para descobrir seu chamado!'
+    tipo_frase: 'Encerramento',
+    engenharia_social: 'Urgencia Oculta',
+    story_1: 'Ultima chance! Voce nao vai querer perder isso...',
+    story_2: 'Ja ajudei dezenas de pessoas com esse conhecimento',
+    story_3: 'Mas so vou poder compartilhar mais um pouco...',
+    versiculo: 'Isaias 55:6 - "Buscai ao Senhor enquanto se pode achar, invocai-o enquanto esta perto"',
+    cta_final: 'Me chama AGORA no direct! 🔥'
   },
 
   // Testemunho Silencioso
   {
-    tipo_frase: 'Desenvolvimento',
+    tipo_frase: 'Abertura',
     engenharia_social: 'Testemunho Silencioso',
-    story_1: '💔 Já se sentiu perdido em meio ao sucesso? Eu também já estive lá...',
-    story_2: 'Descobri que todo o dinheiro e reconhecimento do mundo não preenchem o vazio da alma',
-    story_3: 'Mas encontrei algo que mudou tudo... E quero compartilhar com você!',
-    versiculo: '"Que adianta ganhar o mundo todo e perder a sua alma?" - Marcos 8:36',
-    cta_final: '✨ Quer descobrir o que realmente importa? Me chama no direct!'
-  },
-  {
-    tipo_frase: 'Desenvolvimento',
-    engenharia_social: 'Testemunho Silencioso',
-    story_1: '😔 Vícios, solidão, medo do futuro... Eu conhecia bem essa realidade',
-    story_2: 'Até que um encontro sobrenatural mudou minha história para sempre!',
-    story_3: 'Hoje vivo em liberdade e propósito, e você também pode!',
-    versiculo: '"Se o Filho vos libertar, verdadeiramente sereis livres" - João 8:36',
-    cta_final: '🕊️ Pronto para sua libertação? Me chama no direct!'
+    story_1: 'Nunca imaginei que algo tao simples pudesse mudar tanto minha vida...',
+    story_2: 'Comecei a praticar isso ha 3 meses...',
+    story_3: 'E os resultados tem sido incriveis!',
+    versiculo: 'Salmos 40:3 - "Pos um novo cantico na minha boca, um hino de louvor ao nosso Deus"',
+    cta_final: 'Quer saber como? Me chama no direct! 🙌'
   },
   {
     tipo_frase: 'Desenvolvimento',
     engenharia_social: 'Testemunho Silencioso',
-    story_1: '🌧️ Passei por tempestades que pareciam não ter fim...',
-    story_2: 'Mas encontrei um abrigo seguro, uma rocha firme que nunca falha!',
-    story_3: 'E essa mesma segurança está disponível para você!',
-    versiculo: '"O Senhor é o meu rochedo e a minha fortaleza" - Salmos 18:2',
-    cta_final: '⛰️ Busque seu refúgio! Me chama no direct!'
+    story_1: 'Antes eu lutava muito com ansiedade e medos...',
+    story_2: 'Ate que descobri um segredo na Palavra que mudou tudo',
+    story_3: 'Hoje posso dizer que encontrei a verdadeira paz!',
+    versiculo: 'Filipenses 4:7 - "E a paz de Deus... guardara os vossos coracoes e os vossos pensamentos em Cristo Jesus"',
+    cta_final: 'Quer conhecer esse segredo? Me chama! 🕊️'
   },
   {
-    tipo_frase: 'Desenvolvimento',
+    tipo_frase: 'Encerramento',
     engenharia_social: 'Testemunho Silencioso',
-    story_1: '📱 Viciado em redes sociais, buscando aprovação... Era minha vida',
-    story_2: 'Até descobrir uma aprovação que vem de um lugar muito mais alto!',
-    story_3: 'Hoje sei quem sou em Cristo, e isso muda tudo!',
-    versiculo: '"Somos feitura dele, criados em Cristo Jesus" - Efésios 2:10',
-    cta_final: '👑 Descubra sua identidade! Me chama no direct!'
-  },
-  {
-    tipo_frase: 'Desenvolvimento',
-    engenharia_social: 'Testemunho Silencioso',
-    story_1: '💭 Ansiedade, depressão, pensamentos suicidas... Eu estive lá',
-    story_2: 'Mas encontrei uma esperança que transformou minha mente!',
-    story_3: 'Hoje ajudo outros a encontrarem essa mesma libertação',
-    versiculo: '"Renovai-vos no espírito da vossa mente" - Efésios 4:23',
-    cta_final: '🦋 Comece sua transformação! Me chama no direct!'
-  },
-
-  // Conflito Invisível
-  {
-    tipo_frase: 'Desenvolvimento',
-    engenharia_social: 'Conflito Invisível',
-    story_1: '😔 Ansiedade, medo, insegurança... Você não está sozinho nessa batalha!',
-    story_2: 'Existe uma força maior que pode te dar a vitória em todas essas lutas internas...',
-    story_3: 'E essa força está disponível para você HOJE!',
-    versiculo: '"Quando sou fraco, então é que sou forte" - 2 Coríntios 12:10',
-    cta_final: '✨ Quer saber como vencer essas batalhas? Me chama no direct!'
-  },
-  {
-    tipo_frase: 'Desenvolvimento',
-    engenharia_social: 'Conflito Invisível',
-    story_1: '🌪️ Tempestades emocionais, pensamentos destrutivos, dúvidas constantes...',
-    story_2: 'Mas existe Alguém que pode acalmar toda tempestade da sua mente e coração!',
-    story_3: 'A paz que você procura está mais perto do que imagina...',
-    versiculo: '"Ele acalmou a tempestade, e as ondas se aquietaram" - Salmos 107:29',
-    cta_final: '🌊 Quer conhecer essa paz? Me chama no direct!'
-  },
-  {
-    tipo_frase: 'Desenvolvimento',
-    engenharia_social: 'Conflito Invisível',
-    story_1: '⚔️ Todo dia é uma batalha: contra pensamentos negativos, contra o passado...',
-    story_2: 'Mas você não precisa lutar sozinho! Existe um Guerreiro invencível ao seu lado!',
-    story_3: 'A vitória já está garantida, você só precisa aceitar a ajuda!',
-    versiculo: '"O Senhor é quem peleja por vós" - Êxodo 14:14',
-    cta_final: '🛡️ Pronto para vencer suas batalhas? Me chama no direct!'
-  },
-  {
-    tipo_frase: 'Desenvolvimento',
-    engenharia_social: 'Conflito Invisível',
-    story_1: '🎭 Por trás dos sorrisos nas redes sociais, quantas lutas escondidas?',
-    story_2: 'As máscaras que usamos não curam as feridas da alma...',
-    story_3: 'Mas existe Alguém que pode te curar por completo!',
-    versiculo: '"Ele sara os quebrantados de coração" - Salmos 147:3',
-    cta_final: '🎯 Pronto para ser verdadeiramente livre? Me chama no direct!'
-  },
-  {
-    tipo_frase: 'Desenvolvimento',
-    engenharia_social: 'Conflito Invisível',
-    story_1: '🌑 Noites em claro, pensamentos que não param, medos que paralisam...',
-    story_2: 'Existe uma Luz que pode dissipar toda escuridão da sua mente!',
-    story_3: 'E essa Luz quer brilhar na sua vida hoje!',
-    versiculo: '"O Senhor é a minha luz e a minha salvação" - Salmos 27:1',
-    cta_final: '🌅 Deixe a luz entrar! Me chama no direct!'
-  },
-
-  // Curiosidade Cristã
-  {
-    tipo_frase: 'Abertura',
-    engenharia_social: 'Curiosidade Cristã',
-    story_1: '🤔 E se eu te dissesse que existe um segredo que os mais realizados e felizes conhecem?',
-    story_2: 'Não é dinheiro, fama ou sucesso... É algo muito mais profundo e transformador!',
-    story_3: 'Quer descobrir o que é?',
-    versiculo: '"Os teus olhos viram o meu corpo ainda informe" - Salmos 139:16',
-    cta_final: '👉 Desliza up para descobrir esse segredo que pode mudar sua vida!'
-  },
-  {
-    tipo_frase: 'Abertura',
-    engenharia_social: 'Curiosidade Cristã',
-    story_1: '🔍 Descobri algo que está transformando a vida de milhares de pessoas...',
-    story_2: 'É tão poderoso que tem curado relacionamentos, carreiras e até problemas financeiros!',
-    story_3: 'Curiosos para saber o que é?',
-    versiculo: '"Buscai primeiro o Reino de Deus" - Mateus 6:33',
-    cta_final: '🎯 Me chama no direct para descobrir esse segredo!'
-  },
-  {
-    tipo_frase: 'Abertura',
-    engenharia_social: 'Curiosidade Cristã',
-    story_1: '👀 Você já ouviu falar do método que está revolucionando vidas?',
-    story_2: 'Não é autoajuda, não é psicologia... É algo muito mais profundo!',
-    story_3: 'Quer saber o que milhares já descobriram?',
-    versiculo: '"Coisas que olhos não viram, nem ouvidos ouviram" - 1 Coríntios 2:9',
-    cta_final: '💫 Desliza up para descobrir essa revelação!'
-  },
-  {
-    tipo_frase: 'Abertura',
-    engenharia_social: 'Curiosidade Cristã',
-    story_1: '🎁 Descobri o presente mais valioso que alguém pode receber...',
-    story_2: 'Não tem preço, não pode ser comprado, mas pode mudar tudo!',
-    story_3: 'Quer saber qual é?',
-    versiculo: '"O dom gratuito de Deus é a vida eterna" - Romanos 6:23',
-    cta_final: '🎯 Me chama no direct para receber esse presente!'
-  },
-  {
-    tipo_frase: 'Abertura',
-    engenharia_social: 'Curiosidade Cristã',
-    story_1: '🗝️ Encontrei a chave que abre todas as portas...',
-    story_2: 'Não é networking, não é influência... É algo sobrenatural!',
-    story_3: 'Quer descobrir essa chave?',
-    versiculo: '"Eu sou o caminho, a verdade e a vida" - João 14:6',
-    cta_final: '✨ Desliza up para conhecer essa chave!'
-  },
-
-  // Gatilho de Promessa
-  {
-    tipo_frase: 'Encerramento',
-    engenharia_social: 'Gatilho de Promessa',
-    story_1: '✨ PROMESSA DO DIA: Sua história não acaba aqui!',
-    story_2: 'Deus tem planos maiores do que você imagina, e Ele quer realizar isso na sua vida!',
-    story_3: 'Chegou sua hora de experimentar o extraordinário!',
-    versiculo: '"Grandes coisas fez o Senhor por nós, e por isso estamos alegres" - Salmos 126:3',
-    cta_final: '🙏 Pronto para ver milagres? Me chama no direct!'
-  },
-  {
-    tipo_frase: 'Encerramento',
-    engenharia_social: 'Gatilho de Promessa',
-    story_1: '🌅 PROMESSA: Um novo amanhecer está chegando na sua vida!',
-    story_2: 'Deus está preparando algo extraordinário para quem crê...',
-    story_3: 'Você está pronto para receber?',
-    versiculo: '"Eis que faço novas todas as coisas" - Apocalipse 21:5',
-    cta_final: '🙌 Receba sua bênção! Me chama no direct!'
-  },
-  {
-    tipo_frase: 'Encerramento',
-    engenharia_social: 'Gatilho de Promessa',
-    story_1: '👑 DECRETO: Sua história de vitória começa agora!',
-    story_2: 'O que parecia impossível vai se tornar realidade pela fé...',
-    story_3: 'Chegou sua hora de conquistar!',
-    versiculo: '"Tudo é possível ao que crê" - Marcos 9:23',
-    cta_final: '💫 Ative sua conquista! Me chama no direct!'
-  },
-  {
-    tipo_frase: 'Encerramento',
-    engenharia_social: 'Gatilho de Promessa',
-    story_1: '🌈 PROFECIA: Uma nova estação está chegando!',
-    story_2: 'Deus vai surpreender você de uma forma extraordinária...',
-    story_3: 'Prepare-se para o sobrenatural!',
-    versiculo: '"Esperem grandes coisas de Deus" - Jeremias 33:3',
-    cta_final: '✨ Receba sua palavra! Me chama no direct!'
-  },
-  {
-    tipo_frase: 'Encerramento',
-    engenharia_social: 'Gatilho de Promessa',
-    story_1: '🔥 DECLARAÇÃO: Seu milagre está a caminho!',
-    story_2: 'O impossível se torna possível quando Deus entra em cena...',
-    story_3: 'É tempo de ver o sobrenatural acontecer!',
-    versiculo: '"Maior é o que está em vós do que o que está no mundo" - 1 João 4:4',
-    cta_final: '⚡ Ative seu milagre! Me chama no direct!'
-  },
-
-  // Curiosidade Cristã
-  {
-    tipo_frase: 'Desenvolvimento',
-    engenharia_social: 'Curiosidade Cristã',
-    story_1: '🤔 E se eu te dissesse que existe um segredo milenar de felicidade plena?',
-    story_2: 'Algo tão poderoso que tem transformado vidas há mais de 2000 anos...',
-    story_3: 'Quer descobrir do que estou falando?',
-    versiculo: '"O segredo do Senhor é para os que o temem" - Salmos 25:14',
-    cta_final: '🔍 Curioso? Me chama no direct para descobrir!'
-  },
-  {
-    tipo_frase: 'Desenvolvimento',
-    engenharia_social: 'Curiosidade Cristã',
-    story_1: '👀 Descobri algo que os influencers não te contam sobre felicidade...',
-    story_2: 'Uma verdade que vai muito além de likes e seguidores...',
-    story_3: 'Quer saber o que é?',
-    versiculo: '"Conhecereis a verdade, e a verdade vos libertará" - João 8:32',
-    cta_final: '💫 Descubra o segredo! Me chama no direct!'
-  },
-  {
-    tipo_frase: 'Desenvolvimento',
-    engenharia_social: 'Curiosidade Cristã',
-    story_1: '📖 Você sabia que existe um livro que previu o futuro com 100% de precisão?',
-    story_2: 'E o mais incrível: ele tem uma mensagem especial para VOCÊ!',
-    story_3: 'Quer descobrir o que esse livro diz sobre seu futuro?',
-    versiculo: '"Sonda-me, ó Deus, e conhece o meu coração" - Salmos 139:23',
-    cta_final: '🔮 Descubra seu futuro! Me chama no direct!'
-  },
-  {
-    tipo_frase: 'Desenvolvimento',
-    engenharia_social: 'Curiosidade Cristã',
-    story_1: '🌟 Já imaginou se existisse uma fórmula infalível para a paz interior?',
-    story_2: 'Algo que funciona mesmo quando tudo parece dar errado...',
-    story_3: 'Quer conhecer esse método revolucionário?',
-    versiculo: '"A paz de Deus, que excede todo entendimento" - Filipenses 4:7',
-    cta_final: '🕊️ Descubra a paz verdadeira! Me chama no direct!'
-  },
-  {
-    tipo_frase: 'Desenvolvimento',
-    engenharia_social: 'Curiosidade Cristã',
-    story_1: '💎 Existe um tesouro escondido que o dinheiro não pode comprar...',
-    story_2: 'Poucos conhecem, mas quem encontra nunca mais é o mesmo!',
-    story_3: 'Quer saber onde está esse tesouro?',
-    versiculo: '"O reino dos céus é semelhante a um tesouro escondido" - Mateus 13:44',
-    cta_final: '✨ Encontre seu tesouro! Me chama no direct!'
-  },
-
-  // Gatilho de Promessa
-  {
-    tipo_frase: 'Encerramento',
-    engenharia_social: 'Gatilho de Promessa',
-    story_1: '🌈 "Antes que me chamem, eu responderei" - Isaías 65:24',
-    story_2: 'Deus já preparou a resposta para tudo que você está enfrentando!',
-    story_3: 'Sua bênção está a um passo de distância...',
-    versiculo: '"Pedi, e dar-se-vos-á; buscai, e encontrareis" - Mateus 7:7',
-    cta_final: '🙏 Receba sua bênção! Me chama no direct!'
-  },
-  {
-    tipo_frase: 'Encerramento',
-    engenharia_social: 'Gatilho de Promessa',
-    story_1: '✨ "Tudo é possível ao que crê" - Marcos 9:23',
-    story_2: 'Seu milagre não depende das circunstâncias, mas da sua fé!',
-    story_3: 'Está pronto para ver o impossível acontecer?',
-    versiculo: '"Coisas que o olho não viu, nem ouvido ouviu" - 1 Coríntios 2:9',
-    cta_final: '🌟 Ative seu milagre! Me chama no direct!'
-  },
-  {
-    tipo_frase: 'Encerramento',
-    engenharia_social: 'Gatilho de Promessa',
-    story_1: '👑 "Somos mais que vencedores" - Romanos 8:37',
-    story_2: 'A vitória já está garantida em Cristo Jesus!',
-    story_3: 'Chegou a hora de tomar posse da sua conquista!',
-    versiculo: '"Em todas estas coisas somos mais que vencedores" - Romanos 8:37',
-    cta_final: '🏆 Conquiste sua vitória! Me chama no direct!'
-  },
-  {
-    tipo_frase: 'Encerramento',
-    engenharia_social: 'Gatilho de Promessa',
-    story_1: '💫 "Grandes coisas fez o Senhor por nós" - Salmos 126:3',
-    story_2: 'O que Deus tem para você vai além dos seus sonhos!',
-    story_3: 'Prepare-se para uma nova dimensão de bênçãos!',
-    versiculo: '"Farei coisas novas, e vós as conhecereis" - Isaías 43:19',
-    cta_final: '🌈 Receba o extraordinário! Me chama no direct!'
-  },
-  {
-    tipo_frase: 'Encerramento',
-    engenharia_social: 'Gatilho de Promessa',
-    story_1: '⚡ "O Senhor é o meu pastor" - Salmos 23:1',
-    story_2: 'Com Ele, você nunca estará sozinho em sua jornada!',
-    story_3: 'Sua provisão e proteção estão garantidas!',
-    versiculo: '"Nada me faltará" - Salmos 23:1',
-    cta_final: '🌺 Experimente o cuidado de Deus! Me chama no direct!'
+    story_1: 'Minha vida mudou completamente depois que aprendi isso...',
+    story_2: 'E o melhor: qualquer pessoa pode experimentar o mesmo!',
+    story_3: 'Deus tem algo especial preparado para voce',
+    versiculo: 'Jeremias 29:11 - "Porque eu bem sei os pensamentos que tenho a vosso respeito..."',
+    cta_final: 'Vem descobrir o que Deus tem pra voce! 💫'
   }
 ]

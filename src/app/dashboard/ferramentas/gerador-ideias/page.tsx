@@ -97,7 +97,7 @@ export default function GeradorIdeiasPage() {
         ) : (
           <div className="mb-8 rounded-xl border-2 border-dashed border-gray-700 p-8 text-center">
             <p className="text-gray-400">
-              Clique em "Gerar Nova Ideia" para começar
+              Clique em &quot;Gerar Nova Ideia&quot; para começar
             </p>
           </div>
         )}

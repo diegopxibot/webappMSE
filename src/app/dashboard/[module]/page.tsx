@@ -119,16 +119,16 @@ export default function ModulePage({ params }: { params: { module: string } }) {
   const router = useRouter();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isCompleted, setIsCompleted] = useState(false);
-  const module = moduleContent[params.module as keyof typeof moduleContent];
+  const currentModule = moduleContent[params.module as keyof typeof moduleContent];
 
   useEffect(() => {
     const savedTasks = localStorage.getItem(`tasks-${params.module}`);
     if (savedTasks) {
       setTasks(JSON.parse(savedTasks));
-    } else if (module) {
-      setTasks(module.tasks);
+    } else if (currentModule) {
+      setTasks(currentModule.tasks);
     }
-  }, [params.module, module]);
+  }, [params.module, currentModule]);
 
   const handleTaskToggle = (taskId: number) => {
     const newTasks = tasks.map(task =>
@@ -157,7 +157,7 @@ export default function ModulePage({ params }: { params: { module: string } }) {
     }
   };
 
-  if (!module) {
+  if (!currentModule) {
     return <div>Módulo não encontrado</div>;
   }
 
@@ -175,13 +175,13 @@ export default function ModulePage({ params }: { params: { module: string } }) {
 
         <div className="relative p-8 rounded-xl backdrop-blur-md bg-dark-light/90 border border-primary/20 hover:border-primary/40 shadow-lg">
           <div className="flex items-center mb-8">
-            <span className="text-4xl mr-4">{module.icon}</span>
-            <h1 className="text-3xl font-bold gradient-text">{module.title}</h1>
+            <span className="text-4xl mr-4">{currentModule.icon}</span>
+            <h1 className="text-3xl font-bold gradient-text">{currentModule.title}</h1>
           </div>
 
           <div 
             className="prose prose-invert max-w-none mb-12"
-            dangerouslySetInnerHTML={{ __html: module.content }}
+            dangerouslySetInnerHTML={{ __html: currentModule.content }}
           />
 
           <div className="bg-dark-lighter/50 rounded-lg p-6 mb-8 backdrop-blur-sm border border-primary/10">
@@ -198,23 +198,31 @@ export default function ModulePage({ params }: { params: { module: string } }) {
                     onChange={() => handleTaskToggle(task.id)}
                     className="h-5 w-5 text-primary rounded border-gray-600 focus:ring-primary bg-dark-lighter"
                   />
-                  <label className="text-gray-200">{task.text}</label>
+                  <label className="text-gray-300">{task.text}</label>
                 </div>
               ))}
             </div>
           </div>
 
-          <button
-            onClick={handleModuleComplete}
-            disabled={!allTasksCompleted || isCompleted}
-            className={`w-full py-3 px-6 rounded-lg font-medium transition-all duration-300 ${
-              allTasksCompleted && !isCompleted
-                ? 'bg-primary hover:bg-primary/80 text-dark hover:scale-105 hover:shadow-lg hover:shadow-primary/20'
-                : 'bg-gray-700 text-gray-400 cursor-not-allowed'
-            }`}
-          >
-            {isCompleted ? 'Módulo Concluído! 🎉' : 'Marcar Módulo como Concluído'}
-          </button>
+          {allTasksCompleted && !isCompleted && (
+            <button
+              onClick={handleModuleComplete}
+              className="w-full bg-primary text-dark font-semibold py-3 px-6 rounded-lg hover:bg-primary/90 transition-colors"
+            >
+              Concluir Módulo
+            </button>
+          )}
+
+          {isCompleted && (
+            <div className="text-center py-8">
+              <h3 className="text-2xl font-bold text-primary mb-2">
+                🎉 Parabéns!
+              </h3>
+              <p className="text-gray-300">
+                Você completou este módulo com sucesso!
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
