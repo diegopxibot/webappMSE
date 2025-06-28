@@ -1,24 +1,14 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useAuth } from '@/components/auth/AuthProvider'
-import { useRouter } from 'next/navigation'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const { login, user } = useAuth()
-  const router = useRouter()
-
-  // Redireciona se já estiver autenticado
-  useEffect(() => {
-    if (user) {
-      console.log('Login Page: Usuário já autenticado, redirecionando para dashboard')
-      router.replace('/dashboard')
-    }
-  }, [user, router])
+  const { login } = useAuth()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -26,8 +16,6 @@ export default function LoginPage() {
     setLoading(true)
     
     try {
-      console.log('Login Page: Iniciando tentativa de login com:', { email })
-      
       if (!email || !password) {
         throw new Error('Email e senha são obrigatórios')
       }
@@ -41,22 +29,17 @@ export default function LoginPage() {
       })
 
       const data = await response.json()
-      console.log('Login Page: Resposta do servidor:', data)
 
       if (!response.ok) {
         throw new Error(data.error || 'Erro ao fazer login')
       }
 
       if (data.success) {
-        console.log('Login Page: Login bem sucedido, chamando função login')
         await login(email, data.name)
-        console.log('Login Page: Função login executada com sucesso')
-        // O redirecionamento será feito pelo AuthProvider
       } else {
         throw new Error(data.error || 'Email ou senha inválidos')
       }
     } catch (error) {
-      console.error('Login Page: Erro durante o login:', error)
       setError(error instanceof Error ? error.message : 'Erro ao fazer login. Tente novamente.')
     } finally {
       setLoading(false)

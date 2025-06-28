@@ -38,39 +38,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const checkAuth = async () => {
     try {
       const authCookie = getCookie('mse-auth')
-      const auth = window.localStorage.getItem('mse-auth')
       const userData = window.localStorage.getItem('mse-user')
       
-      console.log('Estado atual de autenticação:', {
-        authCookie,
-        localAuth: auth,
-        userData,
-        pathname,
-        currentUser: user
-      })
-      
-      if (authCookie === 'true' && auth === 'true' && userData) {
+      if (authCookie === 'true' && userData) {
         const parsedUser = JSON.parse(userData)
         setUser(parsedUser)
-        console.log('Usuário autenticado:', parsedUser)
         
-        // Só redireciona para dashboard se estiver na página de login
         if (pathname === '/login') {
-          console.log('Redirecionando para dashboard')
-          router.replace('/dashboard')
+          router.push('/dashboard')
         }
       } else {
-        console.log('Usuário não autenticado')
         setUser(null)
-        // Limpa localStorage se não houver cookie
-        if (auth === 'true') {
-          window.localStorage.removeItem('mse-auth')
-          window.localStorage.removeItem('mse-user')
-        }
-        // Só redireciona para login se não estiver em uma rota pública
+        window.localStorage.removeItem('mse-user')
+        
         if (!pathname?.startsWith('/login') && !pathname?.startsWith('/api/')) {
-          console.log('Redirecionando para login')
-          router.replace('/login')
+          router.push('/login')
         }
       }
     } catch (error) {
@@ -85,9 +67,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const handleLogin = async (email: string, name: string) => {
     try {
-      console.log('Iniciando login:', { email, name })
-      
-      // Define o cookie através da API
       const response = await fetch('/api/auth/setCookie', {
         method: 'POST',
         headers: {
@@ -100,16 +79,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         throw new Error('Falha ao definir cookie')
       }
 
-      // Atualiza localStorage
       const userData = { email, name }
-      window.localStorage.setItem('mse-auth', 'true')
       window.localStorage.setItem('mse-user', JSON.stringify(userData))
-      
       setUser(userData)
-      console.log('Login bem sucedido, redirecionando...')
-      
-      // Força revalidação do estado de autenticação antes de redirecionar
-      await checkAuth()
+      router.push('/dashboard')
     } catch (error) {
       console.error('Erro no login:', error)
       await handleLogout()
@@ -119,24 +92,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const handleLogout = async () => {
     try {
-      console.log('Iniciando logout')
-      
-      // Limpa localStorage
-      window.localStorage.removeItem('mse-auth')
       window.localStorage.removeItem('mse-user')
-      
-      // Limpa cookie
       await fetch('/api/auth/logout', { method: 'POST' })
-      
       setUser(null)
-      console.log('Logout concluído')
-      router.replace('/login')
+      router.push('/login')
     } catch (error) {
       console.error('Erro no logout:', error)
-      // Força limpeza mesmo com erro
       setUser(null)
       window.localStorage.clear()
-      router.replace('/login')
+      router.push('/login')
     }
   }
 
