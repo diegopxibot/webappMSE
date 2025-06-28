@@ -10,86 +10,52 @@ type User = {
 
 type AuthContextType = {
   user: User
-  login: (email: string, name: string) => Promise<void>
-  logout: () => Promise<void>
+  login: (email: string, name: string) => void
+  logout: () => void
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
-  login: async () => {},
-  logout: async () => {},
+  login: () => {},
+  logout: () => {},
 })
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User>(null)
-  const [loading, setLoading] = useState(true)
   const router = useRouter()
   const pathname = usePathname()
 
-  const checkAuth = async () => {
-    try {
-      const userData = window.localStorage.getItem('mse-user')
-      
-      if (userData) {
-        const parsedUser = JSON.parse(userData)
-        setUser(parsedUser)
-        
-        if (pathname === '/login') {
-          router.push('/dashboard')
-        }
-      } else {
-        setUser(null)
-        if (!pathname?.startsWith('/login') && !pathname?.startsWith('/api/')) {
-          router.push('/login')
-        }
-      }
-    } catch (error) {
-      console.error('Erro ao verificar autenticação:', error)
-      handleLogout()
-    } finally {
-      setLoading(false)
-    }
-  }
-
+  // Carrega o usuário do localStorage ao iniciar
   useEffect(() => {
-    checkAuth()
-  }, [pathname])
+    const savedUser = localStorage.getItem('user')
+    if (savedUser) {
+      setUser(JSON.parse(savedUser))
+    }
+  }, [])
 
-  const handleLogin = async (email: string, name: string) => {
-    try {
-      const userData = { email, name }
-      window.localStorage.setItem('mse-user', JSON.stringify(userData))
-      setUser(userData)
+  // Redireciona com base no estado de autenticação
+  useEffect(() => {
+    if (user && pathname === '/login') {
       router.push('/dashboard')
-    } catch (error) {
-      console.error('Erro no login:', error)
-      await handleLogout()
-      throw error
-    }
-  }
-
-  const handleLogout = async () => {
-    try {
-      window.localStorage.removeItem('mse-user')
-      await fetch('/api/auth/logout', { method: 'POST' })
-      setUser(null)
-      router.push('/login')
-    } catch (error) {
-      console.error('Erro no logout:', error)
-      setUser(null)
-      window.localStorage.clear()
+    } else if (!user && pathname !== '/login' && pathname !== '/') {
       router.push('/login')
     }
+  }, [user, pathname, router])
+
+  const login = (email: string, name: string) => {
+    const userData = { email, name }
+    localStorage.setItem('user', JSON.stringify(userData))
+    setUser(userData)
   }
 
-  if (loading) {
-    return <div className="min-h-screen flex items-center justify-center">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-    </div>
+  const logout = () => {
+    localStorage.removeItem('user')
+    setUser(null)
+    router.push('/login')
   }
 
   return (
-    <AuthContext.Provider value={{ user, login: handleLogin, logout: handleLogout }}>
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   )
