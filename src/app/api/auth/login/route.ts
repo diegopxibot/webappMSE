@@ -18,15 +18,21 @@ export async function POST(request: NextRequest) {
     // Verifica as credenciais
     if (email === VALID_USER.email && password === VALID_USER.password) {
       console.log('Login bem sucedido para:', email)
-      return new NextResponse(JSON.stringify({
+      
+      const response = NextResponse.json({
         success: true,
         name: VALID_USER.name
-      }), {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json'
-        }
       })
+
+      // Define o cookie de autenticação
+      response.cookies.set('mse-auth', 'true', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        path: '/'
+      })
+
+      return response
     }
 
     console.log('Login falhou para:', email)

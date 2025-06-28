@@ -26,16 +26,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter()
   const pathname = usePathname()
 
+  // Função para verificar cookie
+  const getCookie = (name: string) => {
+    const value = `; ${document.cookie}`
+    const parts = value.split(`; ${name}=`)
+    if (parts.length === 2) return parts.pop()?.split(';').shift()
+    return null
+  }
+
   useEffect(() => {
     try {
       // Verifica autenticação ao carregar
+      const authCookie = getCookie('mse-auth')
       const auth = window.localStorage.getItem('mse-auth')
       const userData = window.localStorage.getItem('mse-user')
       
-      if (auth === 'true' && userData) {
+      console.log('Auth Status:', { authCookie, localAuth: auth, userData })
+      
+      if (authCookie === 'true' && auth === 'true' && userData) {
         const user = JSON.parse(userData)
         setUser(user)
+        if (pathname === '/login') {
+          router.push('/dashboard')
+        }
       } else if (!pathname?.startsWith('/login')) {
+        console.log('Redirecionando para login por falta de autenticação')
         router.push('/login')
       }
     } catch (error) {
@@ -59,10 +74,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     try {
+      // Limpa localStorage
       window.localStorage.removeItem('mse-auth')
       window.localStorage.removeItem('mse-user')
+      
+      // Limpa cookie fazendo uma requisição para o servidor
+      await fetch('/api/auth/logout', { method: 'POST' })
+      
       setUser(null)
       router.push('/login')
     } catch (error) {
