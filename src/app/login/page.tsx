@@ -16,8 +16,12 @@ export default function LoginPage() {
     setLoading(true)
     
     try {
-      console.log('Iniciando tentativa de login com:', { email })
+      console.log('Login Page: Iniciando tentativa de login com:', { email })
       
+      if (!email || !password) {
+        throw new Error('Email e senha são obrigatórios')
+      }
+
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
@@ -27,19 +31,22 @@ export default function LoginPage() {
       })
 
       const data = await response.json()
-      console.log('Resposta do servidor:', data)
+      console.log('Login Page: Resposta do servidor:', data)
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Erro ao fazer login')
+      }
 
       if (data.success) {
-        console.log('Login bem sucedido, chamando função login com:', { email, name: data.name })
+        console.log('Login Page: Login bem sucedido, chamando função login')
         await login(email, data.name)
-        console.log('Função login executada com sucesso')
+        console.log('Login Page: Função login executada com sucesso')
       } else {
-        console.log('Login falhou:', data.error)
-        setError(data.error || 'Email ou senha inválidos')
+        throw new Error(data.error || 'Email ou senha inválidos')
       }
     } catch (error) {
-      console.error('Erro durante o login:', error)
-      setError('Erro ao fazer login. Tente novamente.')
+      console.error('Login Page: Erro durante o login:', error)
+      setError(error instanceof Error ? error.message : 'Erro ao fazer login. Tente novamente.')
     } finally {
       setLoading(false)
     }
@@ -66,7 +73,7 @@ export default function LoginPage() {
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
             <div>
-              <label htmlFor="email" className="sr-only">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
                 Email
               </label>
               <input
@@ -82,7 +89,7 @@ export default function LoginPage() {
               />
             </div>
             <div>
-              <label htmlFor="password" className="sr-only">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-1">
                 Senha
               </label>
               <input
@@ -103,10 +110,25 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-lg bg-gradient-to-r from-[#00FFFF] to-[#FFD700] px-8 py-3 font-medium text-[#0A0B2E] hover:shadow-[0_0_15px_rgba(0,255,255,0.5)] transition-all duration-200 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
+              className="relative w-full rounded-lg bg-gradient-to-r from-[#00FFFF] to-[#FFD700] px-8 py-3 font-medium text-[#0A0B2E] hover:shadow-[0_0_15px_rgba(0,255,255,0.5)] transition-all duration-200 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              {loading ? 'Entrando...' : 'Entrar'}
+              {loading ? (
+                <>
+                  <span className="opacity-0">Entrar</span>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-5 h-5 border-2 border-[#0A0B2E] border-t-transparent rounded-full animate-spin"></div>
+                  </div>
+                </>
+              ) : (
+                'Entrar'
+              )}
             </button>
+          </div>
+
+          <div className="mt-4 text-center text-sm text-gray-400">
+            <p>Credenciais de acesso:</p>
+            <p>Email: pastordiegopeixe@gmail.com</p>
+            <p>Senha: d16po8r.</p>
           </div>
         </form>
       </div>

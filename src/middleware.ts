@@ -9,21 +9,34 @@ const publicRoutes = [
   '/api/auth/setCookie',
   '/_next',
   '/favicon.ico',
+  '/verify-request',
+  '/images',
+  '/public'
 ]
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
+  
+  console.log('Middleware: Verificando rota:', pathname)
 
   // Verifica se a rota atual é pública
   const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route))
 
   // Se for rota pública, permite o acesso
   if (isPublicRoute) {
+    console.log('Middleware: Rota pública, permitindo acesso')
     return NextResponse.next()
   }
 
   // Verifica se o usuário está autenticado
-  const isAuthenticated = request.cookies.get('mse-auth')?.value === 'true'
+  const authCookie = request.cookies.get('mse-auth')
+  const isAuthenticated = authCookie?.value === 'true'
+
+  console.log('Middleware: Estado de autenticação:', {
+    authCookie: authCookie?.value,
+    isAuthenticated,
+    pathname
+  })
 
   // Se não estiver autenticado, redireciona para o login
   if (!isAuthenticated) {
@@ -45,7 +58,8 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      * - public files (public folder)
+     * - images (image files)
      */
-    '/((?!_next/static|_next/image|favicon.ico|public/).*)',
+    '/((?!_next/static|_next/image|favicon.ico|public/|images/).*)',
   ],
 } 
