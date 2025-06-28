@@ -7,6 +7,9 @@ const nextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   swcMinify: true,
+  experimental: {
+    serverComponentsExternalPackages: ['@mongodb-js/zstd'],
+  },
   headers: async () => {
     return [
       {
