@@ -16,7 +16,9 @@ export default function LoginPage() {
     setLoading(true)
     
     try {
-      console.log('Tentando login com:', email)
+      console.log('Iniciando tentativa de login...')
+      console.log('Email:', email)
+      
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
@@ -25,20 +27,22 @@ export default function LoginPage() {
         body: JSON.stringify({ email, password }),
       })
 
+      console.log('Status da resposta:', response.status)
       const data = await response.json()
-      console.log('Resposta do servidor:', data)
+      console.log('Dados da resposta:', data)
 
       if (data.success) {
-        console.log('Login bem sucedido')
+        console.log('Login bem sucedido, salvando dados...')
         localStorage.setItem('mse-auth', 'true')
         localStorage.setItem('mse-user', JSON.stringify({ email, name: data.name }))
-        router.push('/dashboard')
+        console.log('Dados salvos, redirecionando...')
+        window.location.href = '/dashboard'
       } else {
         console.log('Login falhou:', data.error)
         setError(data.error || 'Email ou senha inválidos')
       }
     } catch (error) {
-      console.error('Erro ao fazer login:', error)
+      console.error('Erro completo:', error)
       setError('Erro ao fazer login. Tente novamente.')
     } finally {
       setLoading(false)

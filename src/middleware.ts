@@ -1,10 +1,8 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { getToken } from 'next-auth/jwt'
-import { rateLimiter } from './lib/rate-limit'
 
 // Rotas que não precisam de autenticação
-const publicRoutes = ['/login']
+const publicRoutes = ['/login', '/api/auth/login']
 
 export function middleware(request: NextRequest) {
   // Verifica se a rota atual é pública
@@ -33,11 +31,10 @@ export const config = {
   matcher: [
     /*
      * Match all request paths except for the ones starting with:
-     * - api (API routes)
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    '/((?!_next/static|_next/image|favicon.ico).*)',
   ],
 } 
