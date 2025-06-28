@@ -54,13 +54,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(parsedUser)
         console.log('Usuário autenticado:', parsedUser)
         
+        // Só redireciona para dashboard se estiver na página de login
         if (pathname === '/login') {
           console.log('Redirecionando para dashboard')
           router.replace('/dashboard')
         }
       } else {
         console.log('Usuário não autenticado')
-        if (pathname !== '/login' && !pathname?.startsWith('/api/')) {
+        setUser(null)
+        // Limpa localStorage se não houver cookie
+        if (auth === 'true') {
+          window.localStorage.removeItem('mse-auth')
+          window.localStorage.removeItem('mse-user')
+        }
+        // Só redireciona para login se não estiver em uma rota pública
+        if (!pathname?.startsWith('/login') && !pathname?.startsWith('/api/')) {
           console.log('Redirecionando para login')
           router.replace('/login')
         }
@@ -100,10 +108,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(userData)
       console.log('Login bem sucedido, redirecionando...')
       
-      // Força revalidação do estado de autenticação
+      // Força revalidação do estado de autenticação antes de redirecionar
       await checkAuth()
-      
-      router.replace('/dashboard')
     } catch (error) {
       console.error('Erro no login:', error)
       await handleLogout()
