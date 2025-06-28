@@ -61,8 +61,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [pathname, router])
 
-  const handleLogin = (email: string, name: string) => {
+  const handleLogin = async (email: string, name: string) => {
     try {
+      // Define o cookie através da API
+      const response = await fetch('/api/auth/setCookie', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ auth: true }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Falha ao definir cookie')
+      }
+
+      // Atualiza localStorage
       const userData = { email, name }
       window.localStorage.setItem('mse-auth', 'true')
       window.localStorage.setItem('mse-user', JSON.stringify(userData))
