@@ -1,23 +1,21 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { connectToDatabase } from '@/lib/mongodb'
+
+const VALID_USER = {
+  email: "pastordiegopeixe@gmail.com",
+  password: "d16po8r.",
+  name: "diegopxi"
+}
 
 export async function POST(request: NextRequest) {
   try {
     const { email, password } = await request.json()
 
-    const { db } = await connectToDatabase()
-    
-    // Procura o usuário no MongoDB
-    const user = await db.collection('users').findOne({
-      email,
-      password // Nota: Em produção, usar hash da senha
-    })
-
-    if (user) {
+    // Verifica as credenciais
+    if (email === VALID_USER.email && password === VALID_USER.password) {
       return NextResponse.json({
         success: true,
-        name: user.name
+        name: VALID_USER.name
       })
     }
 
