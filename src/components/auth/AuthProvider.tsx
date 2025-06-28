@@ -22,40 +22,56 @@ const AuthContext = createContext<AuthContextType>({
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User>(null)
+  const [loading, setLoading] = useState(true)
   const router = useRouter()
   const pathname = usePathname()
 
   useEffect(() => {
-    // Verifica autenticação ao carregar
-    const auth = localStorage.getItem('mse-auth')
-    const userData = localStorage.getItem('mse-user')
-    
-    if (auth && userData) {
-      try {
+    try {
+      // Verifica autenticação ao carregar
+      const auth = window.localStorage.getItem('mse-auth')
+      const userData = window.localStorage.getItem('mse-user')
+      
+      if (auth === 'true' && userData) {
         const user = JSON.parse(userData)
         setUser(user)
-      } catch (error) {
-        console.error('Erro ao carregar dados do usuário:', error)
-        handleLogout()
+      } else if (!pathname?.startsWith('/login')) {
+        router.push('/login')
       }
-    } else if (!pathname?.startsWith('/login')) {
-      router.push('/login')
+    } catch (error) {
+      console.error('Erro ao carregar dados do usuário:', error)
+      handleLogout()
+    } finally {
+      setLoading(false)
     }
   }, [pathname, router])
 
   const handleLogin = (email: string, name: string) => {
-    const userData = { email, name }
-    localStorage.setItem('mse-auth', 'true')
-    localStorage.setItem('mse-user', JSON.stringify(userData))
-    setUser(userData)
-    router.push('/dashboard')
+    try {
+      const userData = { email, name }
+      window.localStorage.setItem('mse-auth', 'true')
+      window.localStorage.setItem('mse-user', JSON.stringify(userData))
+      setUser(userData)
+      router.push('/dashboard')
+    } catch (error) {
+      console.error('Erro ao fazer login:', error)
+      handleLogout()
+    }
   }
 
   const handleLogout = () => {
-    localStorage.removeItem('mse-auth')
-    localStorage.removeItem('mse-user')
-    setUser(null)
-    router.push('/login')
+    try {
+      window.localStorage.removeItem('mse-auth')
+      window.localStorage.removeItem('mse-user')
+      setUser(null)
+      router.push('/login')
+    } catch (error) {
+      console.error('Erro ao fazer logout:', error)
+    }
+  }
+
+  if (loading) {
+    return null // ou um componente de loading
   }
 
   return (

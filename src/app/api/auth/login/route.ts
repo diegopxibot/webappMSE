@@ -9,25 +9,46 @@ const VALID_USER = {
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, password } = await request.json()
+    console.log('Recebendo requisição de login...')
+    const body = await request.json()
+    console.log('Dados recebidos:', { email: body.email })
+
+    const { email, password } = body
 
     // Verifica as credenciais
     if (email === VALID_USER.email && password === VALID_USER.password) {
-      return NextResponse.json({
+      console.log('Login bem sucedido para:', email)
+      return new NextResponse(JSON.stringify({
         success: true,
         name: VALID_USER.name
+      }), {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json'
+        }
       })
     }
 
-    return NextResponse.json({ 
+    console.log('Login falhou para:', email)
+    return new NextResponse(JSON.stringify({ 
       success: false,
-      error: 'Credenciais inválidas'
+      error: 'Email ou senha inválidos'
+    }), {
+      status: 401,
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
   } catch (error) {
-    console.error('Erro ao verificar credenciais:', error)
-    return NextResponse.json({ 
+    console.error('Erro ao processar login:', error)
+    return new NextResponse(JSON.stringify({ 
       success: false,
       error: 'Erro ao verificar credenciais'
-    }, { status: 500 })
+    }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   }
 } 

@@ -5,10 +5,10 @@ import type { NextRequest } from 'next/server'
 const publicRoutes = ['/login', '/api/auth/login']
 
 export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl
+
   // Verifica se a rota atual é pública
-  const isPublicRoute = publicRoutes.some(route => 
-    request.nextUrl.pathname.startsWith(route)
-  )
+  const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route))
 
   // Se for rota pública, permite o acesso
   if (isPublicRoute) {
@@ -16,11 +16,12 @@ export function middleware(request: NextRequest) {
   }
 
   // Verifica se o usuário está autenticado
-  const isAuthenticated = request.cookies.get('mse-auth')
+  const isAuthenticated = request.cookies.get('mse-auth')?.value === 'true'
 
   // Se não estiver autenticado, redireciona para o login
   if (!isAuthenticated) {
-    return NextResponse.redirect(new URL('/login', request.url))
+    const loginUrl = new URL('/login', request.url)
+    return NextResponse.redirect(loginUrl)
   }
 
   return NextResponse.next()
