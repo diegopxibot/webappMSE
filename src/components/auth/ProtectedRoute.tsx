@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { useAuth } from './AuthProvider'
 
 export default function ProtectedRoute({
   children,
@@ -9,13 +10,13 @@ export default function ProtectedRoute({
   children: React.ReactNode
 }) {
   const router = useRouter()
+  const { user } = useAuth()
 
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem('mse-auth')
-    if (!isLoggedIn) {
+    if (!user) {
       router.push('/login')
     }
-  }, [router])
+  }, [user, router])
 
   return <>{children}</>
 } 

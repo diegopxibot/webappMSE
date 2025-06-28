@@ -22,36 +22,61 @@ const AuthContext = createContext<AuthContextType>({
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User>(null)
+  const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
   const pathname = usePathname()
 
   // Carrega o usuário do localStorage ao iniciar
   useEffect(() => {
-    const savedUser = localStorage.getItem('user')
-    if (savedUser) {
-      setUser(JSON.parse(savedUser))
+    try {
+      const savedUser = localStorage.getItem('user')
+      console.log('Carregando usuário do localStorage:', savedUser)
+      if (savedUser) {
+        setUser(JSON.parse(savedUser))
+      }
+    } catch (error) {
+      console.error('Erro ao carregar usuário:', error)
+    } finally {
+      setIsLoading(false)
     }
   }, [])
 
   // Redireciona com base no estado de autenticação
   useEffect(() => {
-    if (user && pathname === '/login') {
-      router.push('/dashboard')
-    } else if (!user && pathname !== '/login' && pathname !== '/') {
-      router.push('/login')
-    }
-  }, [user, pathname, router])
+    if (isLoading) return
 
-  const login = (email: string, name: string) => {
+    console.log('Estado atual:', { user, pathname })
+    
+    const handleRedirect = async () => {
+      if (user && pathname === '/login') {
+        console.log('Usuário logado tentando acessar /login, redirecionando para /dashboard')
+        await router.push('/dashboard')
+      } else if (!user && pathname !== '/login' && pathname !== '/') {
+        console.log('Usuário não logado tentando acessar rota protegida, redirecionando para /login')
+        await router.push('/login')
+      }
+    }
+
+    handleRedirect()
+  }, [user, pathname, router, isLoading])
+
+  const login = async (email: string, name: string) => {
+    console.log('Realizando login:', { email, name })
     const userData = { email, name }
     localStorage.setItem('user', JSON.stringify(userData))
     setUser(userData)
+    await router.push('/dashboard')
   }
 
-  const logout = () => {
+  const logout = async () => {
+    console.log('Realizando logout')
     localStorage.removeItem('user')
     setUser(null)
-    router.push('/login')
+    await router.push('/login')
+  }
+
+  if (isLoading) {
+    return null // ou um componente de loading
   }
 
   return (
