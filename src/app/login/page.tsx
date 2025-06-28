@@ -45,7 +45,7 @@ export default function LoginPage() {
             MSE <span className="bg-gradient-to-r from-[#00FFFF] to-[#FFD700] bg-clip-text text-transparent">Premium</span>
           </h2>
           <p className="text-primary/80">
-            Acesse sua conta premium
+            Bem-vindo! Acesse sua conta premium
           </p>
         </div>
 
@@ -67,7 +67,7 @@ export default function LoginPage() {
                 type="email"
                 required
                 className="w-full rounded-lg border border-gray-700 bg-transparent px-4 py-3 text-white placeholder-gray-400 focus:border-[#00FFFF] focus:outline-none focus:ring-1 focus:ring-[#00FFFF] transition-colors duration-200"
-                placeholder="Email"
+                placeholder="Digite seu email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -82,7 +82,7 @@ export default function LoginPage() {
                 type="password"
                 required
                 className="w-full rounded-lg border border-gray-700 bg-transparent px-4 py-3 text-white placeholder-gray-400 focus:border-[#00FFFF] focus:outline-none focus:ring-1 focus:ring-[#00FFFF] transition-colors duration-200"
-                placeholder="Senha"
+                placeholder="Digite sua senha"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
