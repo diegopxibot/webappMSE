@@ -26,21 +26,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter()
   const pathname = usePathname()
 
-  // Função para verificar cookie
-  const getCookie = (name: string) => {
-    const value = `; ${document.cookie}`
-    const parts = value.split(`; ${name}=`)
-    if (parts.length === 2) return parts.pop()?.split(';').shift()
-    return null
-  }
-
-  // Função para verificar autenticação
   const checkAuth = async () => {
     try {
-      const authCookie = getCookie('mse-auth')
       const userData = window.localStorage.getItem('mse-user')
       
-      if (authCookie === 'true' && userData) {
+      if (userData) {
         const parsedUser = JSON.parse(userData)
         setUser(parsedUser)
         
@@ -49,36 +39,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
       } else {
         setUser(null)
-        window.localStorage.removeItem('mse-user')
-        
         if (!pathname?.startsWith('/login') && !pathname?.startsWith('/api/')) {
           router.push('/login')
         }
       }
     } catch (error) {
       console.error('Erro ao verificar autenticação:', error)
-      await handleLogout()
+      handleLogout()
+    } finally {
+      setLoading(false)
     }
   }
 
   useEffect(() => {
-    checkAuth().finally(() => setLoading(false))
+    checkAuth()
   }, [pathname])
 
   const handleLogin = async (email: string, name: string) => {
     try {
-      const response = await fetch('/api/auth/setCookie', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ auth: true }),
-      })
-
-      if (!response.ok) {
-        throw new Error('Falha ao definir cookie')
-      }
-
       const userData = { email, name }
       window.localStorage.setItem('mse-user', JSON.stringify(userData))
       setUser(userData)

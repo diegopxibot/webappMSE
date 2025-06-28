@@ -16,15 +16,23 @@ const publicRoutes = [
 ]
 
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl
+  // Permite todas as requisições de API
+  if (request.nextUrl.pathname.startsWith('/api/')) {
+    return NextResponse.next()
+  }
 
-  // Ignora requisições de assets e API routes
-  if (pathname.startsWith('/_next') || pathname.startsWith('/api/')) {
+  // Permite acesso a arquivos estáticos
+  if (
+    request.nextUrl.pathname.startsWith('/_next') ||
+    request.nextUrl.pathname.includes('.')
+  ) {
     return NextResponse.next()
   }
 
   // Verifica se a rota atual é pública
-  const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route))
+  const isPublicRoute = publicRoutes.some(route => 
+    request.nextUrl.pathname.startsWith(route)
+  )
 
   // Se for rota pública, permite o acesso
   if (isPublicRoute) {
@@ -33,13 +41,10 @@ export function middleware(request: NextRequest) {
 
   // Verifica se o usuário está autenticado
   const authCookie = request.cookies.get('mse-auth')
-  const isAuthenticated = authCookie?.value === 'true'
 
-  // Se não estiver autenticado, redireciona para o login
-  if (!isAuthenticated && pathname !== '/login') {
-    const url = request.nextUrl.clone()
-    url.pathname = '/login'
-    return NextResponse.redirect(url)
+  // Se não estiver autenticado e tentar acessar uma rota protegida
+  if (!authCookie?.value && !isPublicRoute) {
+    return NextResponse.redirect(new URL('/login', request.url))
   }
 
   return NextResponse.next()

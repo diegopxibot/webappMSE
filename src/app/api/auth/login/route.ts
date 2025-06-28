@@ -43,8 +43,10 @@ export async function POST(request: NextRequest) {
       })
 
       // Define o cookie de autenticação
-      response.cookies.set('mse-auth', 'true', {
-        httpOnly: true,
+      response.cookies.set({
+        name: 'mse-auth',
+        value: 'true',
+        httpOnly: false,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
         path: '/',
