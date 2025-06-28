@@ -48,10 +48,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     console.log('Estado atual:', { user, pathname })
     
     const handleRedirect = async () => {
+      // Permite acesso à página inicial
+      if (pathname === '/') return
+
       if (user && pathname === '/login') {
         console.log('Usuário logado tentando acessar /login, redirecionando para /dashboard')
         await router.push('/dashboard')
-      } else if (!user && pathname !== '/login' && pathname !== '/') {
+      } else if (!user && pathname.startsWith('/dashboard')) {
         console.log('Usuário não logado tentando acessar rota protegida, redirecionando para /login')
         await router.push('/login')
       }
@@ -72,11 +75,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     console.log('Realizando logout')
     localStorage.removeItem('user')
     setUser(null)
-    await router.push('/login')
+    await router.push('/')
   }
 
   if (isLoading) {
-    return null // ou um componente de loading
+    return null
   }
 
   return (

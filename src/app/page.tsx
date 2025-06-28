@@ -1,4 +1,8 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 interface Feature {
   title: string;
@@ -6,43 +10,102 @@ interface Feature {
   icon: (props: { className?: string }) => JSX.Element;
 }
 
-export default function Home() {
+export default function HomePage() {
+  const router = useRouter()
+  const [showInstallPrompt, setShowInstallPrompt] = useState(false)
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null)
+
+  useEffect(() => {
+    // Detecta se o app pode ser instalado
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault()
+      setDeferredPrompt(e)
+      setShowInstallPrompt(true)
+    })
+  }, [])
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return
+    
+    deferredPrompt.prompt()
+    const { outcome } = await deferredPrompt.userChoice
+    
+    if (outcome === 'accepted') {
+      setShowInstallPrompt(false)
+    }
+    setDeferredPrompt(null)
+  }
+
   return (
-    <main className="min-h-screen bg-gradient-to-br from-dark via-dark-light to-dark-lighter">
-      <div className="container mx-auto px-4 py-16">
-        <div className="text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 gradient-text">
-            Método Stories Evangelístico
-          </h1>
-          <p className="text-xl text-gray-200 mb-6 max-w-3xl mx-auto">
-            Transforme seus Stories em instrumentos de evangelismo digital com poder e propósito
-          </p>
-          <div className="flex justify-center space-x-2 mb-8">
-            <div className="h-1 w-20 bg-primary rounded-full"></div>
-            <div className="h-1 w-20 bg-secondary rounded-full"></div>
+    <div className="min-h-[100dvh] flex flex-col items-center justify-between p-4 sm:p-8 bg-gradient-to-b from-[#0A0B2E] to-black text-white">
+      {/* Header */}
+      <div className="w-full max-w-4xl mx-auto text-center pt-8 sm:pt-12">
+        <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 text-transparent bg-clip-text mb-4">
+          Método Stories Evangelístico
+        </h1>
+        <p className="text-lg sm:text-xl text-cyan-200/80 mb-8">
+          Transforme seus Stories em instrumentos de evangelismo digital com poder e propósito
+        </p>
+      </div>
+
+      {/* Main Content */}
+      <div className="w-full max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-6 py-8">
+        <div className="bg-white/10 backdrop-blur-lg p-6 rounded-2xl border border-cyan-500/20">
+          <div className="text-cyan-400 mb-4">
+            <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
           </div>
-          <Link 
-            href="/login"
-            className="inline-flex items-center px-6 py-3 rounded-lg bg-primary text-dark font-medium transition-all duration-300 hover:bg-primary/80 hover:scale-105 hover:shadow-lg hover:shadow-primary/20"
-          >
-            Começar Agora
-          </Link>
+          <h3 className="text-xl font-semibold mb-2">Conteúdo Transformador</h3>
+          <p className="text-cyan-200/80">Aprenda a criar stories que tocam corações e transformam vidas com propósito divino.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20">
-          {features.map((feature, index) => (
-            <div
-              key={feature.title}
-              className="relative p-6 rounded-xl backdrop-blur-md bg-dark-light/90 border border-primary/20 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/20 transform transition-all duration-300 hover:scale-[1.02]"
-            >
-              <feature.icon className="w-12 h-12 text-primary mb-4" />
-              <h3 className="text-xl font-bold mb-3 text-white">{feature.title}</h3>
-              <p className="text-gray-200">{feature.description}</p>
-            </div>
-          ))}
+        <div className="bg-white/10 backdrop-blur-lg p-6 rounded-2xl border border-cyan-500/20">
+          <div className="text-cyan-400 mb-4">
+            <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
+            </svg>
+          </div>
+          <h3 className="text-xl font-semibold mb-2">Ferramentas Práticas</h3>
+          <p className="text-cyan-200/80">Acesse geradores de conteúdo, templates e recursos para criar stories impactantes.</p>
+        </div>
+
+        <div className="bg-white/10 backdrop-blur-lg p-6 rounded-2xl border border-cyan-500/20">
+          <div className="text-cyan-400 mb-4">
+            <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+          </div>
+          <h3 className="text-xl font-semibold mb-2">Comunidade Engajada</h3>
+          <p className="text-cyan-200/80">Faça parte de uma comunidade de evangelistas digitais comprometidos com a missão.</p>
         </div>
       </div>
-    </main>
+
+      {/* Call to Action */}
+      <div className="w-full max-w-4xl mx-auto flex flex-col items-center gap-4 py-8">
+        {showInstallPrompt && (
+          <button
+            onClick={handleInstallClick}
+            className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-medium hover:from-cyan-600 hover:to-blue-600 transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            Instalar App
+          </button>
+        )}
+        
+        <Link
+          href="/login"
+          className="w-full sm:w-auto px-8 py-4 bg-white/10 backdrop-blur-lg text-white rounded-xl font-medium border border-cyan-500/20 hover:bg-white/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+          Começar Agora
+        </Link>
+      </div>
+    </div>
   )
 }
 

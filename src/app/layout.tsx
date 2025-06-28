@@ -14,10 +14,16 @@ const poppins = Poppins({
 export const metadata = {
   title: 'MSE - Método Stories Evangelístico',
   description: 'Plataforma de treinamento para evangelismo nas redes sociais',
+  manifest: '/manifest.json',
   viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover',
   themeColor: '#0A0B2E',
   appleWebAppCapable: 'yes',
-  appleWebAppStatusBarStyle: 'black-translucent'
+  appleWebAppStatusBarStyle: 'black-translucent',
+  icons: {
+    apple: [
+      { url: '/icons/icon-192x192.png' },
+    ],
+  },
 }
 
 export default function RootLayout({
@@ -32,6 +38,8 @@ export default function RootLayout({
         <meta name="theme-color" content="#0A0B2E" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
       </head>
       <body 
         className={`${inter.variable} ${poppins.variable} font-sans min-h-screen bg-gradient-to-b from-[#0A0B2E] to-black text-white antialiased overflow-x-hidden`}
