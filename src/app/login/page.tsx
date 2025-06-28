@@ -7,13 +7,16 @@ export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError('')
+    setLoading(true)
     
     try {
-      // Verifica as credenciais no arquivo JSON
+      console.log('Tentando login com:', email)
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
@@ -23,17 +26,22 @@ export default function LoginPage() {
       })
 
       const data = await response.json()
+      console.log('Resposta do servidor:', data)
 
       if (data.success) {
-        // Salva o estado de autenticação
+        console.log('Login bem sucedido')
         localStorage.setItem('mse-auth', 'true')
         localStorage.setItem('mse-user', JSON.stringify({ email, name: data.name }))
         router.push('/dashboard')
       } else {
-        setError('Email ou senha inválidos')
+        console.log('Login falhou:', data.error)
+        setError(data.error || 'Email ou senha inválidos')
       }
     } catch (error) {
-      setError('Erro ao fazer login')
+      console.error('Erro ao fazer login:', error)
+      setError('Erro ao fazer login. Tente novamente.')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -66,6 +74,7 @@ export default function LoginPage() {
                 name="email"
                 type="email"
                 required
+                disabled={loading}
                 className="w-full rounded-lg border border-gray-700 bg-transparent px-4 py-3 text-white placeholder-gray-400 focus:border-[#00FFFF] focus:outline-none focus:ring-1 focus:ring-[#00FFFF] transition-colors duration-200"
                 placeholder="Digite seu email"
                 value={email}
@@ -81,6 +90,7 @@ export default function LoginPage() {
                 name="password"
                 type="password"
                 required
+                disabled={loading}
                 className="w-full rounded-lg border border-gray-700 bg-transparent px-4 py-3 text-white placeholder-gray-400 focus:border-[#00FFFF] focus:outline-none focus:ring-1 focus:ring-[#00FFFF] transition-colors duration-200"
                 placeholder="Digite sua senha"
                 value={password}
@@ -92,9 +102,10 @@ export default function LoginPage() {
           <div>
             <button
               type="submit"
-              className="w-full rounded-lg bg-gradient-to-r from-[#00FFFF] to-[#FFD700] px-8 py-3 font-medium text-[#0A0B2E] hover:shadow-[0_0_15px_rgba(0,255,255,0.5)] transition-all duration-200 active:scale-95"
+              disabled={loading}
+              className="w-full rounded-lg bg-gradient-to-r from-[#00FFFF] to-[#FFD700] px-8 py-3 font-medium text-[#0A0B2E] hover:shadow-[0_0_15px_rgba(0,255,255,0.5)] transition-all duration-200 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              Entrar
+              {loading ? 'Entrando...' : 'Entrar'}
             </button>
           </div>
         </form>
