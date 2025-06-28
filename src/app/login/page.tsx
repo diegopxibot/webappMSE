@@ -1,14 +1,14 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useAuth } from '@/components/auth/AuthProvider'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const router = useRouter()
+  const { login } = useAuth()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -17,7 +17,6 @@ export default function LoginPage() {
     
     try {
       console.log('Iniciando tentativa de login...')
-      console.log('Email:', email)
       
       const response = await fetch('/api/auth/login', {
         method: 'POST',
@@ -27,22 +26,16 @@ export default function LoginPage() {
         body: JSON.stringify({ email, password }),
       })
 
-      console.log('Status da resposta:', response.status)
       const data = await response.json()
-      console.log('Dados da resposta:', data)
+      console.log('Resposta:', data)
 
       if (data.success) {
-        console.log('Login bem sucedido, salvando dados...')
-        localStorage.setItem('mse-auth', 'true')
-        localStorage.setItem('mse-user', JSON.stringify({ email, name: data.name }))
-        console.log('Dados salvos, redirecionando...')
-        window.location.href = '/dashboard'
+        login(email, data.name)
       } else {
-        console.log('Login falhou:', data.error)
         setError(data.error || 'Email ou senha inválidos')
       }
     } catch (error) {
-      console.error('Erro completo:', error)
+      console.error('Erro:', error)
       setError('Erro ao fazer login. Tente novamente.')
     } finally {
       setLoading(false)
