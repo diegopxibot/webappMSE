@@ -11,7 +11,7 @@ export default function ProtectedRoute({
   const router = useRouter()
 
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem('isLoggedIn')
+    const isLoggedIn = localStorage.getItem('mse-auth')
     if (!isLoggedIn) {
       router.push('/login')
     }
