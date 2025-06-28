@@ -10,14 +10,14 @@ type User = {
 
 type AuthContextType = {
   user: User
-  login: (email: string, name: string) => void
-  logout: () => void
+  login: (email: string, name: string) => Promise<void>
+  logout: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
-  login: () => {},
-  logout: () => {},
+  login: async () => {},
+  logout: async () => {},
 })
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -34,35 +34,51 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return null
   }
 
-  useEffect(() => {
+  // Função para verificar autenticação
+  const checkAuth = async () => {
     try {
-      // Verifica autenticação ao carregar
       const authCookie = getCookie('mse-auth')
       const auth = window.localStorage.getItem('mse-auth')
       const userData = window.localStorage.getItem('mse-user')
       
-      console.log('Auth Status:', { authCookie, localAuth: auth, userData })
+      console.log('Estado atual de autenticação:', {
+        authCookie,
+        localAuth: auth,
+        userData,
+        pathname,
+        currentUser: user
+      })
       
       if (authCookie === 'true' && auth === 'true' && userData) {
-        const user = JSON.parse(userData)
-        setUser(user)
+        const parsedUser = JSON.parse(userData)
+        setUser(parsedUser)
+        console.log('Usuário autenticado:', parsedUser)
+        
         if (pathname === '/login') {
-          router.push('/dashboard')
+          console.log('Redirecionando para dashboard')
+          router.replace('/dashboard')
         }
-      } else if (!pathname?.startsWith('/login')) {
-        console.log('Redirecionando para login por falta de autenticação')
-        router.push('/login')
+      } else {
+        console.log('Usuário não autenticado')
+        if (pathname !== '/login' && !pathname?.startsWith('/api/')) {
+          console.log('Redirecionando para login')
+          router.replace('/login')
+        }
       }
     } catch (error) {
-      console.error('Erro ao carregar dados do usuário:', error)
-      handleLogout()
-    } finally {
-      setLoading(false)
+      console.error('Erro ao verificar autenticação:', error)
+      await handleLogout()
     }
-  }, [pathname, router])
+  }
+
+  useEffect(() => {
+    checkAuth().finally(() => setLoading(false))
+  }, [pathname])
 
   const handleLogin = async (email: string, name: string) => {
     try {
+      console.log('Iniciando login:', { email, name })
+      
       // Define o cookie através da API
       const response = await fetch('/api/auth/setCookie', {
         method: 'POST',
@@ -80,32 +96,48 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const userData = { email, name }
       window.localStorage.setItem('mse-auth', 'true')
       window.localStorage.setItem('mse-user', JSON.stringify(userData))
+      
       setUser(userData)
-      router.push('/dashboard')
+      console.log('Login bem sucedido, redirecionando...')
+      
+      // Força revalidação do estado de autenticação
+      await checkAuth()
+      
+      router.replace('/dashboard')
     } catch (error) {
-      console.error('Erro ao fazer login:', error)
-      handleLogout()
+      console.error('Erro no login:', error)
+      await handleLogout()
+      throw error
     }
   }
 
   const handleLogout = async () => {
     try {
+      console.log('Iniciando logout')
+      
       // Limpa localStorage
       window.localStorage.removeItem('mse-auth')
       window.localStorage.removeItem('mse-user')
       
-      // Limpa cookie fazendo uma requisição para o servidor
+      // Limpa cookie
       await fetch('/api/auth/logout', { method: 'POST' })
       
       setUser(null)
-      router.push('/login')
+      console.log('Logout concluído')
+      router.replace('/login')
     } catch (error) {
-      console.error('Erro ao fazer logout:', error)
+      console.error('Erro no logout:', error)
+      // Força limpeza mesmo com erro
+      setUser(null)
+      window.localStorage.clear()
+      router.replace('/login')
     }
   }
 
   if (loading) {
-    return null // ou um componente de loading
+    return <div className="min-h-screen flex items-center justify-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+    </div>
   }
 
   return (

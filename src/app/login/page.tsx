@@ -16,7 +16,7 @@ export default function LoginPage() {
     setLoading(true)
     
     try {
-      console.log('Iniciando tentativa de login...')
+      console.log('Iniciando tentativa de login com:', { email })
       
       const response = await fetch('/api/auth/login', {
         method: 'POST',
@@ -27,15 +27,18 @@ export default function LoginPage() {
       })
 
       const data = await response.json()
-      console.log('Resposta:', data)
+      console.log('Resposta do servidor:', data)
 
       if (data.success) {
-        login(email, data.name)
+        console.log('Login bem sucedido, chamando função login com:', { email, name: data.name })
+        await login(email, data.name)
+        console.log('Função login executada com sucesso')
       } else {
+        console.log('Login falhou:', data.error)
         setError(data.error || 'Email ou senha inválidos')
       }
     } catch (error) {
-      console.error('Erro:', error)
+      console.error('Erro durante o login:', error)
       setError('Erro ao fazer login. Tente novamente.')
     } finally {
       setLoading(false)

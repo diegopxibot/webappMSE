@@ -2,7 +2,14 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 // Rotas que não precisam de autenticação
-const publicRoutes = ['/login', '/api/auth/login', '/api/auth/setCookie']
+const publicRoutes = [
+  '/login',
+  '/api/auth/login',
+  '/api/auth/logout',
+  '/api/auth/setCookie',
+  '/_next',
+  '/favicon.ico',
+]
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
@@ -20,10 +27,12 @@ export function middleware(request: NextRequest) {
 
   // Se não estiver autenticado, redireciona para o login
   if (!isAuthenticated) {
+    console.log('Middleware: Usuário não autenticado, redirecionando para login')
     const loginUrl = new URL('/login', request.url)
     return NextResponse.redirect(loginUrl)
   }
 
+  console.log('Middleware: Usuário autenticado, permitindo acesso')
   return NextResponse.next()
 }
 
@@ -35,7 +44,8 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
+     * - public files (public folder)
      */
-    '/((?!_next/static|_next/image|favicon.ico).*)',
+    '/((?!_next/static|_next/image|favicon.ico|public/).*)',
   ],
 } 
