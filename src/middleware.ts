@@ -11,12 +11,23 @@ const publicRoutes = [
   '/favicon.ico',
   '/verify-request',
   '/images',
-  '/public'
+  '/public',
+  '/static'
 ]
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   
+  // Ignora requisições de assets e API routes
+  if (
+    pathname.startsWith('/_next') || // Static files
+    pathname.startsWith('/api/') || // API routes
+    pathname.startsWith('/static/') || // Static files
+    pathname.includes('.') // Files with extensions
+  ) {
+    return NextResponse.next()
+  }
+
   console.log('Middleware: Verificando rota:', pathname)
 
   // Verifica se a rota atual é pública
@@ -41,7 +52,8 @@ export function middleware(request: NextRequest) {
   // Se não estiver autenticado, redireciona para o login
   if (!isAuthenticated) {
     console.log('Middleware: Usuário não autenticado, redirecionando para login')
-    const loginUrl = new URL('/login', request.url)
+    // Usa URL absoluta para evitar problemas em produção
+    const loginUrl = new URL('/login', process.env.NEXT_PUBLIC_BASE_URL || request.url)
     return NextResponse.redirect(loginUrl)
   }
 
@@ -59,7 +71,9 @@ export const config = {
      * - favicon.ico (favicon file)
      * - public files (public folder)
      * - images (image files)
+     * - static files
+     * - files with extensions
      */
-    '/((?!_next/static|_next/image|favicon.ico|public/|images/).*)',
+    '/((?!_next/static|_next/image|favicon.ico|public/|images/|static/|.*\\..*$).*)',
   ],
 } 

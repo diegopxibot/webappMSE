@@ -35,6 +35,16 @@ const nextConfig = {
       },
     ]
   },
+  output: 'standalone',
+  distDir: '.next',
+  generateEtags: true,
+  pageExtensions: ['tsx', 'ts', 'jsx', 'js'],
+  typescript: {
+    ignoreBuildErrors: false,
+  },
+  eslint: {
+    ignoreDuringBuilds: false,
+  },
 }
 
 module.exports = nextConfig 
