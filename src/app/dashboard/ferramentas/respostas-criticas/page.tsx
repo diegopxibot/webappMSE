@@ -3,7 +3,6 @@
 import { useState, useMemo } from 'react';
 import { toast } from 'react-hot-toast';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 
 interface Critica {
   id: number;
@@ -152,7 +151,7 @@ export default function RespostasCriticas() {
       : critica.resposta;
     
     navigator.clipboard.writeText(texto);
-    toast.success('Resposta copiada com sucesso!', {
+    toast.success('Texto copiado para a área de transferência!', {
       style: {
         background: '#00FFFF',
         color: '#0A0B2E',
@@ -230,13 +229,9 @@ export default function RespostasCriticas() {
         {/* Cards Grid */}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {criticasFiltradas.map((critica) => (
-            <motion.div
+            <div
               key={critica.id}
-              layout
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              className={`group cursor-pointer overflow-hidden rounded-xl bg-[#0A0B2E]/50 p-6 backdrop-blur-sm transition-all hover:bg-[#0A0B2E]/70 ${
+              className={`transform cursor-pointer overflow-hidden rounded-xl bg-[#0A0B2E]/50 p-6 backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] hover:bg-[#0A0B2E]/70 ${
                 selectedCritica?.id === critica.id ? 'ring-2 ring-[#00FFFF]' : ''
               }`}
               onClick={() => setSelectedCritica(critica)}
@@ -247,17 +242,13 @@ export default function RespostasCriticas() {
               </div>
 
               {/* Card Title */}
-              <h2 className="mb-4 text-xl font-semibold text-white group-hover:text-[#00FFFF]">
+              <h2 className="mb-4 text-xl font-semibold text-white transition-colors group-hover:text-[#00FFFF]">
                 {critica.titulo_da_critica}
               </h2>
 
               {/* Card Content */}
               {selectedCritica?.id === critica.id && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="space-y-4"
-                >
+                <div className="space-y-4 transition-all duration-300">
                   <p className="text-gray-300">{critica.resposta}</p>
                   {critica.versiculo_base && (
                     <p className="text-[#00FFFF] italic">{critica.versiculo_base}</p>
@@ -267,14 +258,14 @@ export default function RespostasCriticas() {
                       e.stopPropagation();
                       handleCopyResposta(critica);
                     }}
-                    className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#00FFFF] px-4 py-3 font-medium text-[#0A0B2E] shadow-lg shadow-[#00FFFF]/20 transition-all hover:bg-[#00FFFF]/90"
+                    className="flex w-full transform items-center justify-center gap-2 rounded-lg bg-[#00FFFF] px-4 py-3 font-medium text-[#0A0B2E] shadow-lg shadow-[#00FFFF]/20 transition-all hover:scale-[1.02] hover:bg-[#00FFFF]/90 active:scale-[0.98]"
                   >
                     <span>📋</span>
                     Copiar Resposta
                   </button>
-                </motion.div>
+                </div>
               )}
-            </motion.div>
+            </div>
           ))}
         </div>
 
