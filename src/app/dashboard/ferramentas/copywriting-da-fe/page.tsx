@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { copyTemplates, storyTemplates } from './templates'
 import toast from 'react-hot-toast'
+import Link from 'next/link'
 
 export default function CopywritingDaFe() {
   const [tipoFrase, setTipoFrase] = useState('')
@@ -64,9 +65,18 @@ export default function CopywritingDaFe() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8 text-center text-white">
-        Copywriting da Fe 🙏
-      </h1>
+      <div className="flex justify-between items-center mb-8">
+        <Link 
+          href="/dashboard/ferramentas"
+          className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200"
+        >
+          ← Voltar
+        </Link>
+        <h1 className="text-3xl font-bold text-white">
+          Copywriting da Fe 🙏
+        </h1>
+        <div className="w-[100px]"></div>
+      </div>
 
       <div className="max-w-2xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg">
         <div className="space-y-4">
