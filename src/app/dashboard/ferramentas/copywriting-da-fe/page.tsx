@@ -279,7 +279,7 @@ export default function CopywritingDaFe() {
             <div>
               <div className="mb-4 text-4xl">✨</div>
               <p className="text-gray-400">
-                Selecione as opções acima e clique em "Gerar Copywriting" para começar
+                Selecione as opções acima e clique em &quot;Gerar Copywriting&quot; para começar
               </p>
             </div>
           </div>
