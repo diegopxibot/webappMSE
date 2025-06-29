@@ -33,20 +33,21 @@ export default function GeradorIdeiasPage() {
   };
 
   return (
-    <div className="min-h-screen p-8">
+    <div className="min-h-screen bg-gradient-to-b from-[#0A0B2E] to-[#0A0B2E]/90 p-4 sm:p-8">
       <div className="mx-auto max-w-4xl">
+        {/* Header Section */}
         <div className="mb-8">
           <Link 
             href="/dashboard/ferramentas" 
-            className="btn mb-6 inline-flex items-center text-sm text-[#00FFFF] hover:underline"
+            className="group mb-6 inline-flex items-center rounded-lg bg-[#00FFFF]/10 px-4 py-2 text-sm text-[#00FFFF] transition-all hover:bg-[#00FFFF]/20"
           >
-            <svg className="mr-2 h-4 w-4 rotate-180" fill="currentColor" viewBox="0 0 20 20">
+            <svg className="mr-2 h-4 w-4 rotate-180 transition-transform group-hover:-translate-x-1" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
             </svg>
             Voltar para Ferramentas
           </Link>
 
-          <h1 className="mb-4 text-3xl font-bold text-white">
+          <h1 className="mb-4 text-2xl font-bold text-white sm:text-3xl">
             🎯 Gerador de Ideias para Stories
           </h1>
           <p className="text-gray-400">
@@ -54,17 +55,18 @@ export default function GeradorIdeiasPage() {
           </p>
         </div>
 
-        <div className="mb-8">
-          <label className="mb-2 block text-sm font-medium text-gray-300">
-            Escolha um tema
+        {/* Theme Selection Section */}
+        <div className="mb-8 rounded-xl bg-[#0A0B2E]/30 p-6 backdrop-blur-sm">
+          <label className="mb-4 block text-sm font-medium text-gray-300">
+            Escolha um tema para seus stories
           </label>
-          <div className="flex flex-wrap gap-2">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
             <button
               onClick={() => setTemaSelecionado('')}
-              className={`btn rounded-full px-4 py-2 text-sm ${
+              className={`flex items-center justify-center rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 ${
                 temaSelecionado === ''
-                  ? 'bg-[#00FFFF] text-[#0A0B2E]'
-                  : 'border border-[#00FFFF] text-[#00FFFF]'
+                  ? 'bg-[#00FFFF] text-[#0A0B2E] shadow-lg shadow-[#00FFFF]/20'
+                  : 'bg-[#00FFFF]/10 text-[#00FFFF] hover:bg-[#00FFFF]/20'
               }`}
             >
               🎲 Aleatório
@@ -73,10 +75,10 @@ export default function GeradorIdeiasPage() {
               <button
                 key={tema}
                 onClick={() => setTemaSelecionado(tema)}
-                className={`btn rounded-full px-4 py-2 text-sm ${
+                className={`flex items-center justify-center rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 ${
                   temaSelecionado === tema
-                    ? 'bg-[#00FFFF] text-[#0A0B2E]'
-                    : 'border border-[#00FFFF] text-[#00FFFF]'
+                    ? 'bg-[#00FFFF] text-[#0A0B2E] shadow-lg shadow-[#00FFFF]/20'
+                    : 'bg-[#00FFFF]/10 text-[#00FFFF] hover:bg-[#00FFFF]/20'
                 }`}
               >
                 {tema}
@@ -85,9 +87,10 @@ export default function GeradorIdeiasPage() {
           </div>
         </div>
 
+        {/* Content Display Section */}
         {ideiaAtual ? (
-          <div className="mb-8 rounded-xl bg-[#0A0B2E]/50 p-6 backdrop-blur-sm">
-            <h2 className="mb-4 text-2xl font-bold text-[#00FFFF]">
+          <div className="mb-8 overflow-hidden rounded-xl bg-[#0A0B2E]/50 p-6 shadow-xl backdrop-blur-sm">
+            <h2 className="mb-4 text-xl font-bold text-[#00FFFF] sm:text-2xl">
               {ideiaAtual.titulo}
             </h2>
             <p className="mb-4 text-gray-300">{ideiaAtual.reflexao}</p>
@@ -95,37 +98,44 @@ export default function GeradorIdeiasPage() {
             <p className="text-sm text-[#00FFFF]">{ideiaAtual.hashtags}</p>
           </div>
         ) : (
-          <div className="mb-8 rounded-xl border-2 border-dashed border-gray-700 p-8 text-center">
-            <p className="text-gray-400">
-              Clique em &quot;Gerar Nova Ideia&quot; para começar
-            </p>
+          <div className="mb-8 flex min-h-[200px] items-center justify-center rounded-xl bg-[#0A0B2E]/30 p-8 text-center backdrop-blur-sm">
+            <div>
+              <div className="mb-4 text-4xl">🎯</div>
+              <p className="text-gray-400">
+                Clique em &quot;Gerar Nova Ideia&quot; para começar
+              </p>
+            </div>
           </div>
         )}
 
-        <div className="flex flex-col gap-4 sm:flex-row">
+        {/* Action Buttons Section */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <button
             onClick={gerarNovaIdeia}
-            className="btn-primary flex-1 justify-center text-center"
+            className="flex items-center justify-center rounded-lg bg-[#00FFFF] px-6 py-3 font-medium text-[#0A0B2E] shadow-lg shadow-[#00FFFF]/20 transition-all hover:bg-[#00FFFF]/90"
           >
-            🎯 Gerar Nova Ideia
+            <span className="mr-2">🎯</span>
+            Gerar Nova Ideia
           </button>
           <button
             onClick={copiarTexto}
             disabled={!ideiaAtual}
-            className={`btn flex-1 justify-center rounded-lg border-2 text-center ${
+            className={`flex items-center justify-center rounded-lg px-6 py-3 font-medium transition-all ${
               !ideiaAtual
-                ? 'cursor-not-allowed border-gray-700 text-gray-700'
-                : 'border-[#00FFFF] text-[#00FFFF] hover:bg-[#00FFFF] hover:text-[#0A0B2E]'
+                ? 'cursor-not-allowed bg-gray-700/50 text-gray-500'
+                : 'bg-[#00FFFF]/10 text-[#00FFFF] hover:bg-[#00FFFF]/20'
             }`}
           >
-            📋 Copiar Texto
+            <span className="mr-2">📋</span>
+            Copiar Texto
           </button>
         </div>
 
-        {/* Toast de feedback */}
+        {/* Toast Notification */}
         {copiado && (
-          <div className="fixed bottom-4 right-4 rounded-lg bg-[#00FFFF] px-4 py-2 text-[#0A0B2E]">
-            ✅ Texto Copiado!
+          <div className="fixed bottom-4 right-4 flex items-center rounded-lg bg-[#00FFFF] px-4 py-3 text-[#0A0B2E] shadow-lg">
+            <span className="mr-2">✅</span>
+            Texto Copiado!
           </div>
         )}
       </div>
