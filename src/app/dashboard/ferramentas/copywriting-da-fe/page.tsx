@@ -65,26 +65,26 @@ export default function CopywritingDaFe() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-8">
+      <div className="mb-8">
         <Link 
           href="/dashboard/ferramentas"
-          className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200"
+          className="inline-flex items-center bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200 mb-4 sm:mb-0"
         >
-          ← Voltar
+          <span className="mr-2">←</span>
+          <span>Voltar</span>
         </Link>
-        <h1 className="text-3xl font-bold text-white">
+        <h1 className="text-2xl sm:text-3xl font-bold text-white text-center mt-4">
           Copywriting da Fe 🙏
         </h1>
-        <div className="w-[100px]"></div>
       </div>
 
-      <div className="max-w-2xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg">
+      <div className="max-w-2xl mx-auto bg-gray-800 p-4 sm:p-6 rounded-lg shadow-lg">
         <div className="space-y-4">
           {/* Tipo de Frase */}
           <div>
             <label className="block text-white mb-2">Tipo de Frase</label>
             <select
-              className="input"
+              className="input w-full"
               value={tipoFrase}
               onChange={(e) => setTipoFrase(e.target.value)}
             >
@@ -99,7 +99,7 @@ export default function CopywritingDaFe() {
           <div>
             <label className="block text-white mb-2">Aplicacao</label>
             <select
-              className="input"
+              className="input w-full"
               value={aplicacao}
               onChange={(e) => setAplicacao(e.target.value)}
             >
@@ -116,7 +116,7 @@ export default function CopywritingDaFe() {
             <div>
               <label className="block text-white mb-2">Engenharia Social</label>
               <select
-                className="input"
+                className="input w-full"
                 value={engenhariaSocial}
                 onChange={(e) => setEngenhariaSocial(e.target.value)}
               >
@@ -146,11 +146,11 @@ export default function CopywritingDaFe() {
             {aplicacao === 'Stories' ? (
               // Resultado para Stories
               <div className="bg-gray-700 p-4 rounded-lg space-y-4">
-                <div className="flex justify-between items-center">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                   <h3 className="text-xl font-semibold text-white">Sequencia de Stories</h3>
                   <button
                     onClick={() => copiarTexto(`${resultado.story_1}\n\n${resultado.story_2}\n\n${resultado.story_3}\n\n${resultado.versiculo}\n\n${resultado.cta_final}`)}
-                    className="text-blue-400 hover:text-blue-300"
+                    className="text-blue-400 hover:text-blue-300 whitespace-nowrap"
                   >
                     Copiar Tudo
                   </button>
@@ -166,11 +166,11 @@ export default function CopywritingDaFe() {
             ) : (
               // Resultado para outras aplicacoes
               <div className="bg-gray-700 p-4 rounded-lg">
-                <div className="flex justify-between items-center mb-4">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
                   <h3 className="text-xl font-semibold text-white">Sua Frase</h3>
                   <button
                     onClick={() => copiarTexto(resultado.frase)}
-                    className="text-blue-400 hover:text-blue-300"
+                    className="text-blue-400 hover:text-blue-300 whitespace-nowrap"
                   >
                     Copiar
                   </button>
