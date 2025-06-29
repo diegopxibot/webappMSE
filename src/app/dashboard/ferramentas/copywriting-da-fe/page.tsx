@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { copyTemplates, storyTemplates } from './templates'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 
 export default function CopywritingDaFe() {
   const [tipoFrase, setTipoFrase] = useState('')
@@ -182,11 +181,7 @@ export default function CopywritingDaFe() {
 
             {/* Engenharia Social (apenas para Stories) */}
             {aplicacao === 'Stories' && (
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="space-y-2 sm:col-span-2"
-              >
+              <div className="space-y-2 sm:col-span-2 transition-all duration-300 ease-in-out">
                 <label className="block text-sm font-medium text-gray-300">
                   Engenharia Social
                 </label>
@@ -204,29 +199,23 @@ export default function CopywritingDaFe() {
                   <option value="Impacto Imediato">Impacto Imediato</option>
                   <option value="Alvo Profetico">Alvo Profético</option>
                 </select>
-              </motion.div>
+              </div>
             )}
           </div>
 
           {/* Generate Button */}
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+          <button
             onClick={gerarCopywriting}
-            className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-[#00FFFF] px-6 py-3 font-medium text-[#0A0B2E] shadow-lg shadow-[#00FFFF]/20 transition-all hover:bg-[#00FFFF]/90"
+            className="mt-6 flex w-full transform items-center justify-center gap-2 rounded-lg bg-[#00FFFF] px-6 py-3 font-medium text-[#0A0B2E] shadow-lg shadow-[#00FFFF]/20 transition-all hover:scale-[1.02] hover:bg-[#00FFFF]/90 active:scale-[0.98]"
           >
             <span>✨</span>
             Gerar Copywriting
-          </motion.button>
+          </button>
         </div>
 
         {/* Result Section */}
         {resultado ? (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="overflow-hidden rounded-xl bg-[#0A0B2E]/50 p-6 shadow-xl backdrop-blur-sm"
-          >
+          <div className="overflow-hidden rounded-xl bg-[#0A0B2E]/50 p-6 shadow-xl backdrop-blur-sm transition-all duration-300">
             {aplicacao === 'Stories' ? (
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
@@ -284,20 +273,16 @@ export default function CopywritingDaFe() {
                 </div>
               </div>
             )}
-          </motion.div>
+          </div>
         ) : (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex min-h-[200px] items-center justify-center rounded-xl bg-[#0A0B2E]/30 p-8 text-center backdrop-blur-sm"
-          >
+          <div className="flex min-h-[200px] items-center justify-center rounded-xl bg-[#0A0B2E]/30 p-8 text-center backdrop-blur-sm transition-all duration-300">
             <div>
               <div className="mb-4 text-4xl">✨</div>
               <p className="text-gray-400">
                 Selecione as opções acima e clique em "Gerar Copywriting" para começar
               </p>
             </div>
-          </motion.div>
+          </div>
         )}
       </div>
     </div>
