@@ -248,76 +248,81 @@ export default function PowerfulQuestions() {
   };
 
   const handleCopyQuestion = () => {
-    navigator.clipboard.writeText(currentQuestion);
-    toast.success('Pergunta copiada com sucesso!');
+    if (currentQuestion) {
+      navigator.clipboard.writeText(currentQuestion);
+      toast.success('Pergunta copiada!');
+    }
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-white">Perguntas Poderosas</h1>
-        <Link 
-          href="/dashboard/ferramentas" 
-          className="bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-lg transition-colors"
-        >
-          Voltar para Ferramentas
-        </Link>
+    <div className="min-h-screen p-6 bg-gradient-to-br from-blue-50 to-indigo-50">
+      {/* Header */}
+      <div className="max-w-4xl mx-auto mb-8">
+        <h1 className="text-3xl font-bold text-gray-800 mb-2">Perguntas Poderosas</h1>
+        <p className="text-gray-600">
+          Escolha uma categoria ou gere perguntas aleatórias para engajar sua audiência em conversas significativas.
+        </p>
       </div>
 
-      {!selectedCategory ? (
-        <div className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {categories.map((category) => (
+      {/* Categories Grid */}
+      <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+        {categories.map((category) => (
+          <button
+            key={category.id}
+            onClick={() => handleCategorySelect(category)}
+            className={`p-4 rounded-xl transition-all duration-200 ${
+              selectedCategory?.id === category.id
+                ? 'bg-indigo-600 text-white shadow-lg scale-105'
+                : 'bg-white hover:bg-indigo-50 text-gray-800 shadow-md hover:scale-105'
+            }`}
+          >
+            <h3 className="text-lg font-semibold mb-2">{category.name}</h3>
+            <p className="text-sm opacity-80">
+              {category.questions.length} perguntas disponíveis
+            </p>
+          </button>
+        ))}
+      </div>
+
+      {/* Random Category Button */}
+      <div className="max-w-4xl mx-auto mb-8">
+        <button
+          onClick={handleRandomCategory}
+          className="w-full p-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
+        >
+          Gerar Categoria Aleatória
+        </button>
+      </div>
+
+      {/* Question Display */}
+      {currentQuestion && (
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-white rounded-xl p-6 shadow-lg">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-sm font-medium text-indigo-600">
+                {selectedCategory?.name}
+              </span>
               <button
-                key={category.id}
-                onClick={() => handleCategorySelect(category)}
-                className="p-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors text-white text-lg font-semibold"
+                onClick={handleNewQuestion}
+                className="text-sm text-gray-600 hover:text-indigo-600 transition-colors"
               >
-                {category.name}
+                Gerar Nova Pergunta
               </button>
-            ))}
-          </div>
-          <div className="flex justify-center">
-            <button
-              onClick={handleRandomCategory}
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-semibold transition-colors"
-            >
-              🎲 Aleatório
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className="space-y-6">
-          <div className="flex justify-between items-center">
-            <button
-              onClick={() => setSelectedCategory(null)}
-              className="text-blue-400 hover:text-blue-300 transition-colors"
-            >
-              ← Voltar para categorias
-            </button>
-            <h2 className="text-xl font-semibold text-white">
-              {selectedCategory.name}
-            </h2>
-            <div className="w-20"></div>
-          </div>
-
-          <div className="bg-gray-800 p-6 rounded-lg">
-            <p className="text-white text-lg text-center">{currentQuestion}</p>
-          </div>
-
-          <div className="flex justify-center space-x-4">
-            <button
-              onClick={handleNewQuestion}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-semibold transition-colors"
-            >
-              🔁 Nova Pergunta
-            </button>
-            <button
-              onClick={handleCopyQuestion}
-              className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg text-white font-semibold transition-colors"
-            >
-              📋 Copiar Pergunta
-            </button>
+            </div>
+            
+            <p className="text-xl text-gray-800 mb-6">{currentQuestion}</p>
+            
+            <div className="flex justify-end">
+              <button
+                onClick={handleCopyQuestion}
+                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors flex items-center gap-2"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                Copiar Pergunta
+              </button>
+            </div>
           </div>
         </div>
       )}

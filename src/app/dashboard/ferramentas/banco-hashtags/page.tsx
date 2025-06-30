@@ -29,59 +29,78 @@ export default function HashtagBank() {
   const handleCopyHashtags = (hashtags: string[]) => {
     const hashtagText = hashtags.join(' ');
     navigator.clipboard.writeText(hashtagText);
-    toast.success('Hashtags copiadas com sucesso!');
+    toast.success('Hashtags copiadas!');
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold text-white">
-          Escolha um tema para descobrir hashtags evangelísticas estratégicas:
-        </h1>
-        <Link
-          href="/dashboard/ferramentas"
-          className="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
-        >
-          Voltar para Ferramentas
-        </Link>
+    <div className="min-h-screen p-6 bg-gradient-to-br from-purple-50 to-pink-50">
+      {/* Header */}
+      <div className="max-w-4xl mx-auto mb-8">
+        <h1 className="text-3xl font-bold text-gray-800 mb-2">Banco de Hashtags</h1>
+        <p className="text-gray-600">
+          Escolha um tema para descobrir hashtags evangelísticas estratégicas para suas redes sociais.
+        </p>
       </div>
 
       {!selectedCategory ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {categories.map((category) => (
-            <button
-              key={category.id}
-              onClick={() => setSelectedCategory(category)}
-              className="p-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors text-white text-lg font-semibold"
-            >
-              {category.name}
-            </button>
-          ))}
-        </div>
-      ) : (
-        <div className="bg-gray-800 rounded-lg p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold text-white">{selectedCategory.name}</h2>
-            <button
-              onClick={() => setSelectedCategory(null)}
-              className="text-gray-400 hover:text-white transition-colors"
-            >
-              Voltar
-            </button>
-          </div>
-          <div className="space-y-2 mb-6">
-            {selectedCategory.hashtags.map((hashtag, index) => (
-              <div key={index} className="text-gray-300">
-                {hashtag}
-              </div>
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {categories.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => setSelectedCategory(category)}
+                className="p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
+              >
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">{category.name}</h3>
+                <p className="text-sm text-gray-600">
+                  {category.hashtags.length} hashtags disponíveis
+                </p>
+              </button>
             ))}
           </div>
-          <button
-            onClick={() => handleCopyHashtags(selectedCategory.hashtags)}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
-          >
-            📋 Copiar Hashtags
-          </button>
+        </div>
+      ) : (
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-white rounded-xl shadow-lg p-6">
+            <div className="flex justify-between items-center mb-6">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-800">{selectedCategory.name}</h2>
+                <p className="text-sm text-gray-600 mt-1">
+                  {selectedCategory.hashtags.length} hashtags para copiar
+                </p>
+              </div>
+              <button
+                onClick={() => setSelectedCategory(null)}
+                className="text-gray-500 hover:text-gray-700 transition-colors flex items-center gap-2"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Voltar
+              </button>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+              {selectedCategory.hashtags.map((hashtag, index) => (
+                <div
+                  key={index}
+                  className="p-3 bg-gray-50 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+                >
+                  {hashtag}
+                </div>
+              ))}
+            </div>
+            
+            <button
+              onClick={() => handleCopyHashtags(selectedCategory.hashtags)}
+              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold py-3 px-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105 flex items-center justify-center gap-2"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+              Copiar Todas as Hashtags
+            </button>
+          </div>
         </div>
       )}
     </div>
