@@ -224,10 +224,39 @@ const categories: Category[] = [
 export default function PowerfulQuestions() {
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [currentQuestion, setCurrentQuestion] = useState<string>('');
+  const [questionsUsed, setQuestionsUsed] = useState<string[]>([]);
+  const [streak, setStreak] = useState(0);
 
   const getRandomQuestion = (category: Category) => {
-    const randomIndex = Math.floor(Math.random() * category.questions.length);
-    return category.questions[randomIndex];
+    const unusedQuestions = category.questions.filter(q => !questionsUsed.includes(q));
+    if (unusedQuestions.length === 0) {
+      setQuestionsUsed([]);
+      toast.success('Você completou todas as perguntas desta categoria! Começando novamente...', {
+        style: {
+          background: '#00FFFF',
+          color: '#0A0B2E',
+          fontWeight: 'bold',
+        },
+        icon: '✨'
+      });
+      const randomIndex = Math.floor(Math.random() * category.questions.length);
+      return category.questions[randomIndex];
+    }
+    const randomIndex = Math.floor(Math.random() * unusedQuestions.length);
+    const question = unusedQuestions[randomIndex];
+    setQuestionsUsed([...questionsUsed, question]);
+    setStreak(prev => prev + 1);
+    if (streak > 0 && streak % 5 === 0) {
+      toast.success(`🔥 Sequência incrível! ${streak} perguntas geradas!`, {
+        style: {
+          background: '#00FFFF',
+          color: '#0A0B2E',
+          fontWeight: 'bold',
+        },
+        icon: '🎯'
+      });
+    }
+    return question;
   };
 
   const handleCategorySelect = (category: Category) => {
@@ -250,45 +279,60 @@ export default function PowerfulQuestions() {
   const handleCopyQuestion = () => {
     if (currentQuestion) {
       navigator.clipboard.writeText(currentQuestion);
-      toast.success('Pergunta copiada!');
+      toast.success('Pergunta copiada!', {
+        style: {
+          background: '#00FFFF',
+          color: '#0A0B2E',
+          fontWeight: 'bold',
+        },
+        icon: '📋'
+      });
     }
   };
 
   return (
-    <div className="min-h-screen p-6 bg-gradient-to-br from-blue-50 to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-b from-[#0A0B2E] to-[#0A0B2E]/90 px-4 py-8">
       {/* Header */}
-      <div className="max-w-4xl mx-auto mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">Perguntas Poderosas</h1>
-        <p className="text-gray-600">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-white mb-2">Perguntas Poderosas</h1>
+        <p className="text-gray-400">
           Escolha uma categoria ou gere perguntas aleatórias para engajar sua audiência em conversas significativas.
+          {streak > 0 && ` 🔥 Sequência atual: ${streak} perguntas`}
         </p>
       </div>
 
       {/* Categories Grid */}
-      <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
         {categories.map((category) => (
           <button
             key={category.id}
             onClick={() => handleCategorySelect(category)}
             className={`p-4 rounded-xl transition-all duration-200 ${
               selectedCategory?.id === category.id
-                ? 'bg-indigo-600 text-white shadow-lg scale-105'
-                : 'bg-white hover:bg-indigo-50 text-gray-800 shadow-md hover:scale-105'
+                ? 'bg-[#00FFFF]/20 text-[#00FFFF] shadow-lg shadow-[#00FFFF]/10 scale-105'
+                : 'bg-[#0A0B2E]/30 hover:bg-[#0A0B2E]/50 text-gray-200 shadow-md hover:scale-105'
             }`}
           >
             <h3 className="text-lg font-semibold mb-2">{category.name}</h3>
-            <p className="text-sm opacity-80">
-              {category.questions.length} perguntas disponíveis
-            </p>
+            <div className="flex items-center justify-between">
+              <p className="text-sm opacity-80">
+                {category.questions.length} perguntas
+              </p>
+              {questionsUsed.length > 0 && selectedCategory?.id === category.id && (
+                <p className="text-sm text-[#00FFFF]">
+                  {category.questions.length - questionsUsed.length} restantes
+                </p>
+              )}
+            </div>
           </button>
         ))}
       </div>
 
       {/* Random Category Button */}
-      <div className="max-w-4xl mx-auto mb-8">
+      <div className="mb-8">
         <button
           onClick={handleRandomCategory}
-          className="w-full p-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
+          className="w-full p-4 bg-[#00FFFF]/10 hover:bg-[#00FFFF]/20 text-[#00FFFF] rounded-xl shadow-md shadow-[#00FFFF]/5 hover:shadow-lg transition-all duration-200 hover:scale-105"
         >
           Gerar Categoria Aleatória
         </button>
@@ -296,26 +340,26 @@ export default function PowerfulQuestions() {
 
       {/* Question Display */}
       {currentQuestion && (
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-xl p-6 shadow-lg">
+        <div>
+          <div className="bg-[#0A0B2E]/30 backdrop-blur-sm rounded-xl p-6 shadow-lg">
             <div className="flex items-center justify-between mb-4">
-              <span className="text-sm font-medium text-indigo-600">
+              <span className="text-sm font-medium text-[#00FFFF]">
                 {selectedCategory?.name}
               </span>
               <button
                 onClick={handleNewQuestion}
-                className="text-sm text-gray-600 hover:text-indigo-600 transition-colors"
+                className="text-sm text-gray-400 hover:text-[#00FFFF] transition-colors"
               >
                 Gerar Nova Pergunta
               </button>
             </div>
             
-            <p className="text-xl text-gray-800 mb-6">{currentQuestion}</p>
+            <p className="text-xl text-white mb-6">{currentQuestion}</p>
             
             <div className="flex justify-end">
               <button
                 onClick={handleCopyQuestion}
-                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors flex items-center gap-2"
+                className="px-4 py-2 bg-[#00FFFF]/10 text-[#00FFFF] rounded-lg hover:bg-[#00FFFF]/20 transition-colors flex items-center gap-2"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
