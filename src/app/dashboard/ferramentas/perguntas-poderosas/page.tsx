@@ -226,6 +226,7 @@ export default function PowerfulQuestions() {
   const [currentQuestion, setCurrentQuestion] = useState<string>('');
   const [questionsUsed, setQuestionsUsed] = useState<string[]>([]);
   const [streak, setStreak] = useState(0);
+  const [copiado, setCopiado] = useState(false);
 
   const getRandomQuestion = (category: Category) => {
     const unusedQuestions = category.questions.filter(q => !questionsUsed.includes(q));
@@ -279,97 +280,135 @@ export default function PowerfulQuestions() {
   const handleCopyQuestion = () => {
     if (currentQuestion) {
       navigator.clipboard.writeText(currentQuestion);
-      toast.success('Pergunta copiada!', {
-        style: {
-          background: '#00FFFF',
-          color: '#0A0B2E',
-          fontWeight: 'bold',
-        },
-        icon: '📋'
-      });
+      setCopiado(true);
+      setTimeout(() => setCopiado(false), 2000);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0A0B2E] to-[#0A0B2E]/90 px-4 py-8">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white mb-2">Perguntas Poderosas</h1>
-        <p className="text-gray-400">
-          Escolha uma categoria ou gere perguntas aleatórias para engajar sua audiência em conversas significativas.
-          {streak > 0 && ` 🔥 Sequência atual: ${streak} perguntas`}
-        </p>
-      </div>
-
-      {/* Categories Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-        {categories.map((category) => (
-          <button
-            key={category.id}
-            onClick={() => handleCategorySelect(category)}
-            className={`p-4 rounded-xl transition-all duration-200 ${
-              selectedCategory?.id === category.id
-                ? 'bg-[#00FFFF]/20 text-[#00FFFF] shadow-lg shadow-[#00FFFF]/10 scale-105'
-                : 'bg-[#0A0B2E]/30 hover:bg-[#0A0B2E]/50 text-gray-200 shadow-md hover:scale-105'
-            }`}
+    <div className="min-h-screen bg-gradient-to-b from-[#0A0B2E] to-[#0A0B2E]/90 p-4 sm:p-8">
+      <div className="mx-auto max-w-4xl">
+        {/* Header Section */}
+        <div className="mb-8">
+          <Link 
+            href="/dashboard/ferramentas" 
+            className="group mb-6 inline-flex items-center rounded-lg bg-[#00FFFF]/10 px-4 py-2 text-sm text-[#00FFFF] transition-all hover:bg-[#00FFFF]/20"
           >
-            <h3 className="text-lg font-semibold mb-2">{category.name}</h3>
-            <div className="flex items-center justify-between">
-              <p className="text-sm opacity-80">
-                {category.questions.length} perguntas
-              </p>
-              {questionsUsed.length > 0 && selectedCategory?.id === category.id && (
-                <p className="text-sm text-[#00FFFF]">
-                  {category.questions.length - questionsUsed.length} restantes
-                </p>
-              )}
-            </div>
-          </button>
-        ))}
-      </div>
+            <svg className="mr-2 h-4 w-4 rotate-180 transition-transform group-hover:-translate-x-1" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+            </svg>
+            Voltar para Ferramentas
+          </Link>
 
-      {/* Random Category Button */}
-      <div className="mb-8">
-        <button
-          onClick={handleRandomCategory}
-          className="w-full p-4 bg-[#00FFFF]/10 hover:bg-[#00FFFF]/20 text-[#00FFFF] rounded-xl shadow-md shadow-[#00FFFF]/5 hover:shadow-lg transition-all duration-200 hover:scale-105"
-        >
-          Gerar Categoria Aleatória
-        </button>
-      </div>
+          <h1 className="mb-4 text-2xl font-bold text-white sm:text-3xl">
+            💭 Perguntas Poderosas
+          </h1>
+          <p className="text-gray-400">
+            Escolha uma categoria ou use o modo aleatório para gerar perguntas que engajam sua audiência em conversas significativas.
+            {streak > 0 && ` 🔥 Sequência atual: ${streak} perguntas`}
+          </p>
+        </div>
 
-      {/* Question Display */}
-      {currentQuestion && (
-        <div>
-          <div className="bg-[#0A0B2E]/30 backdrop-blur-sm rounded-xl p-6 shadow-lg">
+        {/* Categories Grid */}
+        <div className="mb-8 rounded-xl bg-[#0A0B2E]/30 p-6 backdrop-blur-sm">
+          <label className="mb-4 block text-sm font-medium text-gray-300">
+            Escolha uma categoria para suas perguntas
+          </label>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            <button
+              onClick={handleRandomCategory}
+              className="flex items-center justify-center rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 bg-[#00FFFF]/10 text-[#00FFFF] hover:bg-[#00FFFF]/20"
+            >
+              🎲 Aleatório
+            </button>
+            {categories.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => handleCategorySelect(category)}
+                className={`flex flex-col items-center justify-center rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 ${
+                  selectedCategory?.id === category.id
+                    ? 'bg-[#00FFFF] text-[#0A0B2E] shadow-lg shadow-[#00FFFF]/20'
+                    : 'bg-[#00FFFF]/10 text-[#00FFFF] hover:bg-[#00FFFF]/20'
+                }`}
+              >
+                <span>{category.name}</span>
+                {questionsUsed.length > 0 && selectedCategory?.id === category.id && (
+                  <span className="mt-1 text-xs opacity-80">
+                    {category.questions.length - questionsUsed.length} restantes
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Question Display */}
+        {currentQuestion ? (
+          <div className="mb-8 overflow-hidden rounded-xl bg-[#0A0B2E]/50 p-6 shadow-xl backdrop-blur-sm">
             <div className="flex items-center justify-between mb-4">
               <span className="text-sm font-medium text-[#00FFFF]">
                 {selectedCategory?.name}
               </span>
               <button
                 onClick={handleNewQuestion}
-                className="text-sm text-gray-400 hover:text-[#00FFFF] transition-colors"
+                className="text-sm text-[#00FFFF]/80 hover:text-[#00FFFF] transition-colors flex items-center gap-2"
               >
-                Gerar Nova Pergunta
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                Nova Pergunta
               </button>
             </div>
             
             <p className="text-xl text-white mb-6">{currentQuestion}</p>
-            
-            <div className="flex justify-end">
-              <button
-                onClick={handleCopyQuestion}
-                className="px-4 py-2 bg-[#00FFFF]/10 text-[#00FFFF] rounded-lg hover:bg-[#00FFFF]/20 transition-colors flex items-center gap-2"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
-                Copiar Pergunta
-              </button>
+          </div>
+        ) : (
+          <div className="mb-8 flex min-h-[200px] items-center justify-center rounded-xl bg-[#0A0B2E]/30 p-8 text-center backdrop-blur-sm">
+            <div>
+              <div className="mb-4 text-4xl">💭</div>
+              <p className="text-gray-400">
+                Escolha uma categoria para gerar uma pergunta poderosa
+              </p>
             </div>
           </div>
+        )}
+
+        {/* Action Buttons */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <button
+            onClick={handleNewQuestion}
+            disabled={!selectedCategory}
+            className={`flex items-center justify-center rounded-lg px-6 py-3 font-medium transition-all ${
+              !selectedCategory
+                ? 'cursor-not-allowed bg-gray-700/50 text-gray-500'
+                : 'bg-[#00FFFF] text-[#0A0B2E] shadow-lg shadow-[#00FFFF]/20 hover:bg-[#00FFFF]/90'
+            }`}
+          >
+            <span className="mr-2">💭</span>
+            Gerar Nova Pergunta
+          </button>
+          <button
+            onClick={handleCopyQuestion}
+            disabled={!currentQuestion}
+            className={`flex items-center justify-center rounded-lg px-6 py-3 font-medium transition-all ${
+              !currentQuestion
+                ? 'cursor-not-allowed bg-gray-700/50 text-gray-500'
+                : 'bg-[#00FFFF]/10 text-[#00FFFF] hover:bg-[#00FFFF]/20'
+            }`}
+          >
+            <span className="mr-2">📋</span>
+            Copiar Pergunta
+          </button>
         </div>
-      )}
+
+        {/* Toast Notification */}
+        {copiado && (
+          <div className="fixed bottom-4 right-4 flex items-center rounded-lg bg-[#00FFFF] px-4 py-3 text-[#0A0B2E] shadow-lg">
+            <span className="mr-2">✅</span>
+            Pergunta Copiada!
+          </div>
+        )}
+      </div>
     </div>
   );
 } 
