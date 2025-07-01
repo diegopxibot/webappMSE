@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed": "ts-node scripts/seed-templates.ts"
+    "seed": "ts-node --project tsconfig.json --esm scripts/seed-templates.ts"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.10.0",
@@ -42,6 +42,7 @@
     "eslint-config-next": "14.1.0",
     "postcss": "^8.4.33",
     "terser-webpack-plugin": "^5.3.14",
+    "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }
 }
