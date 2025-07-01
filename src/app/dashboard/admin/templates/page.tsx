@@ -8,11 +8,18 @@ interface Template {
   title: string
   categorySlug: string
   imageUrl: string
-  canvaUrl: string
+  previewUrl: string
   downloadUrl: string
   suggestedCaption: string
-  previewUrl: string
   style: string
+  color: string
+  variations?: {
+    id: string
+    style: string
+    imageUrl: string
+    previewUrl: string
+  }[]
+  downloadCount?: number
   tags: string[]
   active: boolean
 }
@@ -32,11 +39,11 @@ export default function AdminTemplates() {
     title: '',
     categorySlug: '',
     imageUrl: '',
-    canvaUrl: '',
     downloadUrl: '',
     suggestedCaption: '',
     previewUrl: '',
     style: '',
+    color: '',
     tags: '',
     active: true
   })
@@ -85,11 +92,11 @@ export default function AdminTemplates() {
           title: '',
           categorySlug: '',
           imageUrl: '',
-          canvaUrl: '',
           downloadUrl: '',
           suggestedCaption: '',
           previewUrl: '',
           style: '',
+          color: '',
           tags: '',
           active: true
         })
@@ -201,17 +208,6 @@ export default function AdminTemplates() {
             </div>
 
             <div>
-              <label className="mb-2 block text-sm text-gray-400">URL do Canva</label>
-              <input
-                type="url"
-                value={formData.canvaUrl}
-                onChange={(e) => setFormData({ ...formData, canvaUrl: e.target.value })}
-                className="w-full rounded-lg bg-white/10 px-4 py-2 text-white outline-none"
-                required
-              />
-            </div>
-
-            <div>
               <label className="mb-2 block text-sm text-gray-400">URL de Download</label>
               <input
                 type="url"
@@ -248,6 +244,17 @@ export default function AdminTemplates() {
                   </option>
                 ))}
               </select>
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm text-gray-400">Cor</label>
+              <input
+                type="text"
+                value={formData.color}
+                onChange={(e) => setFormData({ ...formData, color: e.target.value })}
+                className="w-full rounded-lg bg-white/10 px-4 py-2 text-white outline-none"
+                required
+              />
             </div>
 
             <div>

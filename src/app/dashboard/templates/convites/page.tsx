@@ -5,49 +5,56 @@ import Link from 'next/link'
 import TemplateCard from '@/components/templates/TemplateCard'
 
 interface Template {
-  id: number
+  id: string
   title: string
   imageUrl: string
-  canvaUrl: string
-  downloadUrl: string
-  suggestedCaption: string
   previewUrl: string
+  downloadUrl: string
   style: string
+  color: string
+  suggestedCaption: string
+  variations?: {
+    id: string
+    style: string
+    imageUrl: string
+    previewUrl: string
+  }[]
+  downloadCount?: number
   tags: string[]
 }
 
 const templates: Template[] = [
   {
-    id: 1,
+    id: '1',
     title: "Convite para Culto",
     imageUrl: "/templates/convites/culto.jpg",
-    canvaUrl: "https://www.canva.com/...",
-    downloadUrl: "/templates/convites/culto.png",
-    suggestedCaption: "✨ Venha celebrar conosco!\n\nNeste domingo, às 19h, teremos um encontro especial com Deus. Sua presença fará toda a diferença!\n\n#IgrejaNaRede #ConviteEspecial #CultoDeAdoração",
     previewUrl: "/templates/convites/culto-preview.jpg",
+    downloadUrl: "/templates/convites/culto.png",
     style: "Moderno",
+    color: "#2196F3",
+    suggestedCaption: "✨ Venha celebrar conosco!\n\nNeste domingo, às 19h, teremos um encontro especial com Deus. Sua presença fará toda a diferença!\n\n#IgrejaNaRede #ConviteEspecial #CultoDeAdoração",
     tags: ["Culto", "Domingo", "Celebração"]
   },
   {
-    id: 2,
+    id: '2',
     title: "Convite Grupo de Oração",
     imageUrl: "/templates/convites/oracao.jpg",
-    canvaUrl: "https://www.canva.com/...",
-    downloadUrl: "/templates/convites/oracao.png",
-    suggestedCaption: "🙏 Momento de buscar a Deus juntos!\n\nQuarta-feira, 20h - Grupo de Oração Online\nTema: 'O Poder da Oração Intercessora'\n\n#GrupoDeOração #Intercessão #ComunhãoOnline",
     previewUrl: "/templates/convites/oracao-preview.jpg",
+    downloadUrl: "/templates/convites/oracao.png",
     style: "Minimalista",
+    color: "#9E9E9E",
+    suggestedCaption: "🙏 Momento de buscar a Deus juntos!\n\nQuarta-feira, 20h - Grupo de Oração Online\nTema: 'O Poder da Oração Intercessora'\n\n#GrupoDeOração #Intercessão #ComunhãoOnline",
     tags: ["Oração", "Grupo", "Online"]
   },
   {
-    id: 3,
+    id: '3',
     title: "Convite Estudo Bíblico",
     imageUrl: "/templates/convites/estudo.jpg",
-    canvaUrl: "https://www.canva.com/...",
-    downloadUrl: "/templates/convites/estudo.png",
-    suggestedCaption: "📖 Aprofunde-se na Palavra!\n\nEstudo Bíblico toda quinta, 19h30\nTema: 'Fundamentos da Fé'\n\n#EstudoBíblico #ConhecendoAPalavra #CrescimentoEspiritual",
     previewUrl: "/templates/convites/estudo-preview.jpg",
+    downloadUrl: "/templates/convites/estudo.png",
     style: "Clássico",
+    color: "#795548",
+    suggestedCaption: "📖 Aprofunde-se na Palavra!\n\nEstudo Bíblico toda quinta, 19h30\nTema: 'Fundamentos da Fé'\n\n#EstudoBíblico #ConhecendoAPalavra #CrescimentoEspiritual",
     tags: ["Estudo", "Bíblia", "Aprendizado"]
   }
 ]
@@ -150,13 +157,12 @@ export default function TemplatesConvites() {
             {filteredTemplates.map((template) => (
               <TemplateCard
                 key={template.id}
-                id={template.id}
-                title={template.title}
-                imageUrl={template.imageUrl}
-                canvaUrl={template.canvaUrl}
-                downloadUrl={template.downloadUrl}
-                suggestedCaption={template.suggestedCaption}
-                previewUrl={template.previewUrl}
+                template={template}
+                onFavorite={async (templateId) => {
+                  // Implementar lógica de favoritos
+                  console.log('Favoritar:', templateId)
+                }}
+                isFavorited={false}
               />
             ))}
           </div>

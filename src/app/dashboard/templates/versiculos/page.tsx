@@ -5,49 +5,59 @@ import Link from 'next/link'
 import TemplateCard from '@/components/templates/TemplateCard'
 
 interface Template {
-  id: number
+  id: string
   title: string
   imageUrl: string
-  canvaUrl: string
-  downloadUrl: string
-  suggestedCaption: string
   previewUrl: string
+  downloadUrl: string
   style: string
+  color: string
+  suggestedCaption: string
+  variations?: {
+    id: string
+    style: string
+    imageUrl: string
+    previewUrl: string
+  }[]
+  downloadCount?: number
   tags: string[]
 }
 
 const templates: Template[] = [
   {
-    id: 1,
+    id: "1",
     title: "Minimalista Luz",
     imageUrl: "/templates/versiculos/minimalista-luz.jpg",
-    canvaUrl: "https://www.canva.com/...",
+    previewUrl: "/templates/versiculos/minimalista-luz-preview.jpg",
     downloadUrl: "/templates/versiculos/minimalista-luz.png",
     suggestedCaption: "✨ A Palavra de Deus é luz para os meus caminhos!\n\nSalmos 119:105 - 'Lâmpada para os meus pés é a tua palavra e, luz para os meus caminhos'\n\n#DeusÉFiel #PalavraDeDeus #Fé #IgrejaNaRede",
-    previewUrl: "/templates/versiculos/minimalista-luz-preview.jpg",
     style: "Minimalista",
+    color: "light",
+    downloadCount: 0,
     tags: ["Claro", "Moderno", "Simples"]
   },
   {
-    id: 2,
+    id: "2",
     title: "Natureza Divina",
     imageUrl: "/templates/versiculos/natureza-divina.jpg",
-    canvaUrl: "https://www.canva.com/...",
+    previewUrl: "/templates/versiculos/natureza-divina-preview.jpg",
     downloadUrl: "/templates/versiculos/natureza-divina.png",
     suggestedCaption: "🌿 Em cada detalhe da criação, vejo a grandeza do nosso Deus!\n\nSalmos 19:1 - 'Os céus declaram a glória de Deus e o firmamento anuncia a obra das suas mãos'\n\n#DeusNaNatureza #Criação #FéEmDeus",
-    previewUrl: "/templates/versiculos/natureza-divina-preview.jpg",
     style: "Paisagem",
+    color: "nature",
+    downloadCount: 0,
     tags: ["Natureza", "Paisagem", "Sereno"]
   },
   {
-    id: 3,
+    id: "3",
     title: "Tipografia Moderna",
     imageUrl: "/templates/versiculos/tipografia-moderna.jpg",
-    canvaUrl: "https://www.canva.com/...",
+    previewUrl: "/templates/versiculos/tipografia-moderna-preview.jpg",
     downloadUrl: "/templates/versiculos/tipografia-moderna.png",
     suggestedCaption: "🎯 Palavra que transforma, renova e liberta!\n\nHebreus 4:12 - 'Porque a palavra de Deus é viva, e eficaz, e mais penetrante do que qualquer espada de dois gumes'\n\n#PalavraDeDeus #Fé #VerdadeQueLivra",
-    previewUrl: "/templates/versiculos/tipografia-moderna-preview.jpg",
     style: "Tipográfico",
+    color: "dark",
+    downloadCount: 0,
     tags: ["Fonte", "Moderno", "Elegante"]
   }
 ]
@@ -150,13 +160,9 @@ export default function TemplatesVersiculos() {
             {filteredTemplates.map((template) => (
               <TemplateCard
                 key={template.id}
-                id={template.id}
-                title={template.title}
-                imageUrl={template.imageUrl}
-                canvaUrl={template.canvaUrl}
-                downloadUrl={template.downloadUrl}
-                suggestedCaption={template.suggestedCaption}
-                previewUrl={template.previewUrl}
+                template={template}
+                onFavorite={async () => {}}
+                isFavorited={false}
               />
             ))}
           </div>

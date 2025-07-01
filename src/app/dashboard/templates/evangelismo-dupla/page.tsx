@@ -5,49 +5,56 @@ import Link from 'next/link'
 import TemplateCard from '@/components/templates/TemplateCard'
 
 interface Template {
-  id: number
+  id: string
   title: string
   imageUrl: string
-  canvaUrl: string
-  downloadUrl: string
-  suggestedCaption: string
   previewUrl: string
+  downloadUrl: string
   style: string
+  color: string
+  suggestedCaption: string
+  variations?: {
+    id: string
+    style: string
+    imageUrl: string
+    previewUrl: string
+  }[]
+  downloadCount?: number
   tags: string[]
 }
 
 const templates: Template[] = [
   {
-    id: 1,
+    id: '1',
     title: "Testemunho em Dupla",
     imageUrl: "/templates/evangelismo-dupla/testemunho.jpg",
-    canvaUrl: "https://www.canva.com/...",
-    downloadUrl: "/templates/evangelismo-dupla/testemunho.png",
-    suggestedCaption: "🧑‍🤝‍🧑 Compartilhando o amor de Deus juntos!\n\n'Melhor é serem dois do que um, porque têm melhor recompensa do seu trabalho.' - Eclesiastes 4:9\n\n#EvangelismoEmDupla #TestemunhoVivo #CompartilhandoJesus",
     previewUrl: "/templates/evangelismo-dupla/testemunho-preview.jpg",
+    downloadUrl: "/templates/evangelismo-dupla/testemunho.png",
     style: "Dinâmico",
+    color: "#00BCD4",
+    suggestedCaption: "🧑‍🤝‍🧑 Compartilhando o amor de Deus juntos!\n\n'Melhor é serem dois do que um, porque têm melhor recompensa do seu trabalho.' - Eclesiastes 4:9\n\n#EvangelismoEmDupla #TestemunhoVivo #CompartilhandoJesus",
     tags: ["Testemunho", "Dupla", "Evangelismo"]
   },
   {
-    id: 2,
+    id: '2',
     title: "Oração em Conjunto",
     imageUrl: "/templates/evangelismo-dupla/oracao.jpg",
-    canvaUrl: "https://www.canva.com/...",
-    downloadUrl: "/templates/evangelismo-dupla/oracao.png",
-    suggestedCaption: "🙏 Unidos em oração!\n\n'Também vos digo que, se dois de vós concordarem na terra acerca de qualquer coisa que pedirem, isso lhes será feito por meu Pai, que está nos céus.' - Mateus 18:19\n\n#OraçãoEmDupla #UnidosEmCristo #ParceriaEspiritual",
     previewUrl: "/templates/evangelismo-dupla/oracao-preview.jpg",
+    downloadUrl: "/templates/evangelismo-dupla/oracao.png",
     style: "Sereno",
+    color: "#03A9F4",
+    suggestedCaption: "🙏 Unidos em oração!\n\n'Também vos digo que, se dois de vós concordarem na terra acerca de qualquer coisa que pedirem, isso lhes será feito por meu Pai, que está nos céus.' - Mateus 18:19\n\n#OraçãoEmDupla #UnidosEmCristo #ParceriaEspiritual",
     tags: ["Oração", "União", "Intercessão"]
   },
   {
-    id: 3,
+    id: '3',
     title: "Missão Compartilhada",
     imageUrl: "/templates/evangelismo-dupla/missao.jpg",
-    canvaUrl: "https://www.canva.com/...",
-    downloadUrl: "/templates/evangelismo-dupla/missao.png",
-    suggestedCaption: "🌟 Juntos na missão!\n\n'E, chamando os seus doze discípulos, deu-lhes poder... e enviou-os dois a dois.' - Marcos 6:7\n\n#MissãoEmDupla #EvangelhoVivo #AlcançandoVidas",
     previewUrl: "/templates/evangelismo-dupla/missao-preview.jpg",
+    downloadUrl: "/templates/evangelismo-dupla/missao.png",
     style: "Missionário",
+    color: "#8BC34A",
+    suggestedCaption: "🌟 Juntos na missão!\n\n'E, chamando os seus doze discípulos, deu-lhes poder... e enviou-os dois a dois.' - Marcos 6:7\n\n#MissãoEmDupla #EvangelhoVivo #AlcançandoVidas",
     tags: ["Missão", "Evangelismo", "Parceria"]
   }
 ]
@@ -150,13 +157,12 @@ export default function TemplatesEvangelismoDupla() {
             {filteredTemplates.map((template) => (
               <TemplateCard
                 key={template.id}
-                id={template.id}
-                title={template.title}
-                imageUrl={template.imageUrl}
-                canvaUrl={template.canvaUrl}
-                downloadUrl={template.downloadUrl}
-                suggestedCaption={template.suggestedCaption}
-                previewUrl={template.previewUrl}
+                template={template}
+                onFavorite={async (templateId) => {
+                  // Implementar lógica de favoritos
+                  console.log('Favoritar:', templateId)
+                }}
+                isFavorited={false}
               />
             ))}
           </div>

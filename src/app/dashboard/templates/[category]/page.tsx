@@ -9,11 +9,18 @@ interface Template {
   id: string
   title: string
   imageUrl: string
-  canvaUrl: string
-  downloadUrl: string
-  suggestedCaption: string
   previewUrl: string
+  downloadUrl: string
   style: string
+  color: string
+  suggestedCaption: string
+  variations?: {
+    id: string
+    style: string
+    imageUrl: string
+    previewUrl: string
+  }[]
+  downloadCount?: number
   tags: string[]
 }
 
@@ -173,13 +180,12 @@ export default function TemplatesCategory() {
             {filteredTemplates.map((template) => (
               <TemplateCard
                 key={template.id}
-                id={template.id}
-                title={template.title}
-                imageUrl={template.imageUrl}
-                canvaUrl={template.canvaUrl}
-                downloadUrl={template.downloadUrl}
-                suggestedCaption={template.suggestedCaption}
-                previewUrl={template.previewUrl}
+                template={template}
+                onFavorite={async (templateId) => {
+                  // Implementar lógica de favoritos
+                  console.log('Favoritar:', templateId)
+                }}
+                isFavorited={false}
               />
             ))}
           </div>

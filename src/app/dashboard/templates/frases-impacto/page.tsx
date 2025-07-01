@@ -5,49 +5,56 @@ import Link from 'next/link'
 import TemplateCard from '@/components/templates/TemplateCard'
 
 interface Template {
-  id: number
+  id: string
   title: string
   imageUrl: string
-  canvaUrl: string
-  downloadUrl: string
-  suggestedCaption: string
   previewUrl: string
+  downloadUrl: string
   style: string
+  color: string
+  suggestedCaption: string
+  variations?: {
+    id: string
+    style: string
+    imageUrl: string
+    previewUrl: string
+  }[]
+  downloadCount?: number
   tags: string[]
 }
 
 const templates: Template[] = [
   {
-    id: 1,
+    id: '1',
     title: "Transformação em Cristo",
     imageUrl: "/templates/frases-impacto/transformacao.jpg",
-    canvaUrl: "https://www.canva.com/...",
-    downloadUrl: "/templates/frases-impacto/transformacao.png",
-    suggestedCaption: "💫 'Se alguém está em Cristo, é nova criatura. As coisas antigas já passaram; eis que surgiram coisas novas!' - 2 Coríntios 5:17\n\nDeixe Cristo transformar sua história!\n\n#TransformaçãoEmCristo #NovaVida #PoderosoDeus",
     previewUrl: "/templates/frases-impacto/transformacao-preview.jpg",
+    downloadUrl: "/templates/frases-impacto/transformacao.png",
     style: "Impactante",
+    color: "#FF5722",
+    suggestedCaption: "💫 'Se alguém está em Cristo, é nova criatura. As coisas antigas já passaram; eis que surgiram coisas novas!' - 2 Coríntios 5:17\n\nDeixe Cristo transformar sua história!\n\n#TransformaçãoEmCristo #NovaVida #PoderosoDeus",
     tags: ["Transformação", "Mudança", "Renovação"]
   },
   {
-    id: 2,
+    id: '2',
     title: "Poder da Palavra",
     imageUrl: "/templates/frases-impacto/palavra.jpg",
-    canvaUrl: "https://www.canva.com/...",
-    downloadUrl: "/templates/frases-impacto/palavra.png",
-    suggestedCaption: "⚡ 'Porque a palavra de Deus é viva e eficaz...' - Hebreus 4:12\n\nA Palavra tem poder para mudar sua realidade!\n\n#PalavraDeDeus #PoderTransformador #VerdadeEterna",
     previewUrl: "/templates/frases-impacto/palavra-preview.jpg",
+    downloadUrl: "/templates/frases-impacto/palavra.png",
     style: "Energético",
+    color: "#FFC107",
+    suggestedCaption: "⚡ 'Porque a palavra de Deus é viva e eficaz...' - Hebreus 4:12\n\nA Palavra tem poder para mudar sua realidade!\n\n#PalavraDeDeus #PoderTransformador #VerdadeEterna",
     tags: ["Palavra", "Poder", "Verdade"]
   },
   {
-    id: 3,
+    id: '3',
     title: "Propósito Divino",
     imageUrl: "/templates/frases-impacto/proposito.jpg",
-    canvaUrl: "https://www.canva.com/...",
-    downloadUrl: "/templates/frases-impacto/proposito.png",
-    suggestedCaption: "🎯 'Porque sou eu que conheço os planos que tenho para vocês, diz o Senhor...' - Jeremias 29:11\n\nSeu propósito é maior que seus planos!\n\n#PropósitoDeDeus #DestinoEterno #PlanosPerfeitos",
     previewUrl: "/templates/frases-impacto/proposito-preview.jpg",
+    downloadUrl: "/templates/frases-impacto/proposito.png",
     style: "Motivacional",
+    color: "#9C27B0",
+    suggestedCaption: "🎯 'Porque sou eu que conheço os planos que tenho para vocês, diz o Senhor...' - Jeremias 29:11\n\nSeu propósito é maior que seus planos!\n\n#PropósitoDeDeus #DestinoEterno #PlanosPerfeitos",
     tags: ["Propósito", "Destino", "Planos"]
   }
 ]
@@ -150,13 +157,12 @@ export default function TemplatesFrasesImpacto() {
             {filteredTemplates.map((template) => (
               <TemplateCard
                 key={template.id}
-                id={template.id}
-                title={template.title}
-                imageUrl={template.imageUrl}
-                canvaUrl={template.canvaUrl}
-                downloadUrl={template.downloadUrl}
-                suggestedCaption={template.suggestedCaption}
-                previewUrl={template.previewUrl}
+                template={template}
+                onFavorite={async (templateId) => {
+                  // Implementar lógica de favoritos
+                  console.log('Favoritar:', templateId)
+                }}
+                isFavorited={false}
               />
             ))}
           </div>

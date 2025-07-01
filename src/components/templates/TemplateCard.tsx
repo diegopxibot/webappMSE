@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import toast from 'react-hot-toast'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Share2, Heart, RefreshCw, Maximize2, Download, MessageCircle, Copy } from 'lucide-react'
@@ -12,6 +13,7 @@ interface TemplateCardProps {
     title: string
     imageUrl: string
     previewUrl: string
+    downloadUrl?: string
     style: string
     color: string
     suggestedCaption: string
@@ -78,7 +80,8 @@ export default function TemplateCard({ template, onFavorite, isFavorited }: Temp
 
   const handleDownload = async () => {
     try {
-      const response = await fetch(template.downloadUrl)
+      const downloadUrl = template.downloadUrl || template.imageUrl
+      const response = await fetch(downloadUrl)
       const blob = await response.blob()
       const url = window.URL.createObjectURL(blob)
       const a = document.createElement('a')
@@ -107,12 +110,19 @@ export default function TemplateCard({ template, onFavorite, isFavorited }: Temp
     >
       {/* Imagem Principal */}
       <div className="relative aspect-[9/16] rounded-xl overflow-hidden">
-        <motion.img
-          src={template.imageUrl}
-          alt={template.title}
-          className="w-full h-full object-cover"
+        <motion.div
+          className="w-full h-full relative"
           layoutId={`template-${template.id}`}
-        />
+        >
+          <Image
+            src={template.imageUrl}
+            alt={template.title}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover"
+            priority
+          />
+        </motion.div>
         
         {/* Overlay com gradiente */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/0 via-black/0 to-black/60" />

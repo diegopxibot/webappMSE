@@ -78,7 +78,7 @@ const categories = [
 
 async function seedTemplates() {
   try {
-    const client = await MongoClient.connect(MONGODB_URI);
+    const client = await MongoClient.connect(MONGODB_URI as string);
     const db = client.db();
 
     // Limpar coleções existentes

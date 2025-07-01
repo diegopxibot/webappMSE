@@ -5,49 +5,56 @@ import Link from 'next/link'
 import TemplateCard from '@/components/templates/TemplateCard'
 
 interface Template {
-  id: number
+  id: string
   title: string
   imageUrl: string
-  canvaUrl: string
-  downloadUrl: string
-  suggestedCaption: string
   previewUrl: string
+  downloadUrl: string
   style: string
+  color: string
+  suggestedCaption: string
+  variations?: {
+    id: string
+    style: string
+    imageUrl: string
+    previewUrl: string
+  }[]
+  downloadCount?: number
   tags: string[]
 }
 
 const templates: Template[] = [
   {
-    id: 1,
+    id: '1',
     title: "Páscoa Cristã",
     imageUrl: "/templates/datas-especiais/pascoa.jpg",
-    canvaUrl: "https://www.canva.com/...",
-    downloadUrl: "/templates/datas-especiais/pascoa.png",
-    suggestedCaption: "✝️ Celebrando a Ressurreição!\n\n'Ele não está aqui; ressuscitou, como havia dito.' - Mateus 28:6\n\nFeliz Páscoa! Que o poder da ressurreição renove sua fé e esperança!\n\n#PáscoaCristã #Ressurreição #JesusCristo",
     previewUrl: "/templates/datas-especiais/pascoa-preview.jpg",
+    downloadUrl: "/templates/datas-especiais/pascoa.png",
     style: "Celebrativo",
+    color: "#FFC107",
+    suggestedCaption: "✝️ Celebrando a Ressurreição!\n\n'Ele não está aqui; ressuscitou, como havia dito.' - Mateus 28:6\n\nFeliz Páscoa! Que o poder da ressurreição renove sua fé e esperança!\n\n#PáscoaCristã #Ressurreição #JesusCristo",
     tags: ["Páscoa", "Ressurreição", "Celebração"]
   },
   {
-    id: 2,
+    id: '2',
     title: "Natal do Senhor",
     imageUrl: "/templates/datas-especiais/natal.jpg",
-    canvaUrl: "https://www.canva.com/...",
-    downloadUrl: "/templates/datas-especiais/natal.png",
-    suggestedCaption: "🎄 O verdadeiro significado do Natal!\n\n'Porque um menino nos nasceu, um filho nos foi dado.' - Isaías 9:6\n\nQue Jesus nasça em cada coração neste Natal!\n\n#NatalDeJesus #CelebrandoONatal #NascimentoDeJesus",
     previewUrl: "/templates/datas-especiais/natal-preview.jpg",
+    downloadUrl: "/templates/datas-especiais/natal.png",
     style: "Festivo",
+    color: "#E91E63",
+    suggestedCaption: "🎄 O verdadeiro significado do Natal!\n\n'Porque um menino nos nasceu, um filho nos foi dado.' - Isaías 9:6\n\nQue Jesus nasça em cada coração neste Natal!\n\n#NatalDeJesus #CelebrandoONatal #NascimentoDeJesus",
     tags: ["Natal", "Jesus", "Celebração"]
   },
   {
-    id: 3,
+    id: '3',
     title: "Dia das Mães",
     imageUrl: "/templates/datas-especiais/maes.jpg",
-    canvaUrl: "https://www.canva.com/...",
-    downloadUrl: "/templates/datas-especiais/maes.png",
-    suggestedCaption: "💝 Mães, presente de Deus!\n\n'Honra teu pai e tua mãe' - Êxodo 20:12\n\nParabéns a todas as mães! Que Deus continue abençoando suas vidas!\n\n#DiadasMães #MãesAbençoadas #AmorDeMãe",
     previewUrl: "/templates/datas-especiais/maes-preview.jpg",
+    downloadUrl: "/templates/datas-especiais/maes.png",
     style: "Amoroso",
+    color: "#F44336",
+    suggestedCaption: "💝 Mães, presente de Deus!\n\n'Honra teu pai e tua mãe' - Êxodo 20:12\n\nParabéns a todas as mães! Que Deus continue abençoando suas vidas!\n\n#DiadasMães #MãesAbençoadas #AmorDeMãe",
     tags: ["Mães", "Família", "Amor"]
   }
 ]
@@ -150,13 +157,12 @@ export default function TemplatesDatasEspeciais() {
             {filteredTemplates.map((template) => (
               <TemplateCard
                 key={template.id}
-                id={template.id}
-                title={template.title}
-                imageUrl={template.imageUrl}
-                canvaUrl={template.canvaUrl}
-                downloadUrl={template.downloadUrl}
-                suggestedCaption={template.suggestedCaption}
-                previewUrl={template.previewUrl}
+                template={template}
+                onFavorite={async (templateId) => {
+                  // Implementar lógica de favoritos
+                  console.log('Favoritar:', templateId)
+                }}
+                isFavorited={false}
               />
             ))}
           </div>

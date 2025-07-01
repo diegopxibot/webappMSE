@@ -3,22 +3,67 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { connectToDatabase } from '@/lib/mongodb';
 import TemplatesClient from './TemplatesClient';
 import { Suspense } from 'react';
+import { WithId } from 'mongodb';
+
+interface Template {
+  id: string
+  title: string
+  imageUrl: string
+  previewUrl: string
+  downloadUrl: string
+  style: string
+  color: string
+  suggestedCaption: string
+  categorySlug: string
+  variations?: {
+    id: string
+    style: string
+    imageUrl: string
+    previewUrl: string
+  }[]
+  downloadCount?: number
+  tags: string[]
+  active: boolean
+  createdAt: Date
+}
+
+interface TemplatesByCategory {
+  [key: string]: Template[]
+}
 
 async function getTemplatesData() {
   const { db } = await connectToDatabase();
   
   // Buscar templates e favoritos do usuário
-  const templates = await db.collection('templates')
+  const templatesData = await db.collection('templates')
     .find({ active: true })
     .sort({ downloadCount: -1, createdAt: -1 })
     .toArray();
+
+  // Converter os documentos do MongoDB para o formato Template
+  const templates: Template[] = templatesData.map((doc: WithId<any>) => ({
+    id: doc._id.toString(),
+    title: doc.title,
+    imageUrl: doc.imageUrl,
+    previewUrl: doc.previewUrl,
+    downloadUrl: doc.downloadUrl,
+    style: doc.style,
+    color: doc.color,
+    suggestedCaption: doc.suggestedCaption,
+    categorySlug: doc.categorySlug,
+    variations: doc.variations,
+    downloadCount: doc.downloadCount,
+    tags: doc.tags,
+    active: doc.active,
+    createdAt: doc.createdAt
+  }));
   
   // Extrair cores e estilos únicos
-  const colors = [...new Set(templates.map(t => t.color))];
-  const styles = [...new Set(templates.map(t => t.style))];
+  const colors = Array.from(new Set(templates.map(t => t.color)));
+  const styles = Array.from(new Set(templates.map(t => t.style)));
   
   // Agrupar templates por categoria
-  const templatesByCategory = templates.reduce((acc, template) => {
+  const templatesByCategory = templates.reduce<TemplatesByCategory>((acc, template) => {
     const category = template.categorySlug;
     if (!acc[category]) {
       acc[category] = [];

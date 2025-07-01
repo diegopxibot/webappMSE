@@ -5,49 +5,56 @@ import Link from 'next/link'
 import TemplateCard from '@/components/templates/TemplateCard'
 
 interface Template {
-  id: number
+  id: string
   title: string
   imageUrl: string
-  canvaUrl: string
-  downloadUrl: string
-  suggestedCaption: string
   previewUrl: string
+  downloadUrl: string
   style: string
+  color: string
+  suggestedCaption: string
+  variations?: {
+    id: string
+    style: string
+    imageUrl: string
+    previewUrl: string
+  }[]
+  downloadCount?: number
   tags: string[]
 }
 
 const templates: Template[] = [
   {
-    id: 1,
+    id: '1',
     title: "Culto de Celebração",
     imageUrl: "/templates/anuncios/celebracao.jpg",
-    canvaUrl: "https://www.canva.com/...",
-    downloadUrl: "/templates/anuncios/celebracao.png",
-    suggestedCaption: "🙌 Domingo de Celebração!\n\nTema: 'Vivendo na Presença de Deus'\nHorário: 19h\nLocal: Igreja Online\n\n#CultoDeCelebração #AdoraçãoOnline #IgrejaViva",
     previewUrl: "/templates/anuncios/celebracao-preview.jpg",
+    downloadUrl: "/templates/anuncios/celebracao.png",
     style: "Festivo",
+    color: "#E91E63",
+    suggestedCaption: "🙌 Domingo de Celebração!\n\nTema: 'Vivendo na Presença de Deus'\nHorário: 19h\nLocal: Igreja Online\n\n#CultoDeCelebração #AdoraçãoOnline #IgrejaViva",
     tags: ["Celebração", "Domingo", "Louvor"]
   },
   {
-    id: 2,
+    id: '2',
     title: "Culto de Jovens",
     imageUrl: "/templates/anuncios/jovens.jpg",
-    canvaUrl: "https://www.canva.com/...",
-    downloadUrl: "/templates/anuncios/jovens.png",
-    suggestedCaption: "🔥 Prepare-se para uma noite incrível!\n\nCulto Jovem - Sábado às 20h\nTema: 'Geração Radical'\nMuito louvor, palavra e comunhão!\n\n#CultoJovem #JuventudeComCristo #GeraçãoDeJesus",
     previewUrl: "/templates/anuncios/jovens-preview.jpg",
+    downloadUrl: "/templates/anuncios/jovens.png",
     style: "Moderno",
+    color: "#2196F3",
+    suggestedCaption: "🔥 Prepare-se para uma noite incrível!\n\nCulto Jovem - Sábado às 20h\nTema: 'Geração Radical'\nMuito louvor, palavra e comunhão!\n\n#CultoJovem #JuventudeComCristo #GeraçãoDeJesus",
     tags: ["Jovens", "Sábado", "Radical"]
   },
   {
-    id: 3,
+    id: '3',
     title: "Culto de Família",
     imageUrl: "/templates/anuncios/familia.jpg",
-    canvaUrl: "https://www.canva.com/...",
-    downloadUrl: "/templates/anuncios/familia.png",
-    suggestedCaption: "👨‍👩‍👧‍👦 Domingo em Família!\n\nCulto especial para toda a família\nHorário: 18h\nTema: 'Construindo Lares Abençoados'\n\n#CultoDaFamília #BênçãosFamiliares #IgrejaEmFamília",
     previewUrl: "/templates/anuncios/familia-preview.jpg",
+    downloadUrl: "/templates/anuncios/familia.png",
     style: "Acolhedor",
+    color: "#795548",
+    suggestedCaption: "👨‍👩‍👧‍👦 Domingo em Família!\n\nCulto especial para toda a família\nHorário: 18h\nTema: 'Construindo Lares Abençoados'\n\n#CultoDaFamília #BênçãosFamiliares #IgrejaEmFamília",
     tags: ["Família", "Domingo", "Especial"]
   }
 ]
@@ -150,13 +157,12 @@ export default function TemplatesAnunciosCulto() {
             {filteredTemplates.map((template) => (
               <TemplateCard
                 key={template.id}
-                id={template.id}
-                title={template.title}
-                imageUrl={template.imageUrl}
-                canvaUrl={template.canvaUrl}
-                downloadUrl={template.downloadUrl}
-                suggestedCaption={template.suggestedCaption}
-                previewUrl={template.previewUrl}
+                template={template}
+                onFavorite={async (templateId) => {
+                  // Implementar lógica de favoritos
+                  console.log('Favoritar:', templateId)
+                }}
+                isFavorited={false}
               />
             ))}
           </div>

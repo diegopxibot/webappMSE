@@ -5,49 +5,59 @@ import Link from 'next/link'
 import TemplateCard from '@/components/templates/TemplateCard'
 
 interface Template {
-  id: number
+  id: string
   title: string
   imageUrl: string
-  canvaUrl: string
-  downloadUrl: string
-  suggestedCaption: string
   previewUrl: string
+  downloadUrl: string
   style: string
+  color: string
+  suggestedCaption: string
+  variations?: {
+    id: string
+    style: string
+    imageUrl: string
+    previewUrl: string
+  }[]
+  downloadCount?: number
   tags: string[]
 }
 
 const templates: Template[] = [
   {
-    id: 1,
+    id: "1",
     title: "Reflexão Matinal",
     imageUrl: "/templates/reflexoes/matinal.jpg",
-    canvaUrl: "https://www.canva.com/...",
+    previewUrl: "/templates/reflexoes/matinal-preview.jpg",
     downloadUrl: "/templates/reflexoes/matinal.png",
     suggestedCaption: "🌅 Meditando na Palavra logo cedo...\n\n'De manhã, Senhor, tu ouves a minha voz; de manhã te apresento a minha oração e aguardo com esperança.' - Salmos 5:3\n\n#ReflexãoDiária #MeditaçãoCristã #DeusÉFiel",
-    previewUrl: "/templates/reflexoes/matinal-preview.jpg",
     style: "Amanhecer",
+    color: "sunrise",
+    downloadCount: 0,
     tags: ["Manhã", "Meditação", "Paz"]
   },
   {
-    id: 2,
+    id: "2",
     title: "Momento de Quietude",
     imageUrl: "/templates/reflexoes/quietude.jpg",
-    canvaUrl: "https://www.canva.com/...",
+    previewUrl: "/templates/reflexoes/quietude-preview.jpg",
     downloadUrl: "/templates/reflexoes/quietude.png",
     suggestedCaption: "🤍 No silêncio, encontramos Sua voz...\n\n'Aquietai-vos e sabei que eu sou Deus.' - Salmos 46:10\n\n#MomentoComDeus #Quietude #PazDeDeus",
-    previewUrl: "/templates/reflexoes/quietude-preview.jpg",
     style: "Minimalista",
+    color: "light",
+    downloadCount: 0,
     tags: ["Silêncio", "Paz", "Meditação"]
   },
   {
-    id: 3,
+    id: "3",
     title: "Reflexão Profunda",
     imageUrl: "/templates/reflexoes/profunda.jpg",
-    canvaUrl: "https://www.canva.com/...",
+    previewUrl: "/templates/reflexoes/profunda-preview.jpg",
     downloadUrl: "/templates/reflexoes/profunda.png",
     suggestedCaption: "💭 Mergulhando nas profundezas da Palavra...\n\n'Medito nas tuas maravilhas.' - Salmos 119:27\n\n#ReflexãoBíblica #MeditaçãoNaPalavra #VerdadesDeDeus",
-    previewUrl: "/templates/reflexoes/profunda-preview.jpg",
     style: "Contemplativo",
+    color: "dark",
+    downloadCount: 0,
     tags: ["Profundo", "Meditação", "Sabedoria"]
   }
 ]
@@ -150,13 +160,9 @@ export default function TemplatesReflexoes() {
             {filteredTemplates.map((template) => (
               <TemplateCard
                 key={template.id}
-                id={template.id}
-                title={template.title}
-                imageUrl={template.imageUrl}
-                canvaUrl={template.canvaUrl}
-                downloadUrl={template.downloadUrl}
-                suggestedCaption={template.suggestedCaption}
-                previewUrl={template.previewUrl}
+                template={template}
+                onFavorite={async () => {}}
+                isFavorited={false}
               />
             ))}
           </div>

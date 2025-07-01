@@ -5,49 +5,56 @@ import Link from 'next/link'
 import TemplateCard from '@/components/templates/TemplateCard'
 
 interface Template {
-  id: number
+  id: string
   title: string
   imageUrl: string
-  canvaUrl: string
-  downloadUrl: string
-  suggestedCaption: string
   previewUrl: string
+  downloadUrl: string
   style: string
+  color: string
+  suggestedCaption: string
+  variations?: {
+    id: string
+    style: string
+    imageUrl: string
+    previewUrl: string
+  }[]
+  downloadCount?: number
   tags: string[]
 }
 
 const templates: Template[] = [
   {
-    id: 1,
+    id: '1',
     title: "Fé Inabalável",
     imageUrl: "/templates/frases-fe/fe-inabalavel.jpg",
-    canvaUrl: "https://www.canva.com/...",
-    downloadUrl: "/templates/frases-fe/fe-inabalavel.png",
-    suggestedCaption: "🕊️ 'A fé é a certeza daquilo que esperamos e a prova das coisas que não vemos.' - Hebreus 11:1\n\nNossa fé é a âncora que nos mantém firmes em qualquer tempestade!\n\n#FéInabalável #ConfiançaEmDeus #VidaCristã",
     previewUrl: "/templates/frases-fe/fe-inabalavel-preview.jpg",
+    downloadUrl: "/templates/frases-fe/fe-inabalavel.png",
     style: "Inspirador",
+    color: "#FFC107",
+    suggestedCaption: "🕊️ 'A fé é a certeza daquilo que esperamos e a prova das coisas que não vemos.' - Hebreus 11:1\n\nNossa fé é a âncora que nos mantém firmes em qualquer tempestade!\n\n#FéInabalável #ConfiançaEmDeus #VidaCristã",
     tags: ["Fé", "Confiança", "Esperança"]
   },
   {
-    id: 2,
+    id: '2',
     title: "Promessas de Deus",
     imageUrl: "/templates/frases-fe/promessas.jpg",
-    canvaUrl: "https://www.canva.com/...",
-    downloadUrl: "/templates/frases-fe/promessas.png",
-    suggestedCaption: "✨ 'Fiel é Deus, que vos chamou à comunhão com seu Filho Jesus Cristo, nosso Senhor.' - 1 Coríntios 1:9\n\nAs promessas de Deus são sim e amém!\n\n#PromessasDeDeus #FéEmDeus #DeusÉFiel",
     previewUrl: "/templates/frases-fe/promessas-preview.jpg",
+    downloadUrl: "/templates/frases-fe/promessas.png",
     style: "Sereno",
+    color: "#03A9F4",
+    suggestedCaption: "✨ 'Fiel é Deus, que vos chamou à comunhão com seu Filho Jesus Cristo, nosso Senhor.' - 1 Coríntios 1:9\n\nAs promessas de Deus são sim e amém!\n\n#PromessasDeDeus #FéEmDeus #DeusÉFiel",
     tags: ["Promessas", "Fidelidade", "Confiança"]
   },
   {
-    id: 3,
+    id: '3',
     title: "Força na Fé",
     imageUrl: "/templates/frases-fe/forca.jpg",
-    canvaUrl: "https://www.canva.com/...",
-    downloadUrl: "/templates/frases-fe/forca.png",
-    suggestedCaption: "💪 'Tudo posso naquele que me fortalece.' - Filipenses 4:13\n\nCom Deus, somos mais que vencedores!\n\n#ForçaNaFé #VitóriaEmCristo #FéViva",
     previewUrl: "/templates/frases-fe/forca-preview.jpg",
+    downloadUrl: "/templates/frases-fe/forca.png",
     style: "Motivacional",
+    color: "#F44336",
+    suggestedCaption: "💪 'Tudo posso naquele que me fortalece.' - Filipenses 4:13\n\nCom Deus, somos mais que vencedores!\n\n#ForçaNaFé #VitóriaEmCristo #FéViva",
     tags: ["Força", "Vitória", "Superação"]
   }
 ]
@@ -150,13 +157,12 @@ export default function TemplatesFrasesFe() {
             {filteredTemplates.map((template) => (
               <TemplateCard
                 key={template.id}
-                id={template.id}
-                title={template.title}
-                imageUrl={template.imageUrl}
-                canvaUrl={template.canvaUrl}
-                downloadUrl={template.downloadUrl}
-                suggestedCaption={template.suggestedCaption}
-                previewUrl={template.previewUrl}
+                template={template}
+                onFavorite={async (templateId) => {
+                  // Implementar lógica de favoritos
+                  console.log('Favoritar:', templateId)
+                }}
+                isFavorited={false}
               />
             ))}
           </div>

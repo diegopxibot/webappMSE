@@ -5,49 +5,56 @@ import Link from 'next/link'
 import TemplateCard from '@/components/templates/TemplateCard'
 
 interface Template {
-  id: number
+  id: string
   title: string
   imageUrl: string
-  canvaUrl: string
-  downloadUrl: string
-  suggestedCaption: string
   previewUrl: string
+  downloadUrl: string
   style: string
+  color: string
+  suggestedCaption: string
+  variations?: {
+    id: string
+    style: string
+    imageUrl: string
+    previewUrl: string
+  }[]
+  downloadCount?: number
   tags: string[]
 }
 
 const templates: Template[] = [
   {
-    id: 1,
+    id: '1',
     title: "Oração da Manhã",
     imageUrl: "/templates/oracoes/oracao-manha.jpg",
-    canvaUrl: "https://www.canva.com/...",
-    downloadUrl: "/templates/oracoes/oracao-manha.png",
-    suggestedCaption: "🌅 Começando o dia com Deus!\n\n'Esta é a confiança que temos ao nos aproximarmos de Deus: se pedirmos alguma coisa de acordo com a sua vontade, ele nos ouve.' - 1 João 5:14\n\n#OraçãoDaManhã #DeusÉFiel #FéEmDeus",
     previewUrl: "/templates/oracoes/oracao-manha-preview.jpg",
+    downloadUrl: "/templates/oracoes/oracao-manha.png",
     style: "Amanhecer",
+    color: "#FF9800",
+    suggestedCaption: "🌅 Começando o dia com Deus!\n\n'Esta é a confiança que temos ao nos aproximarmos de Deus: se pedirmos alguma coisa de acordo com a sua vontade, ele nos ouve.' - 1 João 5:14\n\n#OraçãoDaManhã #DeusÉFiel #FéEmDeus",
     tags: ["Manhã", "Gratidão", "Novo Dia"]
   },
   {
-    id: 2,
+    id: '2',
     title: "Momento de Intercessão",
     imageUrl: "/templates/oracoes/intercessao.jpg",
-    canvaUrl: "https://www.canva.com/...",
-    downloadUrl: "/templates/oracoes/intercessao.png",
-    suggestedCaption: "🙏 Unidos em oração pelo próximo!\n\n'Confessem os seus pecados uns aos outros e orem uns pelos outros para serem curados. A oração de um justo é poderosa e eficaz.' - Tiago 5:16\n\n#Intercessão #OraçãoPoderosa #Fé",
     previewUrl: "/templates/oracoes/intercessao-preview.jpg",
+    downloadUrl: "/templates/oracoes/intercessao.png",
     style: "Minimalista",
+    color: "#9E9E9E",
+    suggestedCaption: "🙏 Unidos em oração pelo próximo!\n\n'Confessem os seus pecados uns aos outros e orem uns pelos outros para serem curados. A oração de um justo é poderosa e eficaz.' - Tiago 5:16\n\n#Intercessão #OraçãoPoderosa #Fé",
     tags: ["Intercessão", "União", "Poder"]
   },
   {
-    id: 3,
+    id: '3',
     title: "Oração em Família",
     imageUrl: "/templates/oracoes/familia.jpg",
-    canvaUrl: "https://www.canva.com/...",
-    downloadUrl: "/templates/oracoes/familia.png",
-    suggestedCaption: "👨‍👩‍👧‍👦 Família que ora unida, permanece unida!\n\n'Eu e a minha casa serviremos ao Senhor.' - Josué 24:15\n\n#OraçãoEmFamília #BênçãoFamiliar #DeusNoLar",
     previewUrl: "/templates/oracoes/familia-preview.jpg",
+    downloadUrl: "/templates/oracoes/familia.png",
     style: "Família",
+    color: "#4CAF50",
+    suggestedCaption: "👨‍👩‍👧‍👦 Família que ora unida, permanece unida!\n\n'Eu e a minha casa serviremos ao Senhor.' - Josué 24:15\n\n#OraçãoEmFamília #BênçãoFamiliar #DeusNoLar",
     tags: ["Família", "União", "Lar"]
   }
 ]
@@ -150,13 +157,12 @@ export default function TemplatesOracoes() {
             {filteredTemplates.map((template) => (
               <TemplateCard
                 key={template.id}
-                id={template.id}
-                title={template.title}
-                imageUrl={template.imageUrl}
-                canvaUrl={template.canvaUrl}
-                downloadUrl={template.downloadUrl}
-                suggestedCaption={template.suggestedCaption}
-                previewUrl={template.previewUrl}
+                template={template}
+                onFavorite={async (templateId) => {
+                  // Implementar lógica de favoritos
+                  console.log('Favoritar:', templateId)
+                }}
+                isFavorited={false}
               />
             ))}
           </div>
