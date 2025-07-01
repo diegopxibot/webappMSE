@@ -165,24 +165,27 @@ export default function RespostasCriticas() {
     <div className="min-h-screen bg-gradient-to-b from-[#0A0B2E] to-[#0A0B2E]/90 px-4 py-8">
       <div className="mx-auto max-w-7xl">
         {/* Header Section */}
-        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mb-8">
           <Link 
             href="/dashboard/ferramentas" 
-            className="group inline-flex items-center rounded-lg bg-[#00FFFF]/10 px-4 py-2 text-sm text-[#00FFFF] transition-all hover:bg-[#00FFFF]/20"
+            className="group mb-6 inline-flex items-center rounded-lg bg-[#00FFFF]/10 px-4 py-2 text-sm text-[#00FFFF] transition-all hover:bg-[#00FFFF]/20"
           >
             <svg className="mr-2 h-4 w-4 rotate-180 transition-transform group-hover:-translate-x-1" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
             </svg>
             Voltar para Ferramentas
           </Link>
-          <h1 className="text-2xl font-bold text-white sm:text-3xl">
+          <h1 className="mb-4 text-center text-2xl font-bold text-white sm:text-3xl">
             Respostas às Críticas 🛡️
           </h1>
+          <p className="text-center text-gray-400">
+            Respostas bíblicas e amorosas para críticas comuns
+          </p>
         </div>
 
         {/* Search and Filter Section */}
-        <div className="mb-8 rounded-xl bg-[#0A0B2E]/30 p-6 backdrop-blur-sm">
-          <div className="grid gap-4 sm:grid-cols-2">
+        <div className="mb-8 overflow-hidden rounded-xl bg-[#0A0B2E]/30 p-6 backdrop-blur-sm">
+          <div className="grid gap-6 sm:grid-cols-2">
             {/* Search Input */}
             <div className="relative">
               <input
@@ -226,58 +229,59 @@ export default function RespostasCriticas() {
           </div>
         </div>
 
-        {/* Cards Grid */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {criticasFiltradas.map((critica) => (
-            <div
-              key={critica.id}
-              className={`transform cursor-pointer overflow-hidden rounded-xl bg-[#0A0B2E]/50 p-6 backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] hover:bg-[#0A0B2E]/70 ${
-                selectedCritica?.id === critica.id ? 'ring-2 ring-[#00FFFF]' : ''
-              }`}
-              onClick={() => setSelectedCritica(critica)}
-            >
-              {/* Card Badge */}
-              <div className="mb-4 inline-block rounded-full bg-[#00FFFF]/10 px-3 py-1 text-xs font-medium text-[#00FFFF]">
-                {critica.categoria}
-              </div>
-
-              {/* Card Title */}
-              <h2 className="mb-4 text-xl font-semibold text-white transition-colors group-hover:text-[#00FFFF]">
-                {critica.titulo_da_critica}
-              </h2>
-
-              {/* Card Content */}
-              {selectedCritica?.id === critica.id && (
-                <div className="space-y-4 transition-all duration-300">
-                  <p className="text-gray-300">{critica.resposta}</p>
-                  {critica.versiculo_base && (
-                    <p className="text-[#00FFFF] italic">{critica.versiculo_base}</p>
-                  )}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleCopyResposta(critica);
-                    }}
-                    className="flex w-full transform items-center justify-center gap-2 rounded-lg bg-[#00FFFF] px-4 py-3 font-medium text-[#0A0B2E] shadow-lg shadow-[#00FFFF]/20 transition-all hover:scale-[1.02] hover:bg-[#00FFFF]/90 active:scale-[0.98]"
-                  >
-                    <span>📋</span>
-                    Copiar Resposta
-                  </button>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-
         {/* Empty State */}
         {criticasFiltradas.length === 0 && (
-          <div className="mt-8 flex min-h-[200px] items-center justify-center rounded-xl bg-[#0A0B2E]/30 p-8 text-center backdrop-blur-sm">
-            <div>
-              <div className="mb-4 text-4xl">🔍</div>
-              <p className="text-gray-400">
-                Nenhuma crítica encontrada com os filtros atuais.
-              </p>
-            </div>
+          <div className="flex flex-col items-center justify-center rounded-xl bg-[#0A0B2E]/30 p-8 text-center backdrop-blur-sm">
+            <span className="mb-4 text-4xl">🔍</span>
+            <h3 className="mb-2 text-xl font-semibold text-white">Nenhuma crítica encontrada</h3>
+            <p className="text-gray-400">
+              Tente ajustar sua busca ou selecionar outra categoria
+            </p>
+          </div>
+        )}
+
+        {/* Cards Grid */}
+        {criticasFiltradas.length > 0 && (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {criticasFiltradas.map((critica) => (
+              <div
+                key={critica.id}
+                className={`group transform cursor-pointer overflow-hidden rounded-xl bg-[#0A0B2E]/50 p-6 backdrop-blur-sm transition-all duration-300 hover:scale-[1.02] hover:bg-[#0A0B2E]/70 ${
+                  selectedCritica?.id === critica.id ? 'ring-2 ring-[#00FFFF]' : ''
+                }`}
+                onClick={() => setSelectedCritica(critica)}
+              >
+                {/* Card Badge */}
+                <div className="mb-4 inline-block rounded-full bg-[#00FFFF]/10 px-3 py-1 text-xs font-medium text-[#00FFFF]">
+                  {critica.categoria}
+                </div>
+
+                {/* Card Title */}
+                <h2 className="mb-4 text-xl font-semibold text-white transition-colors group-hover:text-[#00FFFF]">
+                  {critica.titulo_da_critica}
+                </h2>
+
+                {/* Card Content */}
+                {selectedCritica?.id === critica.id && (
+                  <div className="space-y-4 animate-fadeIn">
+                    <p className="text-gray-300">{critica.resposta}</p>
+                    {critica.versiculo_base && (
+                      <p className="italic text-[#00FFFF]">{critica.versiculo_base}</p>
+                    )}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleCopyResposta(critica);
+                      }}
+                      className="mt-4 flex w-full transform items-center justify-center gap-2 rounded-lg bg-[#00FFFF] px-4 py-2 font-medium text-[#0A0B2E] shadow-lg shadow-[#00FFFF]/20 transition-all hover:scale-[1.02] hover:bg-[#00FFFF]/90 active:scale-[0.98]"
+                    >
+                      <span>📋</span>
+                      Copiar Resposta
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         )}
       </div>

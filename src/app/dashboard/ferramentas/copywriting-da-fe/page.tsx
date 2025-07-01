@@ -10,6 +10,7 @@ export default function CopywritingDaFe() {
   const [aplicacao, setAplicacao] = useState('')
   const [engenhariaSocial, setEngenhariaSocial] = useState('')
   const [resultado, setResultado] = useState<any>(null)
+  const [isGenerating, setIsGenerating] = useState(false)
 
   const gerarCopywriting = () => {
     try {
@@ -38,61 +39,69 @@ export default function CopywritingDaFe() {
           return
         }
 
-        const storiesDisponiveis = storyTemplates.filter(
-          template => 
-            template.tipo_frase === tipoFrase && 
-            template.engenharia_social === engenhariaSocial
-        )
+        setIsGenerating(true)
+        setTimeout(() => {
+          const storiesDisponiveis = storyTemplates.filter(
+            template => 
+              template.tipo_frase === tipoFrase && 
+              template.engenharia_social === engenhariaSocial
+          )
 
-        if (storiesDisponiveis.length > 0) {
-          const storyAleatorio = storiesDisponiveis[Math.floor(Math.random() * storiesDisponiveis.length)]
-          setResultado(storyAleatorio)
-          toast.success('Sequência de stories gerada com sucesso!', {
-            style: {
-              background: '#00FFFF',
-              color: '#0A0B2E',
-              fontWeight: 'bold',
-            },
-            icon: '✨'
-          })
-        } else {
-          toast.error('Não encontramos templates para esta combinação', {
-            style: {
-              background: '#FF4B4B',
-              color: '#fff',
-              fontWeight: 'bold',
-            },
-            icon: '😕'
-          })
-        }
+          if (storiesDisponiveis.length > 0) {
+            const storyAleatorio = storiesDisponiveis[Math.floor(Math.random() * storiesDisponiveis.length)]
+            setResultado(storyAleatorio)
+            toast.success('Sequência de stories gerada com sucesso!', {
+              style: {
+                background: '#00FFFF',
+                color: '#0A0B2E',
+                fontWeight: 'bold',
+              },
+              icon: '✨'
+            })
+          } else {
+            toast.error('Não encontramos templates para esta combinação', {
+              style: {
+                background: '#FF4B4B',
+                color: '#fff',
+                fontWeight: 'bold',
+              },
+              icon: '😕'
+            })
+          }
+          setIsGenerating(false)
+        }, 500)
       } else {
-        const frasesDisponiveis = copyTemplates.filter(
-          template => 
-            template.tipo_frase === tipoFrase && 
-            template.aplicacao === aplicacao
-        )
+        setIsGenerating(true)
+        setTimeout(() => {
+          const frasesDisponiveis = copyTemplates.filter(
+            template => 
+              template.tipo_frase === tipoFrase && 
+              template.aplicacao === aplicacao
+          )
 
-        if (frasesDisponiveis.length > 0) {
-          const fraseAleatoria = frasesDisponiveis[Math.floor(Math.random() * frasesDisponiveis.length)]
-          setResultado(fraseAleatoria)
-          toast.success('Frase gerada com sucesso!', {
-            style: {
-              background: '#00FFFF',
-              color: '#0A0B2E',
-              fontWeight: 'bold',
-            },
-            icon: '✨'
-          })
-        } else {
-          toast.error('Não encontramos templates para esta combinação', {
-            style: {
-              background: '#FF4B4B',
-              color: '#fff',
-              fontWeight: 'bold',
-            },
-            icon: '😕'
-          })
-        }
+          if (frasesDisponiveis.length > 0) {
+            const fraseAleatoria = frasesDisponiveis[Math.floor(Math.random() * frasesDisponiveis.length)]
+            setResultado(fraseAleatoria)
+            toast.success('Frase gerada com sucesso!', {
+              style: {
+                background: '#00FFFF',
+                color: '#0A0B2E',
+                fontWeight: 'bold',
+              },
+              icon: '✨'
+            })
+          } else {
+            toast.error('Não encontramos templates para esta combinação', {
+              style: {
+                background: '#FF4B4B',
+                color: '#fff',
+                fontWeight: 'bold',
+              },
+              icon: '😕'
+            })
+          }
+          setIsGenerating(false)
+        }, 500)
       }
     } catch (error) {
       console.error('Erro ao gerar copywriting:', error)
@@ -104,6 +113,7 @@ export default function CopywritingDaFe() {
         },
         icon: '❌'
       })
+      setIsGenerating(false)
     }
   }
 
@@ -206,16 +216,21 @@ export default function CopywritingDaFe() {
           {/* Generate Button */}
           <button
             onClick={gerarCopywriting}
-            className="mt-6 flex w-full transform items-center justify-center gap-2 rounded-lg bg-[#00FFFF] px-6 py-3 font-medium text-[#0A0B2E] shadow-lg shadow-[#00FFFF]/20 transition-all hover:scale-[1.02] hover:bg-[#00FFFF]/90 active:scale-[0.98]"
+            disabled={isGenerating}
+            className={`mt-6 flex w-full transform items-center justify-center gap-2 rounded-lg bg-[#00FFFF] px-6 py-3 font-medium text-[#0A0B2E] shadow-lg shadow-[#00FFFF]/20 transition-all ${
+              isGenerating 
+                ? 'cursor-not-allowed opacity-70'
+                : 'hover:scale-[1.02] hover:bg-[#00FFFF]/90 active:scale-[0.98]'
+            }`}
           >
-            <span>✨</span>
-            Gerar Copywriting
+            <span>{isGenerating ? '⏳' : '✨'}</span>
+            {isGenerating ? 'Gerando...' : 'Gerar Copywriting'}
           </button>
         </div>
 
         {/* Result Section */}
-        {resultado ? (
-          <div className="overflow-hidden rounded-xl bg-[#0A0B2E]/50 p-6 shadow-xl backdrop-blur-sm transition-all duration-300">
+        {resultado && (
+          <div className="overflow-hidden rounded-xl bg-[#0A0B2E]/50 p-6 shadow-xl backdrop-blur-sm transition-all duration-300 animate-fadeIn">
             {aplicacao === 'Stories' ? (
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
@@ -224,7 +239,7 @@ export default function CopywritingDaFe() {
                   </h2>
                   <button
                     onClick={() => copiarTexto(`${resultado.story_1}\n\n${resultado.story_2}\n\n${resultado.story_3}\n\n${resultado.versiculo}\n\n${resultado.cta_final}`)}
-                    className="flex items-center gap-2 rounded-lg bg-[#00FFFF]/10 px-4 py-2 text-sm text-[#00FFFF] transition-all hover:bg-[#00FFFF]/20"
+                    className="flex transform items-center gap-2 rounded-lg bg-[#00FFFF]/10 px-4 py-2 text-sm text-[#00FFFF] transition-all hover:scale-[1.02] hover:bg-[#00FFFF]/20 active:scale-[0.98]"
                   >
                     <span>📋</span>
                     Copiar Tudo
@@ -232,59 +247,64 @@ export default function CopywritingDaFe() {
                 </div>
 
                 <div className="space-y-4">
-                  <div className="rounded-lg bg-[#0A0B2E]/30 p-4">
+                  <div className="group rounded-lg bg-[#0A0B2E]/30 p-4 transition-all hover:bg-[#0A0B2E]/50">
                     <h3 className="mb-2 text-sm font-medium text-[#00FFFF]">Story 1</h3>
                     <p className="text-gray-300">{resultado.story_1}</p>
                   </div>
-                  <div className="rounded-lg bg-[#0A0B2E]/30 p-4">
+                  <div className="group rounded-lg bg-[#0A0B2E]/30 p-4 transition-all hover:bg-[#0A0B2E]/50">
                     <h3 className="mb-2 text-sm font-medium text-[#00FFFF]">Story 2</h3>
                     <p className="text-gray-300">{resultado.story_2}</p>
                   </div>
-                  <div className="rounded-lg bg-[#0A0B2E]/30 p-4">
+                  <div className="group rounded-lg bg-[#0A0B2E]/30 p-4 transition-all hover:bg-[#0A0B2E]/50">
                     <h3 className="mb-2 text-sm font-medium text-[#00FFFF]">Story 3</h3>
                     <p className="text-gray-300">{resultado.story_3}</p>
                   </div>
-                  <div className="rounded-lg bg-[#0A0B2E]/30 p-4">
+                  <div className="group rounded-lg bg-[#0A0B2E]/30 p-4 transition-all hover:bg-[#0A0B2E]/50">
                     <h3 className="mb-2 text-sm font-medium text-[#00FFFF]">Versículo</h3>
                     <p className="italic text-[#00FFFF]">{resultado.versiculo}</p>
                   </div>
-                  <div className="rounded-lg bg-[#0A0B2E]/30 p-4">
-                    <h3 className="mb-2 text-sm font-medium text-[#00FFFF]">Call to Action</h3>
+                  <div className="group rounded-lg bg-[#0A0B2E]/30 p-4 transition-all hover:bg-[#0A0B2E]/50">
+                    <h3 className="mb-2 text-sm font-medium text-[#00FFFF]">CTA Final</h3>
                     <p className="text-gray-300">{resultado.cta_final}</p>
                   </div>
                 </div>
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <div className="flex items-center justify-between">
                   <h2 className="text-xl font-semibold text-[#00FFFF]">
-                    Sua Frase
+                    {aplicacao === 'Feed' ? 'Legenda para Feed' : 
+                     aplicacao === 'Reels' ? 'Legenda para Reels' : 
+                     'Mensagem para Direct'}
                   </h2>
                   <button
-                    onClick={() => copiarTexto(resultado.frase)}
-                    className="flex items-center gap-2 rounded-lg bg-[#00FFFF]/10 px-4 py-2 text-sm text-[#00FFFF] transition-all hover:bg-[#00FFFF]/20"
+                    onClick={() => copiarTexto(`${resultado.texto}\n\n${resultado.versiculo}\n\n${resultado.cta_final}`)}
+                    className="flex transform items-center gap-2 rounded-lg bg-[#00FFFF]/10 px-4 py-2 text-sm text-[#00FFFF] transition-all hover:scale-[1.02] hover:bg-[#00FFFF]/20 active:scale-[0.98]"
                   >
                     <span>📋</span>
-                    Copiar
+                    Copiar Tudo
                   </button>
                 </div>
-                <div className="rounded-lg bg-[#0A0B2E]/30 p-4">
-                  <p className="text-gray-300">{resultado.frase}</p>
+
+                <div className="space-y-4">
+                  <div className="group rounded-lg bg-[#0A0B2E]/30 p-4 transition-all hover:bg-[#0A0B2E]/50">
+                    <h3 className="mb-2 text-sm font-medium text-[#00FFFF]">Texto Principal</h3>
+                    <p className="text-gray-300">{resultado.texto}</p>
+                  </div>
+                  <div className="group rounded-lg bg-[#0A0B2E]/30 p-4 transition-all hover:bg-[#0A0B2E]/50">
+                    <h3 className="mb-2 text-sm font-medium text-[#00FFFF]">Versículo</h3>
+                    <p className="italic text-[#00FFFF]">{resultado.versiculo}</p>
+                  </div>
+                  <div className="group rounded-lg bg-[#0A0B2E]/30 p-4 transition-all hover:bg-[#0A0B2E]/50">
+                    <h3 className="mb-2 text-sm font-medium text-[#00FFFF]">CTA Final</h3>
+                    <p className="text-gray-300">{resultado.cta_final}</p>
+                  </div>
                 </div>
               </div>
             )}
-          </div>
-        ) : (
-          <div className="flex min-h-[200px] items-center justify-center rounded-xl bg-[#0A0B2E]/30 p-8 text-center backdrop-blur-sm transition-all duration-300">
-            <div>
-              <div className="mb-4 text-4xl">✨</div>
-              <p className="text-gray-400">
-                Selecione as opções acima e clique em &quot;Gerar Copywriting&quot; para começar
-              </p>
-            </div>
           </div>
         )}
       </div>
     </div>
   )
-} 
+}
