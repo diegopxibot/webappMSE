@@ -94,16 +94,13 @@ export default function HashtagBank() {
               <button
                 key={category.id}
                 onClick={() => setSelectedCategory(category)}
-                className={`flex flex-col items-center justify-center rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 ${
+                className={`flex items-center justify-center rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 ${
                   selectedCategory?.id === category.id
                     ? 'bg-[#00FFFF] text-[#0A0B2E] shadow-lg shadow-[#00FFFF]/20'
                     : 'bg-[#00FFFF]/10 text-[#00FFFF] hover:bg-[#00FFFF]/20'
                 }`}
               >
-                <span>{category.name}</span>
-                <span className="mt-1 text-xs opacity-80">
-                  {category.hashtags.length} hashtags
-                </span>
+                {category.name}
               </button>
             ))}
           </div>
