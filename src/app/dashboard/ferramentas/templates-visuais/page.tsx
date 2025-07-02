@@ -1,133 +1,154 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useSearchParams } from 'next/navigation'
-import TemplateCard from '@/components/templates/TemplateCard'
-import TemplateFilters from '@/components/templates/TemplateFilters'
-import type { Template } from '@/types/template'
+import { useState } from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
+import { motion } from 'framer-motion'
 
-export default function TemplatesPage() {
-  const searchParams = useSearchParams()
-  const [templates, setTemplates] = useState<Template[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [filteredTemplates, setFilteredTemplates] = useState<Template[]>([])
-
-  useEffect(() => {
-    loadTemplates()
-  }, [])
-
-  const loadTemplates = async () => {
-    try {
-      const response = await fetch('/api/templates')
-      if (!response.ok) throw new Error('Erro ao carregar templates')
-      const data = await response.json()
-      setTemplates(data)
-      setFilteredTemplates(data)
-    } catch (error) {
-      console.error('Erro ao carregar templates:', error)
-      setError('Não foi possível carregar os templates')
-    } finally {
-      setLoading(false)
-    }
+const categories = [
+  {
+    id: 'versiculos',
+    title: 'Versículos',
+    description: 'Templates para compartilhar versículos bíblicos',
+    icon: '📖',
+    color: 'blue'
+  },
+  {
+    id: 'oracoes',
+    title: 'Orações',
+    description: 'Templates para compartilhar orações e pedidos',
+    icon: '🙏',
+    color: 'purple'
+  },
+  {
+    id: 'reflexoes',
+    title: 'Reflexões',
+    description: 'Templates para compartilhar reflexões e devocionais',
+    icon: '💭',
+    color: 'green'
+  },
+  {
+    id: 'convites',
+    title: 'Convites',
+    description: 'Templates para criar convites para eventos',
+    icon: '✉️',
+    color: 'orange'
+  },
+  {
+    id: 'anuncios-culto',
+    title: 'Anúncios de Culto',
+    description: 'Templates para divulgar cultos e celebrações',
+    icon: '🎤',
+    color: 'red'
+  },
+  {
+    id: 'frases-fe',
+    title: 'Frases de Fé',
+    description: 'Templates para compartilhar frases inspiradoras',
+    icon: '✨',
+    color: 'blue'
+  },
+  {
+    id: 'datas-especiais',
+    title: 'Datas Especiais',
+    description: 'Templates para datas comemorativas',
+    icon: '🎉',
+    color: 'purple'
+  },
+  {
+    id: 'evangelismo-dupla',
+    title: 'Evangelismo em Dupla',
+    description: 'Templates para evangelismo e discipulado',
+    icon: '👥',
+    color: 'green'
+  },
+  {
+    id: 'frases-impacto',
+    title: 'Frases de Impacto',
+    description: 'Templates para mensagens impactantes',
+    icon: '💫',
+    color: 'orange'
   }
+]
 
-  const handleFilterChange = ({ search, style, color }: { search: string; style: string; color: string }) => {
-    let filtered = templates
+export default function TemplatesVisuais() {
+  const [searchTerm, setSearchTerm] = useState('')
 
-    if (search) {
-      const searchLower = search.toLowerCase()
-      filtered = filtered.filter(template =>
-        template.name.toLowerCase().includes(searchLower) ||
-        template.category.toLowerCase().includes(searchLower)
-      )
-    }
-
-    if (style) {
-      filtered = filtered.filter(template => template.style === style)
-    }
-
-    if (color) {
-      filtered = filtered.filter(template => template.color === color)
-    }
-
-    setFilteredTemplates(filtered)
-  }
-
-  if (loading) {
-    return (
-      <div className="min-h-[50vh] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-[50vh] flex flex-col items-center justify-center text-center p-4">
-        <div className="text-6xl mb-4">😢</div>
-        <h1 className="text-2xl font-bold text-white mb-2">
-          Ops! Algo deu errado
-        </h1>
-        <p className="text-gray-400 max-w-md mb-4">
-          {error}
-        </p>
-        <button
-          onClick={loadTemplates}
-          className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
-        >
-          Tentar novamente
-        </button>
-      </div>
-    )
-  }
+  const filteredCategories = categories.filter(category =>
+    category.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    category.description.toLowerCase().includes(searchTerm.toLowerCase())
+  )
 
   return (
-    <div className="p-6">
-      <div className="max-w-screen-2xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-[300px,1fr] gap-8">
-          <aside className="lg:sticky lg:top-6 h-fit">
-            <TemplateFilters
-              onFilterChange={handleFilterChange}
-              initialFilters={{
-                search: searchParams.get('q') || '',
-                style: searchParams.get('style') || '',
-                color: searchParams.get('color') || ''
-              }}
+    <div className="p-6 max-w-7xl mx-auto">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold mb-2">
+          Templates Visuais
+        </h1>
+        <p className="text-gray-400">
+          Escolha uma categoria para explorar os templates disponíveis
+        </p>
+      </div>
+
+      <div className="mb-8">
+        <div className="relative">
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={e => setSearchTerm(e.target.value)}
+            placeholder="Buscar categorias..."
+            className="w-full bg-dark-light text-white rounded-lg pl-10 pr-4 py-3 focus:ring-2 focus:ring-primary focus:outline-none"
+          />
+          <svg
+            className="absolute left-3 top-3.5 w-5 h-5 text-gray-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
             />
-          </aside>
-
-          <main>
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <h1 className="text-2xl font-bold text-white mb-2">
-                  Templates Visuais
-                </h1>
-                <p className="text-gray-400">
-                  {filteredTemplates.length} template{filteredTemplates.length !== 1 ? 's' : ''} encontrado{filteredTemplates.length !== 1 ? 's' : ''}
-                </p>
-              </div>
-            </div>
-
-            {filteredTemplates.length > 0 ? (
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                {filteredTemplates.map((template) => (
-                  <TemplateCard key={template.id} template={template} />
-                ))}
-              </div>
-            ) : (
-              <div className="min-h-[40vh] flex flex-col items-center justify-center text-center">
-                <div className="text-6xl mb-4">🔍</div>
-                <h2 className="text-xl font-semibold text-white mb-2">
-                  Nenhum template encontrado
-                </h2>
-                <p className="text-gray-400 max-w-md">
-                  Tente ajustar os filtros para encontrar o que procura
-                </p>
-              </div>
-            )}
-          </main>
+          </svg>
         </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredCategories.map((category, index) => (
+          <motion.div
+            key={category.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+          >
+            <Link href={`/dashboard/ferramentas/templates-visuais/${category.id}`}>
+              <div className="group h-full bg-dark-light rounded-xl p-6 hover:bg-dark-light/80 transition-all duration-300 cursor-pointer">
+                <div className="flex items-center gap-4 mb-4">
+                  <span className="text-4xl">{category.icon}</span>
+                  <div>
+                    <h2 className="text-xl font-semibold mb-1">
+                      {category.title}
+                    </h2>
+                    <p className="text-sm text-gray-400">
+                      {category.description}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="relative aspect-video rounded-lg overflow-hidden">
+                  <Image
+                    src={`/templates/${category.id}/template-${category.id}-modern-${category.color}-1.png`}
+                    alt={category.title}
+                    fill
+                    className="object-cover transition-transform group-hover:scale-105"
+                  />
+                </div>
+              </div>
+            </Link>
+          </motion.div>
+        ))}
       </div>
     </div>
   )

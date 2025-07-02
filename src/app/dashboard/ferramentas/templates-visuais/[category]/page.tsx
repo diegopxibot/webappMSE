@@ -1,194 +1,106 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import TemplateCard from '@/components/templates/TemplateCard'
-import VisualFilter from '@/components/templates/VisualFilter'
+import TemplateFilters from '@/components/templates/TemplateFilters'
+import type { Template } from '@/types/template'
 
-const categories = {
-  'versiculos': {
-    icon: '📖',
-    title: 'Versículos',
-    description: 'Compartilhe a Palavra de Deus com designs inspiradores'
-  },
-  'oracoes': {
-    icon: '🙏',
-    title: 'Orações',
-    description: 'Momentos de conexão com Deus'
-  },
-  'reflexoes': {
-    icon: '💭',
-    title: 'Reflexões',
-    description: 'Pensamentos que transformam vidas'
-  },
-  'convites': {
-    icon: '✉️',
-    title: 'Convites',
-    description: 'Convide para eventos especiais da igreja'
-  },
-  'anuncios-culto': {
-    icon: '📢',
-    title: 'Anúncios de Culto',
-    description: 'Divulgue os cultos e eventos da igreja'
-  },
-  'frases-fe': {
-    icon: '🕊️',
-    title: 'Frases de Fé',
-    description: 'Mensagens que inspiram e fortalecem'
-  },
-  'datas-especiais': {
-    icon: '🎉',
-    title: 'Datas Especiais',
-    description: 'Celebre momentos importantes'
-  },
-  'evangelismo-dupla': {
-    icon: '🧑‍🤝‍🧑',
-    title: 'Evangelismo em Dupla',
-    description: 'Alcance mais pessoas juntos'
-  },
-  'frases-impacto': {
-    icon: '💬',
-    title: 'Frases de Impacto',
-    description: 'Mensagens que marcam e transformam'
-  }
+const styles = ['modern', 'minimalist', 'artistic']
+const colors = ['blue', 'purple', 'orange', 'green', 'red']
+
+const generateTemplates = (category: string): Template[] => {
+  return styles.flatMap(style =>
+    colors.map(color => ({
+      id: `${category}-${style}-${color}`,
+      name: `Template ${style} ${color}`,
+      category,
+      style,
+      color,
+      imageUrl: `/templates/${category}/template-${category}-${style}-${color}-1.png`,
+      previewUrl: `/templates/${category}/template-${category}-${style}-${color}-1.png`,
+      canvaUrl: 'https://canva.com',
+      downloadUrl: `/templates/${category}/template-${category}-${style}-${color}-1.png`,
+      suggestedCaption: 'Sugestão de legenda para o template',
+      tags: []
+    }))
+  )
 }
-
-// Exemplo de templates com variações (substituir por dados reais do banco/API)
-const mockTemplates = [
-  {
-    id: '1',
-    name: 'Template Moderno 1',
-    imageUrl: '/templates/template1.png',
-    canvaUrl: 'https://canva.com/design/template1',
-    downloadUrl: '/templates/template1.png',
-    suggestedCaption: '✨ Compartilhando a Palavra de Deus! 🙏\n\n#Igreja #Fé #Deus',
-    previewUrl: '/templates/template1.png',
-    color: 'blue',
-    style: 'modern',
-    variations: [
-      {
-        id: '1-1',
-        name: 'Variação Minimalista',
-        imageUrl: '/templates/template1-1.png',
-        style: 'Minimalista'
-      },
-      {
-        id: '1-2',
-        name: 'Variação Artística',
-        imageUrl: '/templates/template1-2.png',
-        style: 'Artístico'
-      }
-    ]
-  },
-  {
-    id: '2',
-    name: 'Template Minimalista',
-    imageUrl: '/templates/template2.png',
-    canvaUrl: 'https://canva.com/design/template2',
-    downloadUrl: '/templates/template2.png',
-    suggestedCaption: '🙌 Louvado seja Deus! 🙏\n\n#Louvor #Adoração #Fé',
-    previewUrl: '/templates/template2.png',
-    color: 'purple',
-    style: 'minimalist',
-    variations: [
-      {
-        id: '2-1',
-        name: 'Variação Moderna',
-        imageUrl: '/templates/template2-1.png',
-        style: 'Moderno'
-      }
-    ]
-  },
-  // Adicionar mais templates aqui
-]
 
 export default function CategoryPage() {
   const { category } = useParams()
-  const categoryInfo = categories[category as keyof typeof categories]
-  const [selectedColor, setSelectedColor] = useState('all')
-  const [selectedStyle, setSelectedStyle] = useState('all')
-
-  if (!categoryInfo) {
-    return (
-      <div className="min-h-screen py-8 px-4">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4 text-white">
-            Categoria não encontrada
-          </h1>
-          <Link 
-            href="/dashboard/ferramentas/templates-visuais"
-            className="text-primary hover:text-primary-light"
-          >
-            Voltar para categorias
-          </Link>
-        </div>
-      </div>
-    )
-  }
-
-  // Filtrar templates
-  const filteredTemplates = mockTemplates.filter(template => {
-    const colorMatch = selectedColor === 'all' || template.color === selectedColor
-    const styleMatch = selectedStyle === 'all' || template.style === selectedStyle
-    return colorMatch && styleMatch
+  const [filters, setFilters] = useState({
+    search: '',
+    style: '',
+    color: '',
+    tags: [] as string[]
   })
 
+  const templates = generateTemplates(category as string)
+  const filteredTemplates = templates.filter(template => {
+    const matchesSearch = template.name
+      .toLowerCase()
+      .includes(filters.search.toLowerCase())
+
+    const matchesStyle = !filters.style || template.style === filters.style
+    const matchesColor = !filters.color || template.color === filters.color
+    const matchesTags =
+      !filters.tags.length ||
+      filters.tags.every(tag => template.tags.includes(tag))
+
+    return matchesSearch && matchesStyle && matchesColor && matchesTags
+  })
+
+  const handleFavorite = async (templateId: string) => {
+    // Implementar lógica de favoritos
+    console.log('Favoritar:', templateId)
+  }
+
+  const handleShare = async (templateId: string) => {
+    // Implementar lógica de compartilhamento
+    console.log('Compartilhar:', templateId)
+  }
+
   return (
-    <div className="min-h-screen py-8 px-4">
-      {/* Header */}
-      <div className="mb-12">
-        <Link 
-          href="/dashboard/ferramentas/templates-visuais"
-          className="inline-flex items-center text-gray-300 hover:text-white mb-6"
-        >
-          <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
-          Voltar para categorias
-        </Link>
-
-        <h1 className="text-4xl font-bold mb-4 text-white flex items-center gap-3">
-          <span>{categoryInfo.icon}</span>
-          Templates de {categoryInfo.title}
+    <div className="p-6 max-w-7xl mx-auto">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold mb-2 capitalize">
+          Templates de {category?.replace(/-/g, ' ')}
         </h1>
-        <p className="text-xl text-gray-300">
-          {categoryInfo.description}
+        <p className="text-gray-400">
+          Escolha um template para personalizar
         </p>
-        <div className="flex space-x-2 mt-6">
-          <div className="h-1 w-20 bg-primary rounded-full"></div>
-          <div className="h-1 w-20 bg-secondary rounded-full"></div>
-        </div>
       </div>
 
-      {/* Filtro Visual */}
-      <VisualFilter
-        onColorChange={setSelectedColor}
-        onStyleChange={setSelectedStyle}
-      />
-
-      {/* Templates Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-        {filteredTemplates.map((template) => (
-          <TemplateCard
-            key={template.id}
-            {...template}
+      <div className="flex gap-8">
+        <div className="w-64 flex-shrink-0">
+          <TemplateFilters
+            onFilterChange={setFilters}
+            category={category as string}
           />
-        ))}
-      </div>
-
-      {/* Mensagem quando não há templates */}
-      {filteredTemplates.length === 0 && (
-        <div className="text-center py-12">
-          <div className="text-6xl mb-4">🎨</div>
-          <h3 className="text-2xl font-semibold text-white mb-2">
-            Nenhum template encontrado
-          </h3>
-          <p className="text-gray-400">
-            Tente ajustar os filtros ou volte mais tarde para novos templates.
-          </p>
         </div>
-      )}
+
+        <div className="flex-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredTemplates.map(template => (
+              <TemplateCard
+                key={template.id}
+                template={template}
+                onFavorite={handleFavorite}
+                onShare={handleShare}
+              />
+            ))}
+          </div>
+
+          {filteredTemplates.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-gray-400">
+                Nenhum template encontrado com os filtros selecionados
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   )
 } 

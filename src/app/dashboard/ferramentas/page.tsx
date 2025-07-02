@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useAuth } from '@/components/auth/AuthProvider'
 import toast from 'react-hot-toast'
+import ToolCard from '@/components/ferramentas/ToolCard'
 
 const ToolCard = dynamic(() => import('@/components/ferramentas/ToolCard'), {
   loading: () => (
@@ -14,40 +15,46 @@ const ToolCard = dynamic(() => import('@/components/ferramentas/ToolCard'), {
 
 const tools = [
   {
+    id: 'templates-visuais',
     title: 'Templates Visuais',
-    description: 'Modelos prontos para personalizar e evangelizar',
-    href: '/dashboard/ferramentas/templates-visuais',
-    icon: '🎨'
+    description: 'Crie stories profissionais com nossos templates prontos',
+    icon: '🎨',
+    href: '/dashboard/ferramentas/templates-visuais'
   },
   {
+    id: 'copywriting-da-fe',
     title: 'Copywriting da Fé',
-    description: 'Crie textos persuasivos para suas postagens evangelísticas',
-    href: '/dashboard/ferramentas/copywriting-da-fe',
-    icon: '✝️'
+    description: 'Crie legendas impactantes para suas postagens',
+    icon: '✍️',
+    href: '/dashboard/ferramentas/copywriting-da-fe'
   },
   {
+    id: 'banco-hashtags',
     title: 'Banco de Hashtags',
-    description: 'Encontre as hashtags perfeitas para seu conteúdo',
-    href: '/dashboard/ferramentas/banco-hashtags',
-    icon: '#️⃣'
+    description: 'Encontre as melhores hashtags para seu conteúdo',
+    icon: '#️⃣',
+    href: '/dashboard/ferramentas/banco-hashtags'
   },
   {
+    id: 'gerador-ideias',
     title: 'Gerador de Ideias',
-    description: 'Inspire-se com novas ideias para suas postagens',
-    href: '/dashboard/ferramentas/gerador-ideias',
-    icon: '💡'
+    description: 'Receba sugestões de conteúdo para suas redes',
+    icon: '💡',
+    href: '/dashboard/ferramentas/gerador-ideias'
   },
   {
+    id: 'perguntas-poderosas',
     title: 'Perguntas Poderosas',
-    description: 'Gere perguntas que engajam sua audiência',
-    href: '/dashboard/ferramentas/perguntas-poderosas',
-    icon: '❓'
+    description: 'Gere engajamento com perguntas estratégicas',
+    icon: '❓',
+    href: '/dashboard/ferramentas/perguntas-poderosas'
   },
   {
-    title: 'Respostas Críticas',
-    description: 'Aprenda a responder comentários críticos com sabedoria',
-    href: '/dashboard/ferramentas/respostas-criticas',
-    icon: '🤝'
+    id: 'respostas-criticas',
+    title: 'Respostas a Críticas',
+    description: 'Aprenda a lidar com comentários negativos',
+    icon: '💬',
+    href: '/dashboard/ferramentas/respostas-criticas'
   }
 ]
 
@@ -99,12 +106,18 @@ export default function FerramentasPage() {
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {tools.map((tool) => (
             <Suspense 
-              key={tool.href}
+              key={tool.id}
               fallback={
                 <div className="w-full h-48 bg-white/5 rounded-xl border border-cyan-500/20 animate-pulse" />
               }
             >
-              <ToolCard {...tool} />
+              <Link key={tool.id} href={tool.href}>
+                <ToolCard
+                  title={tool.title}
+                  description={tool.description}
+                  icon={tool.icon}
+                />
+              </Link>
             </Suspense>
           ))}
         </div>
