@@ -6,7 +6,7 @@ export async function GET(
   { params }: { params: { slug: string } }
 ) {
   try {
-    const { db } = await connectToDatabase()
+    const db = await connectToDatabase()
     
     const category = await db.collection('categories').findOne({ 
       slug: params.slug 

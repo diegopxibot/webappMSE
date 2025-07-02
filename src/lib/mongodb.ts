@@ -14,9 +14,9 @@ if (!dbName) {
   throw new Error('Please define the MONGODB_DB environment variable')
 }
 
-export async function connectToDatabase(): Promise<Db> {
+export async function connectToDatabase(): Promise<{ db: Db }> {
   if (cachedDb) {
-    return cachedDb
+    return { db: cachedDb }
   }
 
   if (!cachedClient) {
@@ -24,9 +24,9 @@ export async function connectToDatabase(): Promise<Db> {
   }
 
   cachedDb = cachedClient.db(dbName)
-  return cachedDb
+  return { db: cachedDb }
 }
 
 // Export a module-scoped MongoClient promise. By doing this in a
 // separate module, the client can be shared across functions.
-export default cachedClient 
+export default cachedClient
