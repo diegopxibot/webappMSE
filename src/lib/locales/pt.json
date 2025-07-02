@@ -5,64 +5,18 @@
     "success": "Sucesso",
     "save": "Salvar",
     "cancel": "Cancelar",
-    "edit": "Editar",
     "delete": "Excluir",
-    "share": "Compartilhar",
-    "download": "Download",
-    "favorite": "Favoritar",
-    "unfavorite": "Desfavoritar",
+    "edit": "Editar",
+    "create": "Criar",
     "search": "Buscar",
     "filter": "Filtrar",
+    "clear": "Limpar",
     "all": "Todos",
-    "noResults": "Nenhum resultado encontrado",
-    "tryAgain": "Tentar novamente"
-  },
-  "templates": {
-    "title": "Templates Visuais",
-    "categories": {
-      "versiculos": "Versículos",
-      "oracoes": "Orações",
-      "reflexoes": "Reflexões",
-      "convites": "Convites",
-      "anuncios": "Anúncios de Culto",
-      "frases": "Frases de Fé",
-      "datas": "Datas Especiais",
-      "evangelismo": "Evangelismo em Dupla",
-      "impacto": "Frases de Impacto"
-    },
-    "styles": {
-      "modern": "Moderno",
-      "minimalist": "Minimalista",
-      "artistic": "Artístico"
-    },
-    "colors": {
-      "blue": "Azul",
-      "purple": "Roxo",
-      "orange": "Laranja",
-      "green": "Verde",
-      "red": "Vermelho"
-    },
-    "filters": {
-      "style": "Estilo",
-      "color": "Cor",
-      "search": "Buscar templates..."
-    },
-    "actions": {
-      "editCanva": "Editar no Canva",
-      "copyCaption": "Copiar Legenda",
-      "downloadPng": "Download PNG",
-      "share": "Compartilhar"
-    },
-    "messages": {
-      "noFavorites": "Nenhum template favorito",
-      "noFavoritesDesc": "Explore nossos templates e marque seus favoritos para encontrá-los facilmente aqui!",
-      "searchNoResults": "Nenhum template encontrado",
-      "searchNoResultsDesc": "Tente ajustar os filtros para encontrar o que procura",
-      "shareSuccess": "Link de compartilhamento copiado!",
-      "copySuccess": "Legenda copiada!",
-      "favoriteSuccess": "Template adicionado aos favoritos!",
-      "unfavoriteSuccess": "Template removido dos favoritos!"
-    }
+    "none": "Nenhum",
+    "or": "ou",
+    "and": "e",
+    "yes": "Sim",
+    "no": "Não"
   },
   "auth": {
     "signIn": "Entrar",
@@ -70,13 +24,16 @@
     "signUp": "Cadastrar",
     "email": "E-mail",
     "password": "Senha",
-    "forgotPassword": "Esqueceu a senha?",
-    "or": "ou",
-    "continueWith": "Continuar com {{provider}}",
-    "errors": {
-      "invalidCredentials": "E-mail ou senha inválidos",
-      "emailRequired": "E-mail é obrigatório",
-      "passwordRequired": "Senha é obrigatória"
-    }
+    "forgotPassword": "Esqueceu sua senha?",
+    "resetPassword": "Redefinir senha",
+    "createAccount": "Criar conta",
+    "alreadyHaveAccount": "Já tem uma conta?",
+    "dontHaveAccount": "Não tem uma conta?"
+  },
+  "errors": {
+    "generic": "Ocorreu um erro. Tente novamente.",
+    "notFound": "Página não encontrada",
+    "unauthorized": "Você não tem permissão para acessar esta página",
+    "invalidCredentials": "E-mail ou senha inválidos"
   }
 } 

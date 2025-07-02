@@ -1,8 +1,8 @@
 import { Redis } from '@upstash/redis'
 
 const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL || '',
-  token: process.env.UPSTASH_REDIS_REST_TOKEN || ''
+  url: process.env.UPSTASH_REDIS_REST_URL!,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
 })
 
 const DEFAULT_TTL = 60 * 60 * 24 // 24 horas
@@ -54,14 +54,15 @@ export async function invalidateCachePattern(pattern: string) {
 
 // Cache keys
 export const CACHE_KEYS = {
-  templates: {
-    all: 'templates:all',
-    byId: (id: string) => `templates:${id}`,
-    byCategory: (category: string) => `templates:category:${category}`,
-    popular: 'templates:popular',
-    favorites: (userId: string) => `templates:favorites:${userId}`
+  tags: {
+    all: 'tags:all',
+    byId: (id: string) => `tags:${id}`,
+    byCategory: (category: string) => `tags:category:${category}`,
   },
   analytics: {
-    templateStats: (templateId: string) => `analytics:template:${templateId}`
+    pageViews: (path: string) => `analytics:pageviews:${path}`,
+    userSessions: (userId: string) => `analytics:sessions:${userId}`,
   }
-} 
+}
+
+export default redis
