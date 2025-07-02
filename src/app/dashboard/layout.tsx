@@ -1,40 +1,41 @@
-import { Suspense } from 'react'
-import dynamic from 'next/dynamic'
-import { ErrorBoundary } from '@/components/ErrorBoundary'
-import ProtectedRoute from '@/components/auth/ProtectedRoute'
+import { ReactNode } from 'react'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
+import { redirect } from 'next/navigation'
+import Navbar from '@/components/layout/Navbar'
 
-const Navbar = dynamic(() => import('@/components/layout/Navbar'), {
-  loading: () => (
-    <div className="h-16 bg-white/10 backdrop-blur-lg animate-pulse" />
-  ),
-  ssr: false
-})
+const adminLinks = [
+  {
+    href: '/dashboard/admin/templates',
+    label: 'Templates',
+    icon: 'template'
+  },
+  {
+    href: '/dashboard/admin/tags',
+    label: 'Tags',
+    icon: 'tag'
+  }
+]
 
-export default function DashboardLayout({
-  children,
+export default async function DashboardLayout({
+  children
 }: {
-  children: React.ReactNode
+  children: ReactNode
 }) {
+  const session = await getServerSession(authOptions)
+  if (!session) {
+    redirect('/login')
+  }
+
+  const isAdmin = session.user?.email?.endsWith('@admin.com')
+
   return (
-    <ProtectedRoute>
-      <div className="min-h-[100dvh] bg-gradient-to-b from-[#0A0B2E] to-black">
-        <ErrorBoundary>
-          <Suspense fallback={<div className="h-16 bg-white/10 backdrop-blur-lg animate-pulse" />}>
-            <Navbar />
-          </Suspense>
-          <main className="container mx-auto px-4 py-6 sm:py-8">
-            <ErrorBoundary>
-              <Suspense fallback={
-                <div className="w-full h-[calc(100dvh-4rem)] flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
-                </div>
-              }>
-                {children}
-              </Suspense>
-            </ErrorBoundary>
-          </main>
-        </ErrorBoundary>
-      </div>
-    </ProtectedRoute>
+    <div className="min-h-screen bg-dark text-white">
+      <Navbar
+        user={session.user}
+        adminLinks={isAdmin ? adminLinks : undefined}
+      />
+      <main>{children}</main>
+    </div>
   )
 } 

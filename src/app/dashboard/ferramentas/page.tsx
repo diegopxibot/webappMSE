@@ -14,6 +14,12 @@ const ToolCard = dynamic(() => import('@/components/ferramentas/ToolCard'), {
 
 const tools = [
   {
+    title: 'Templates Visuais',
+    description: 'Modelos prontos para personalizar e evangelizar',
+    href: '/dashboard/ferramentas/templates-visuais',
+    icon: '🎨'
+  },
+  {
     title: 'Copywriting da Fé',
     description: 'Crie textos persuasivos para suas postagens evangelísticas',
     href: '/dashboard/ferramentas/copywriting-da-fe',

@@ -1,42 +1,67 @@
-type CacheItem<T> = {
-  value: T
-  expiry: number
-}
+import { Redis } from '@upstash/redis'
 
-class Cache<T> {
-  private cache: Map<string, CacheItem<T>>
-  private defaultTTL: number
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL || '',
+  token: process.env.UPSTASH_REDIS_REST_TOKEN || ''
+})
 
-  constructor(defaultTTL: number = 60 * 1000) { // 1 minuto por padrão
-    this.cache = new Map()
-    this.defaultTTL = defaultTTL
-  }
+const DEFAULT_TTL = 60 * 60 * 24 // 24 horas
 
-  set(key: string, value: T, ttl: number = this.defaultTTL): void {
-    const expiry = Date.now() + ttl
-    this.cache.set(key, { value, expiry })
-  }
-
-  get(key: string): T | null {
-    const item = this.cache.get(key)
-    if (!item) return null
-
-    if (Date.now() > item.expiry) {
-      this.cache.delete(key)
-      return null
+export async function getCachedData<T>(
+  key: string,
+  fetchData: () => Promise<T>,
+  ttl = DEFAULT_TTL
+): Promise<T> {
+  try {
+    // Tenta buscar do cache
+    const cached = await redis.get<T>(key)
+    if (cached) {
+      return cached
     }
 
-    return item.value
-  }
+    // Se não encontrou, busca os dados
+    const data = await fetchData()
 
-  delete(key: string): void {
-    this.cache.delete(key)
-  }
+    // Salva no cache
+    await redis.setex(key, ttl, data)
 
-  clear(): void {
-    this.cache.clear()
+    return data
+  } catch (error) {
+    console.error('Erro no cache:', error)
+    // Se houver erro no cache, busca os dados diretamente
+    return fetchData()
   }
 }
 
-// Exporta uma instância global do cache
-export const globalCache = new Cache() 
+export async function invalidateCache(key: string) {
+  try {
+    await redis.del(key)
+  } catch (error) {
+    console.error('Erro ao invalidar cache:', error)
+  }
+}
+
+export async function invalidateCachePattern(pattern: string) {
+  try {
+    const keys = await redis.keys(pattern)
+    if (keys.length > 0) {
+      await redis.del(...keys)
+    }
+  } catch (error) {
+    console.error('Erro ao invalidar cache por padrão:', error)
+  }
+}
+
+// Cache keys
+export const CACHE_KEYS = {
+  templates: {
+    all: 'templates:all',
+    byId: (id: string) => `templates:${id}`,
+    byCategory: (category: string) => `templates:category:${category}`,
+    popular: 'templates:popular',
+    favorites: (userId: string) => `templates:favorites:${userId}`
+  },
+  analytics: {
+    templateStats: (templateId: string) => `analytics:template:${templateId}`
+  }
+} 

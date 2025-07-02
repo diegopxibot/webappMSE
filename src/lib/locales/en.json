@@ -1,0 +1,82 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "share": "Share",
+    "download": "Download",
+    "favorite": "Favorite",
+    "unfavorite": "Unfavorite",
+    "search": "Search",
+    "filter": "Filter",
+    "all": "All",
+    "noResults": "No results found",
+    "tryAgain": "Try again"
+  },
+  "templates": {
+    "title": "Visual Templates",
+    "categories": {
+      "versiculos": "Bible Verses",
+      "oracoes": "Prayers",
+      "reflexoes": "Reflections",
+      "convites": "Invitations",
+      "anuncios": "Service Announcements",
+      "frases": "Faith Quotes",
+      "datas": "Special Dates",
+      "evangelismo": "Evangelism Duo",
+      "impacto": "Impact Quotes"
+    },
+    "styles": {
+      "modern": "Modern",
+      "minimalist": "Minimalist",
+      "artistic": "Artistic"
+    },
+    "colors": {
+      "blue": "Blue",
+      "purple": "Purple",
+      "orange": "Orange",
+      "green": "Green",
+      "red": "Red"
+    },
+    "filters": {
+      "style": "Style",
+      "color": "Color",
+      "search": "Search templates..."
+    },
+    "actions": {
+      "editCanva": "Edit in Canva",
+      "copyCaption": "Copy Caption",
+      "downloadPng": "Download PNG",
+      "share": "Share"
+    },
+    "messages": {
+      "noFavorites": "No favorite templates",
+      "noFavoritesDesc": "Explore our templates and mark your favorites to find them easily here!",
+      "searchNoResults": "No templates found",
+      "searchNoResultsDesc": "Try adjusting the filters to find what you're looking for",
+      "shareSuccess": "Share link copied!",
+      "copySuccess": "Caption copied!",
+      "favoriteSuccess": "Template added to favorites!",
+      "unfavoriteSuccess": "Template removed from favorites!"
+    }
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "signUp": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "or": "or",
+    "continueWith": "Continue with {{provider}}",
+    "errors": {
+      "invalidCredentials": "Invalid email or password",
+      "emailRequired": "Email is required",
+      "passwordRequired": "Password is required"
+    }
+  }
+} 
