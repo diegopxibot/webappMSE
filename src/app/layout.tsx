@@ -1,35 +1,31 @@
+import { ReactNode } from 'react'
+import { Metadata, Viewport } from 'next'
+import { Inter } from 'next/font/google'
 import './globals.css'
-import { Inter, Poppins } from 'next/font/google'
 import { Toaster } from 'react-hot-toast'
 import { AuthProvider } from '@/components/auth/AuthProvider'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
-const poppins = Poppins({ 
-  weight: ['400', '500', '600', '700'],
-  subsets: ['latin'],
-  variable: '--font-poppins'
-})
+const inter = Inter({ subsets: ['latin'] })
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'MSE - Método Stories Evangelístico',
-  description: 'Plataforma de treinamento para evangelismo nas redes sociais',
-  manifest: '/manifest.json',
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover',
-  themeColor: '#0A0B2E',
-  appleWebAppCapable: 'yes',
-  appleWebAppStatusBarStyle: 'black-translucent',
-  icons: {
-    apple: [
-      { url: '/icons/icon-192x192.png' },
-    ],
-  },
+  description: 'Crie stories evangelísticos profissionais em minutos',
+  manifest: '/manifest.json'
+}
+
+export const viewport: Viewport = {
+  themeColor: '#000000',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false
 }
 
 export default function RootLayout({
-  children,
+  children
 }: {
-  children: React.ReactNode
+  children: ReactNode
 }) {
   return (
     <html lang="pt-BR" className="dark">
@@ -42,7 +38,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
       </head>
       <body 
-        className={`${inter.variable} ${poppins.variable} font-sans min-h-screen bg-gradient-to-b from-[#0A0B2E] to-black text-white antialiased overflow-x-hidden`}
+        className={`${inter.variable} font-sans min-h-screen bg-gradient-to-b from-[#0A0B2E] to-black text-white antialiased overflow-x-hidden`}
         style={{
           background: 'linear-gradient(to bottom, #0A0B2E, #000000)',
           WebkitTapHighlightColor: 'transparent'

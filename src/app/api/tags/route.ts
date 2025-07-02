@@ -17,10 +17,9 @@ export async function GET(request: Request) {
 
     const getTags = async () => {
       const db = await connectToDatabase()
-      const tags = db.collection('tags')
-
       const query = category ? { category } : {}
-      const results = await tags
+      const results = await db
+        .collection('tags')
         .find(query)
         .sort({ count: -1 })
         .limit(50)
@@ -62,7 +61,6 @@ export async function POST(request: Request) {
     }
 
     const db = await connectToDatabase()
-    const tags = db.collection('tags')
 
     const slug = name
       .toLowerCase()
@@ -71,7 +69,10 @@ export async function POST(request: Request) {
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-|-$)/g, '')
 
-    const existingTag = await tags.findOne({ slug })
+    const existingTag = await db
+      .collection('tags')
+      .findOne({ slug })
+
     if (existingTag) {
       return NextResponse.json(
         { error: 'Tag já existe' },
@@ -87,7 +88,7 @@ export async function POST(request: Request) {
       createdAt: new Date()
     }
 
-    await tags.insertOne(tag)
+    await db.collection('tags').insertOne(tag)
 
     return NextResponse.json(tag)
   } catch (error) {
@@ -116,17 +117,17 @@ export async function DELETE(request: Request) {
     }
 
     const db = await connectToDatabase()
-    const tags = db.collection('tags')
-    const templates = db.collection('templates')
 
     // Remove a tag dos templates
-    await templates.updateMany(
-      { tags: slug },
-      { $pull: { tags: slug } }
-    )
+    await db
+      .collection('templates')
+      .updateMany(
+        { tags: slug },
+        { $pull: { tags: slug } }
+      )
 
     // Remove a tag
-    await tags.deleteOne({ slug })
+    await db.collection('tags').deleteOne({ slug })
 
     return NextResponse.json({ success: true })
   } catch (error) {

@@ -3,7 +3,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['localhost', 'vercel.app'],
+    domains: ['localhost', 'vercel.app', 'res.cloudinary.com'],
     unoptimized: process.env.NODE_ENV === 'development',
   },
   compress: true,
@@ -54,7 +54,7 @@ const nextConfig = {
   },
   webpack: (config, { dev, isServer }) => {
     // Otimizações apenas para produção
-    if (!dev) {
+    if (!dev && !isServer) {
       // Minimize todos os arquivos JS
       config.optimization.minimize = true;
 

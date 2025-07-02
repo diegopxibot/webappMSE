@@ -8,10 +8,12 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "generate:images": "ts-node scripts/generate-sample-images.ts",
-    "setup:canva": "ts-node scripts/setup-canva-links.ts"
+    "seed": "ts-node scripts/seed.mjs",
+    "seed:simple": "node scripts/seed-simple.js",
+    "seed:templates": "ts-node scripts/seed-templates.ts",
+    "seed:tags": "ts-node scripts/seed-tags.ts",
+    "setup:canva": "ts-node scripts/setup-canva-links.ts",
+    "generate:samples": "ts-node scripts/generate-sample-images.ts"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.10.0",

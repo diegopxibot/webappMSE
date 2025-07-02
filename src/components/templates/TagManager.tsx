@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import type { Tag } from '@/types/template'
 
 interface TagManagerProps {
@@ -18,11 +18,7 @@ export default function TagManager({
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    loadTags()
-  }, [category])
-
-  const loadTags = async () => {
+  const loadTags = useCallback(async () => {
     try {
       const url = category
         ? `/api/tags?category=${category}`
@@ -39,7 +35,11 @@ export default function TagManager({
     } finally {
       setLoading(false)
     }
-  }
+  }, [category])
+
+  useEffect(() => {
+    loadTags()
+  }, [loadTags])
 
   const handleTagClick = (slug: string) => {
     const newTags = selectedTags.includes(slug)
